@@ -1,7 +1,6 @@
 'use client'
 
 import { Vehicle } from '@/types/vehicle'
-import * as TooltipRadix from '@radix-ui/react-tooltip'
 import {
   estimateBatteryCapacityFromWeight,
   getElectricityRate,
@@ -40,12 +39,34 @@ const formatCostPerKm = (value: number, country: 'SG' | 'MY') =>
 const getInsurancePremium = (basePrice: number) => Math.round(basePrice * 0.03)
 const getGovFees = (country: 'SG' | 'MY') => (country === 'SG' ? 18000 : 9000)
 
+// Convert kW to horsepower (1 kW ≈ 1.341 hp)
+const convertKwToHp = (kw: number): number => {
+  return Math.round(kw * 1.341)
+}
+
+// Estimate 0-60 time based on power-to-weight ratio
+// Rough formula: higher power-to-weight = faster acceleration
+const estimate0To60Time = (powerKw: number, weightKg: number): number => {
+  const powerToWeight = powerKw / (weightKg / 1000) // kW per ton
+  // Rough estimation: higher power-to-weight ratio = faster 0-60
+  // This is a simplified model and actual times vary based on many factors
+  if (powerToWeight >= 200) return 3.0 // Very high performance
+  if (powerToWeight >= 150) return 4.0
+  if (powerToWeight >= 100) return 5.5
+  if (powerToWeight >= 70) return 7.0
+  if (powerToWeight >= 50) return 9.0
+  return 11.0 // Lower performance
+}
+
 export default function StatsGrid({ vehicle, selectedOptions, onToggleOption }: StatsGridProps) {
   const batteryCapacityEstimate = estimateBatteryCapacityFromWeight(vehicle.batteryWeightKg)
   const totalRebates = vehicle.rebates.reduce((sum, rebate) => sum + rebate.amount, 0)
   const selectedOptionsTotal = vehicle.optionPrices
     .filter((option) => selectedOptions.includes(option.name))
     .reduce((sum, option) => sum + option.price, 0)
+  
+  const powerHp = convertKwToHp(vehicle.powerRatingKw)
+  const zeroToSixtyTime = estimate0To60Time(vehicle.powerRatingKw, vehicle.curbWeightKg)
 
   const insurancePremium = getInsurancePremium(vehicle.basePriceLocalCurrency)
   const governmentFees = getGovFees(vehicle.country)
@@ -89,46 +110,30 @@ export default function StatsGrid({ vehicle, selectedOptions, onToggleOption }: 
             <div className="text-sm text-gray-600 mb-1">Vehicle Weight</div>
             <div className="text-2xl font-bold text-gray-800">{vehicle.curbWeightKg} kg</div>
           </div>
-          <TooltipRadix.Provider>
-            <TooltipRadix.Root>
-              <TooltipRadix.Trigger asChild>
-                <div className="bg-ev-primary/10 rounded-lg p-4 cursor-help">
-                  <div className="text-sm text-gray-600 mb-1 flex items-center gap-1">
-                    Battery Ratio
-                    <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                  <div className="text-2xl font-bold text-ev-primary">{vehicle.batteryWeightPercentage.toFixed(1)}%</div>
-                </div>
-              </TooltipRadix.Trigger>
-              <TooltipRadix.Portal>
-                <TooltipRadix.Content
-                  className="bg-gray-900 text-white px-3 py-2 rounded-lg text-sm max-w-xs z-50"
-                  sideOffset={5}
-                >
-                  Higher % means more battery-focused design, but watch for efficiency trade-offs
-                  <TooltipRadix.Arrow className="fill-gray-900" />
-                </TooltipRadix.Content>
-              </TooltipRadix.Portal>
-            </TooltipRadix.Root>
-          </TooltipRadix.Provider>
-        </div>
-      </div>
-
-      {/* Power */}
-      <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-gray-800 border-b pb-2">⚡ Power</h3>
-        <div className="bg-gray-50 rounded-lg p-4 space-y-3">
-          <div>
+          <div className="bg-gray-50 rounded-lg p-4">
             <div className="text-sm text-gray-600 mb-1">Battery Capacity (est.)</div>
-            <div className="text-2xl font-bold text-ev-secondary">
+            <div className="text-2xl font-bold text-ev-primary">
               {batteryCapacityEstimate} kWh
             </div>
           </div>
-          <div>
+        </div>
+      </div>
+
+      {/* Performance */}
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold text-gray-800 border-b pb-2">⚡ Performance</h3>
+        <div className="space-y-3">
+          <div className="bg-gray-50 rounded-lg p-4">
             <div className="text-sm text-gray-600 mb-1">Power Rating</div>
             <div className="text-2xl font-bold text-ev-secondary">{vehicle.powerRatingKw} kW</div>
+          </div>
+          <div className="bg-gray-50 rounded-lg p-4">
+            <div className="text-sm text-gray-600 mb-1">Horsepower</div>
+            <div className="text-2xl font-bold text-ev-secondary">{powerHp} hp</div>
+          </div>
+          <div className="bg-gray-50 rounded-lg p-4">
+            <div className="text-sm text-gray-600 mb-1">0-60 Performance</div>
+            <div className="text-2xl font-bold text-ev-secondary">{zeroToSixtyTime.toFixed(1)}s</div>
           </div>
         </div>
       </div>
@@ -284,6 +289,29 @@ export default function StatsGrid({ vehicle, selectedOptions, onToggleOption }: 
           <div className="bg-gray-50 rounded-lg p-4">
             <div className="text-sm text-gray-600 mb-1">DC Fast Charge (0-80%)</div>
             <div className="text-2xl font-bold text-ev-accent">{vehicle.chargingTimeDc0To80Min} min</div>
+            {/* Visual progress bar for charging speed */}
+            <div className="mt-3">
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div
+                  className="bg-ev-accent h-2 rounded-full transition-all duration-500"
+                  style={{
+                    width: `${Math.min(100, (80 / vehicle.chargingTimeDc0To80Min) * 100)}%`,
+                  }}
+                  role="progressbar"
+                  aria-valuenow={vehicle.chargingTimeDc0To80Min}
+                  aria-valuemin={0}
+                  aria-valuemax={60}
+                  aria-label={`Charging speed: ${vehicle.chargingTimeDc0To80Min} minutes to 80%`}
+                />
+              </div>
+              <p className="text-xs text-gray-500 mt-1">
+                {vehicle.chargingTimeDc0To80Min <= 20
+                  ? '⚡ Very Fast'
+                  : vehicle.chargingTimeDc0To80Min <= 35
+                  ? '⚡ Fast'
+                  : '⚡ Moderate'}
+              </p>
+            </div>
           </div>
           <div className="bg-gray-50 rounded-lg p-4 space-y-1">
             <div className="text-sm text-gray-600 mb-1">Charging Capabilities</div>

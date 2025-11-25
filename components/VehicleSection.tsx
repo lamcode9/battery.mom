@@ -1,16 +1,18 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useVehicleStore } from '@/store/VehicleStore'
 import VehicleCard from './VehicleCard'
-import { Vehicle } from '@/types/vehicle'
+import { VehicleCardSkeleton } from './LoadingSkeleton'
 
 export default function VehicleSection() {
   const { selectedVehicles, vehicles, setVehicles, selectedCountry } = useVehicleStore()
+  const [isLoading, setIsLoading] = useState(true)
 
   // Fetch vehicles on mount and when country changes
   useEffect(() => {
     const fetchVehicles = async () => {
+      setIsLoading(true)
       try {
         const response = await fetch(`/api/vehicles?country=${selectedCountry}&available=true`)
         if (response.ok) {
@@ -19,6 +21,8 @@ export default function VehicleSection() {
         }
       } catch (error) {
         console.error('Error fetching vehicles:', error)
+      } finally {
+        setIsLoading(false)
       }
     }
 
@@ -50,6 +54,14 @@ export default function VehicleSection() {
             {selectedCountry === 'SG' ? 'Singapore' : 'Malaysia'}.
           </p>
         </div>
+      </div>
+    )
+  }
+
+  if (isLoading && selectedVehicles.length === 0) {
+    return (
+      <div className="space-y-6">
+        <VehicleCardSkeleton />
       </div>
     )
   }

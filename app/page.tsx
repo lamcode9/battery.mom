@@ -4,11 +4,14 @@ import CountrySelector from '@/components/CountrySelector'
 import SearchBox from '@/components/SearchBox'
 import VehicleSection from '@/components/VehicleSection'
 import ComparisonTable from '@/components/ComparisonTable'
+import StructuredData from '@/components/StructuredData'
 import { VehicleProvider } from '@/store/VehicleStore'
+import { SearchBoxSkeleton, ComparisonTableSkeleton } from '@/components/LoadingSkeleton'
 
 export default function Home() {
   return (
     <VehicleProvider>
+      <StructuredData />
       <main className="min-h-screen">
         <Hero />
         <div className="container mx-auto px-4 py-8 max-w-7xl">
@@ -17,12 +20,12 @@ export default function Home() {
           </div>
           
           <div className="mb-8">
-            <Suspense fallback={<div className="h-16 bg-gray-200 animate-pulse rounded-lg" />}>
+            <Suspense fallback={<SearchBoxSkeleton />}>
               <SearchBox />
             </Suspense>
           </div>
 
-          <Suspense fallback={<div className="h-64 bg-gray-200 animate-pulse rounded-lg mt-8" />}>
+          <Suspense fallback={<ComparisonTableSkeleton />}>
             <ComparisonTable />
           </Suspense>
 

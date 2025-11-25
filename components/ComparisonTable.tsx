@@ -340,8 +340,18 @@ export default function ComparisonTable() {
             </tr>
             <tr>
               <td
-                className="px-4 py-3 font-medium text-gray-700 sticky left-0 bg-white z-10 cursor-pointer hover:bg-gray-50"
+                className="px-4 py-3 font-medium text-gray-700 sticky left-0 bg-white z-10 cursor-pointer hover:bg-gray-50 focus:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-ev-primary"
                 onClick={() => handleSort('powerRatingKw')}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    handleSort('powerRatingKw')
+                  }
+                }}
+                tabIndex={0}
+                role="button"
+                aria-label="Sort by power rating"
+                aria-sort={sortField === 'powerRatingKw' ? (sortDirection === 'asc' ? 'ascending' : 'descending') : 'none'}
               >
                 Power (kW) {sortField === 'powerRatingKw' && (sortDirection === 'asc' ? '↑' : '↓')}
               </td>
@@ -353,8 +363,18 @@ export default function ComparisonTable() {
             </tr>
             <tr>
               <td
-                className="px-4 py-3 font-medium text-gray-700 sticky left-0 bg-white z-10 cursor-pointer hover:bg-gray-50"
+                className="px-4 py-3 font-medium text-gray-700 sticky left-0 bg-white z-10 cursor-pointer hover:bg-gray-50 focus:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-ev-primary"
                 onClick={() => handleSort('efficiencyKwhPer100km')}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    handleSort('efficiencyKwhPer100km')
+                  }
+                }}
+                tabIndex={0}
+                role="button"
+                aria-label="Sort by efficiency"
+                aria-sort={sortField === 'efficiencyKwhPer100km' ? (sortDirection === 'asc' ? 'ascending' : 'descending') : 'none'}
               >
                 Efficiency (kWh/100km) {sortField === 'efficiencyKwhPer100km' && (sortDirection === 'asc' ? '↑' : '↓')}
               </td>
@@ -373,8 +393,18 @@ export default function ComparisonTable() {
             </tr>
             <tr>
               <td
-                className="px-4 py-3 font-medium text-gray-700 sticky left-0 bg-white z-10 cursor-pointer hover:bg-gray-50"
+                className="px-4 py-3 font-medium text-gray-700 sticky left-0 bg-white z-10 cursor-pointer hover:bg-gray-50 focus:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-ev-primary"
                 onClick={() => handleSort('rangeKm')}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    handleSort('rangeKm')
+                  }
+                }}
+                tabIndex={0}
+                role="button"
+                aria-label="Sort by range"
+                aria-sort={sortField === 'rangeKm' ? (sortDirection === 'asc' ? 'ascending' : 'descending') : 'none'}
               >
                 Range (km) {sortField === 'rangeKm' && (sortDirection === 'asc' ? '↑' : '↓')}
               </td>
@@ -403,8 +433,18 @@ export default function ComparisonTable() {
             </tr>
             <tr>
               <td
-                className="px-4 py-3 font-medium text-gray-700 sticky left-0 bg-white z-10 cursor-pointer hover:bg-gray-50"
+                className="px-4 py-3 font-medium text-gray-700 sticky left-0 bg-white z-10 cursor-pointer hover:bg-gray-50 focus:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-ev-primary"
                 onClick={() => handleSort('onTheRoadPriceLocalCurrency')}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    handleSort('onTheRoadPriceLocalCurrency')
+                  }
+                }}
+                tabIndex={0}
+                role="button"
+                aria-label="Sort by on the road price"
+                aria-sort={sortField === 'onTheRoadPriceLocalCurrency' ? (sortDirection === 'asc' ? 'ascending' : 'descending') : 'none'}
               >
                 On The Road Price {sortField === 'onTheRoadPriceLocalCurrency' && (sortDirection === 'asc' ? '↑' : '↓')}
               </td>

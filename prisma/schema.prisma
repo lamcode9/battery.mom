@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Country {
+  SG
+  MY
+}
+
+enum BatteryTechnology {
+  NMC
+  LFP
+  SolidState
+  Other
+}
+
+model Vehicle {
+  id                          String            @id @default(uuid())
+  country                     Country
+  name                        String
+  modelTrim                   String
+  imageUrl                    String
+  batteryWeightKg             Float
+  curbWeightKg                Float
+  batteryWeightPercentage     Float
+  powerRatingKw               Float
+  powerRatingExplanation      String            @default("Power rating (kW) is like the engine's muscle – higher means quicker acceleration, but efficiency matters more for daily drives. Think 100kW as zippy city commuting.")
+  efficiencyKwhPer100km       Float
+  rangeKm                     Float
+  manufacturerCostUsd         Float
+  batteryManufacturer         String
+  batteryTechnology           BatteryTechnology
+  chargingTimeDc0To80Min      Int
+  chargingCapabilities        String
+  basePriceLocalCurrency      Float
+  optionPrices                Json             // Array of {name: string, price: number}
+  onTheRoadPriceLocalCurrency Float
+  rebates                     Json             // Array of {name: string, amount: number, description: string}
+  isAvailable                 Boolean          @default(true)
+  updatedAt                   DateTime         @updatedAt
+  createdAt                   DateTime         @default(now())
+
+  @@index([country, isAvailable])
+  @@index([name])
+}
+
+model AuditLog {
+  id          String   @id @default(uuid())
+  action      String   // "CREATE", "UPDATE", "DELETE"
+  vehicleId   String?
+  vehicleName String?
+  changes     Json?    // Store what changed
+  createdAt   DateTime @default(now())
+
+  @@index([createdAt])
+}
+

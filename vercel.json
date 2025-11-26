@@ -1,10 +1,4 @@
 {
-  "crons": [
-    {
-      "path": "/api/cron/update-vehicles",
-      "schedule": "0 2 * * *"
-    }
-  ],
   "functions": {
     "app/api/cron/update-vehicles/route.ts": {
       "maxDuration": 300

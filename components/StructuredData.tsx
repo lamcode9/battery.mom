@@ -19,9 +19,8 @@ export default function StructuredData() {
     const vehicleStructuredData = vehicles.map((vehicle: Vehicle) => ({
     '@context': 'https://schema.org',
     '@type': 'Product',
-    name: `${vehicle.name} ${vehicle.modelTrim}`,
-    description: `Electric vehicle available in ${vehicle.country === 'SG' ? 'Singapore' : 'Malaysia'}. Range: ${vehicle.rangeKm}km, Power: ${vehicle.powerRatingKw}kW, Efficiency: ${vehicle.efficiencyKwhPer100km}kWh/100km`,
-    image: vehicle.imageUrl,
+    name: `${vehicle.name} ${vehicle.modelTrim || ''}`.trim(),
+    description: `Electric vehicle available in ${vehicle.country === 'SG' ? 'Singapore' : 'Malaysia'}. Range: ${vehicle.rangeKm || 'N/A'}km, Power: ${vehicle.powerRatingKw || 'N/A'}kW, Efficiency: ${vehicle.efficiencyKwhPer100km || 'N/A'}kWh/100km`,
     brand: {
       '@type': 'Brand',
       name: vehicle.name.split(' ')[0], // Extract manufacturer
@@ -29,37 +28,37 @@ export default function StructuredData() {
     offers: {
       '@type': 'Offer',
       priceCurrency: vehicle.country === 'SG' ? 'SGD' : 'MYR',
-      price: vehicle.onTheRoadPriceLocalCurrency,
+      price: vehicle.basePriceLocalCurrency || 0,
       availability: vehicle.isAvailable
         ? 'https://schema.org/InStock'
         : 'https://schema.org/OutOfStock',
     },
     additionalProperty: [
-      {
+      ...(vehicle.batteryWeightKg ? [{
         '@type': 'PropertyValue',
         name: 'Battery Weight',
         value: `${vehicle.batteryWeightKg} kg`,
-      },
-      {
+      }] : []),
+      ...(vehicle.rangeKm ? [{
         '@type': 'PropertyValue',
         name: 'Range',
         value: `${vehicle.rangeKm} km`,
-      },
-      {
+      }] : []),
+      ...(vehicle.powerRatingKw ? [{
         '@type': 'PropertyValue',
         name: 'Power Rating',
         value: `${vehicle.powerRatingKw} kW`,
-      },
-      {
+      }] : []),
+      ...(vehicle.efficiencyKwhPer100km ? [{
         '@type': 'PropertyValue',
         name: 'Efficiency',
         value: `${vehicle.efficiencyKwhPer100km} kWh/100km`,
-      },
-      {
+      }] : []),
+      ...(vehicle.batteryTechnology ? [{
         '@type': 'PropertyValue',
         name: 'Battery Technology',
         value: vehicle.batteryTechnology,
-      },
+      }] : []),
     ],
   }))
 

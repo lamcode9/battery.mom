@@ -13,6 +13,10 @@ datasource db {
 enum Country {
   SG
   MY
+  ID
+  PH
+  TH
+  VN
 }
 
 enum BatteryTechnology {
@@ -26,26 +30,30 @@ model Vehicle {
   id                          String            @id @default(uuid())
   country                     Country
   name                        String
-  modelTrim                   String
-  imageUrl                    String
-  batteryWeightKg             Float
-  curbWeightKg                Float
-  batteryWeightPercentage     Float
-  powerRatingKw               Float
-  powerRatingExplanation      String            @default("Power rating (kW) is like the engine's muscle – higher means quicker acceleration, but efficiency matters more for daily drives. Think 100kW as zippy city commuting.")
+  modelTrim                   String?
+  imageUrl                    String?
+  batteryWeightKg             Float?
+  curbWeightKg                Float?
+  batteryWeightPercentage     Float?
+  powerRatingKw               Float?
+  powerRatingExplanation      String?
+  torqueNm                    Float?            // Torque in Newton meters (Nm)
   acceleration0To100Kmh       Float?            // 0-100 km/h in seconds (≈ 0-60 mph)
-  efficiencyKwhPer100km       Float
-  rangeKm                     Float              // Legacy field, use rangeWltpKm or rangeEpaKm
+  topSpeedKmh                 Float?            // Top speed in km/h
+  efficiencyKwhPer100km       Float?
+  rangeKm                     Float?              // Legacy field, use rangeWltpKm or rangeEpaKm
   rangeWltpKm                 Float?             // WLTP range in km
   rangeEpaKm                  Float?             // EPA range in km
-  manufacturerCostUsd         Float
-  batteryManufacturer         String
-  batteryTechnology           BatteryTechnology
-  chargingTimeDc0To80Min      Int
-  chargingCapabilities        String
-  basePriceLocalCurrency      Float
+  manufacturerCostUsd         Float?
+  batteryManufacturer         String?
+  batteryTechnology           BatteryTechnology?
+  batteryWarranty             String?          // Battery warranty description (e.g., "8 years / 160,000 km")
+  chargingTimeDc0To80Min      Int?
+  chargingCapabilities        String?
+  technologyFeatures          String?          // Technology features description (e.g., "Autopilot, Sentry Mode, Dog Mode")
+  basePriceLocalCurrency      Float?
   optionPrices                Json             // Array of {name: string, price: number}
-  onTheRoadPriceLocalCurrency Float
+  onTheRoadPriceLocalCurrency Float?
   rebates                     Json             // Array of {name: string, amount: number, description: string}
   isAvailable                 Boolean          @default(true)
   updatedAt                   DateTime         @updatedAt

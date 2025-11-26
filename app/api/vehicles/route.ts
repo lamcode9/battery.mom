@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import type { Country } from '@prisma/client'
 
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams
-    const country = searchParams.get('country') as 'SG' | 'MY' | null
+    const country = searchParams.get('country') as Country | null
     const available = searchParams.get('available')
     
     const where: any = {}

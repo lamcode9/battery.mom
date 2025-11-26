@@ -4,8 +4,8 @@ import { useState, useEffect, useMemo, useRef } from 'react'
 import Fuse from 'fuse.js'
 import { useVehicleStore } from '@/store/VehicleStore'
 import { Vehicle } from '@/types/vehicle'
+import { formatPrice } from '@/lib/utils'
 import { debounce } from 'lodash'
-import Image from 'next/image'
 
 export default function SearchBox() {
   const [searchTerm, setSearchTerm] = useState('')
@@ -69,15 +69,6 @@ export default function SearchBox() {
       setSearchTerm('')
       setShowSuggestions(false)
     }
-  }
-
-  const formatPrice = (price: number, country: 'SG' | 'MY') => {
-    const currency = country === 'SG' ? 'SGD' : 'MYR'
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency,
-      minimumFractionDigits: 0,
-    }).format(price)
   }
 
   return (
@@ -160,15 +151,6 @@ export default function SearchBox() {
                 aria-selected={isSelected}
                 tabIndex={isDisabled || isSelected ? -1 : 0}
               >
-                <div className="relative w-20 h-16 flex-shrink-0 rounded overflow-hidden bg-gray-200">
-                  <Image
-                    src={vehicle.imageUrl}
-                    alt={`${vehicle.name} ${vehicle.modelTrim}`}
-                    fill
-                    className="object-cover"
-                    sizes="80px"
-                  />
-                </div>
                 <div className="flex-1 min-w-0">
                   <div className="font-semibold text-gray-900 truncate">
                     {vehicle.name}
@@ -177,7 +159,7 @@ export default function SearchBox() {
                     {vehicle.modelTrim}
                   </div>
                   <div className="text-sm font-medium text-ev-primary mt-1">
-                    {formatPrice(vehicle.onTheRoadPriceLocalCurrency, vehicle.country)}
+                    {vehicle.basePriceLocalCurrency ? formatPrice(vehicle.basePriceLocalCurrency, vehicle.country) : 'N/A'}
                   </div>
                 </div>
                 {isSelected && (

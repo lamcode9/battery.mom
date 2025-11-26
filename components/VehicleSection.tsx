@@ -31,30 +31,12 @@ export default function VehicleSection() {
 
   if (selectedVehicles.length === 0) {
     return (
-      <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg p-12 text-center border-2 border-dashed border-gray-300">
-        <div className="max-w-md mx-auto">
-          <svg
-            className="w-24 h-24 mx-auto mb-4 text-gray-400"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-            />
-          </svg>
-          <h2 className="text-2xl font-semibold text-gray-700 mb-2">
-            Pick your first EV to dive in!
-          </h2>
-          <p className="text-gray-600">
+      <div className="p-8">
+        <p className="text-gray-600 text-center">
             Use the search box above to find and compare electric vehicles available in{' '}
             {selectedCountry === 'SG' ? 'Singapore' : 'Malaysia'}.
           </p>
         </div>
-      </div>
     )
   }
 

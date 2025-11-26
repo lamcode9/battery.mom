@@ -1,17 +1,13 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
-import { fetchVehiclesFromFile } from '@/lib/data-fetchers/file-data'
-import { transformAndSaveVehicle } from '@/lib/data-fetchers/vehicle-transformer'
+/**
+ * Script to manually run the cron job
+ * Usage: npx tsx scripts/run-cron.ts
+ */
 
-// This endpoint should be called by Vercel Cron
-// Set up in vercel.json or Vercel dashboard
-export async function GET(request: NextRequest) {
-  // Verify cron secret for security
-  const authHeader = request.headers.get('authorization')
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
+import { prisma } from '../lib/prisma'
+import { fetchVehiclesFromFile } from '../lib/data-fetchers/file-data'
+import { transformAndSaveVehicle } from '../lib/data-fetchers/vehicle-transformer'
 
+async function runCron() {
   const startTime = Date.now()
   let vehiclesProcessed = 0
   let vehiclesCreated = 0
@@ -28,6 +24,8 @@ export async function GET(request: NextRequest) {
 
     if (fileVehicles.length === 0) {
       console.warn('No vehicles found in data/vehicles-data.json')
+      console.log('Please add vehicles to data/vehicles-data.json')
+      process.exit(1)
     }
 
     // Step 2: Process and save all vehicles from file
@@ -71,8 +69,10 @@ export async function GET(request: NextRequest) {
         vehiclesProcessed++
         if (existing) {
           vehiclesUpdated++
+          console.log(`✓ Updated: ${vehicle.name} (${vehicle.country})`)
         } else {
           vehiclesCreated++
+          console.log(`✓ Created: ${vehicle.name} (${vehicle.country})`)
         }
       } catch (error) {
         const errorMsg = `Error processing ${vehicle.name} (${vehicle.country}): ${error instanceof Error ? error.message : 'Unknown'}`
@@ -81,8 +81,7 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    // Step 5: Mark vehicles as unavailable if not updated in last 7 days
-    // (Optional: helps clean up discontinued models)
+    // Step 4: Mark vehicles as unavailable if not updated in last 7 days
     const sevenDaysAgo = new Date()
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
 
@@ -114,23 +113,19 @@ export async function GET(request: NextRequest) {
       },
     })
 
-    console.log(`Cron job completed in ${duration}ms`)
-    console.log(`Processed: ${vehiclesProcessed}, Created: ${vehiclesCreated}, Updated: ${vehiclesUpdated}`)
+    console.log('\n' + '='.repeat(50))
+    console.log(`Cron job completed in ${(duration / 1000).toFixed(2)}s`)
+    console.log(`Processed: ${vehiclesProcessed}`)
+    console.log(`Created: ${vehiclesCreated}`)
+    console.log(`Updated: ${vehiclesUpdated}`)
+    console.log(`Outdated marked: ${outdatedCount.count}`)
+    if (errors.length > 0) {
+      console.log(`Errors: ${errors.length}`)
+      errors.forEach(err => console.error(`  - ${err}`))
+    }
+    console.log('='.repeat(50))
 
-    return NextResponse.json({
-      success: true,
-      message: 'Cron job executed successfully',
-      timestamp: new Date().toISOString(),
-      stats: {
-        vehiclesProcessed,
-        vehiclesCreated,
-        vehiclesUpdated,
-        outdatedMarked: outdatedCount.count,
-        errors: errors.length,
-        durationMs: duration,
-      },
-      errors: errors.length > 0 ? errors : undefined,
-    })
+    process.exit(0)
   } catch (error) {
     console.error('Cron job error:', error)
 
@@ -145,13 +140,10 @@ export async function GET(request: NextRequest) {
       },
     })
 
-    return NextResponse.json(
-      {
-        error: 'Cron job failed',
-        details: error instanceof Error ? error.message : 'Unknown error',
-        timestamp: new Date().toISOString(),
-      },
-      { status: 500 }
-    )
+    process.exit(1)
+  } finally {
+    await prisma.$disconnect()
   }
 }
+
+runCron()

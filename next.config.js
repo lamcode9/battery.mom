@@ -12,6 +12,16 @@ const nextConfig = {
       },
     ],
   },
+  webpack: (config, { isServer }) => {
+    // Exclude undici from webpack processing to avoid private class fields parsing issues
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        'undici': false,
+      }
+    }
+    return config
+  },
 }
 
 module.exports = nextConfig

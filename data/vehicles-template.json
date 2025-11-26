@@ -1,0 +1,69 @@
+[
+  {
+    "name": "Tesla Model 3",
+    "modelTrim": "2024",
+    "country": "SG",
+    "powerRatingKw": 283,
+    "torqueNm": 450,
+    "acceleration0To100Kmh": 4.4,
+    "efficiencyKwhPer100km": 13.2,
+    "rangeWltpKm": 629,
+    "rangeEpaKm": 576,
+    "rangeKm": 629,
+    "batteryCapacityKwh": 75,
+    "batteryWeightKg": 478,
+    "curbWeightKg": 1847,
+    "batteryWeightPercentage": 25.9,
+    "batteryManufacturer": "CATL",
+    "batteryTechnology": "LFP",
+    "batteryWarranty": "8 years / 160,000 km",
+    "chargingTimeDc0To80Min": 25,
+    "chargingCapabilities": "DC Fast Charge: Up to 250kW, AC: 11kW",
+    "technologyFeatures": "Autopilot, Sentry Mode, Dog Mode, Over-the-Air Updates",
+    "basePriceLocalCurrency": 75000,
+    "optionPrices": [
+      {
+        "name": "Premium Interior",
+        "price": 5000
+      },
+      {
+        "name": "Full Self-Driving",
+        "price": 12000
+      }
+    ],
+    "isAvailable": true,
+    "grossVehicleWeightKg": 2047
+  },
+  {
+    "name": "BYD Atto 3",
+    "modelTrim": "2024",
+    "country": "SG",
+    "powerRatingKw": 150,
+    "torqueNm": 310,
+    "acceleration0To100Kmh": 7.3,
+    "efficiencyKwhPer100km": 14.5,
+    "rangeWltpKm": 480,
+    "rangeEpaKm": 420,
+    "rangeKm": 480,
+    "batteryCapacityKwh": 60.48,
+    "batteryWeightKg": 380,
+    "curbWeightKg": 1750,
+    "batteryWeightPercentage": 21.7,
+    "batteryManufacturer": "BYD",
+    "batteryTechnology": "LFP",
+    "batteryWarranty": "8 years / 150,000 km",
+    "chargingTimeDc0To80Min": 30,
+    "chargingCapabilities": "DC Fast Charge: Up to 88kW, AC: 7kW",
+    "technologyFeatures": "360° Camera, Adaptive Cruise Control, Lane Keep Assist",
+    "basePriceLocalCurrency": 45000,
+    "optionPrices": [
+      {
+        "name": "Premium Package",
+        "price": 3000
+      }
+    ],
+    "isAvailable": true,
+    "grossVehicleWeightKg": 1950
+  }
+]
+

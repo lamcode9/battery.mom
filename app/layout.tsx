@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: {
-    default: 'EVCompare SEA - Compare Electric Vehicles in Singapore & Malaysia',
+    default: 'EV SEA',
     template: '%s | EVCompare SEA',
   },
   description: 'Compare electric vehicles (EVs) available in Singapore and Malaysia. Compare battery specs, efficiency, range, pricing, and more. Find the perfect EV for you.',

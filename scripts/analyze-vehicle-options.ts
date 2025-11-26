@@ -1,6 +1,7 @@
+// @ts-nocheck
 /**
  * Analyze vehicle options in the database and identify gaps
- * @ts-nocheck - This is a utility script, not part of the Next.js build
+ * This is a utility script, not part of the Next.js build
  */
 
 import { PrismaClient } from '@prisma/client'

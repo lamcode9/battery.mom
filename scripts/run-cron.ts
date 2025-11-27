@@ -35,6 +35,7 @@ async function runCron() {
         const existing = await prisma.vehicle.findFirst({
           where: {
             name: vehicle.name,
+            modelTrim: vehicle.modelTrim || null,
             country: vehicle.country,
           },
         })

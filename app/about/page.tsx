@@ -21,7 +21,7 @@ export default function AboutPage() {
           {/* Main Content */}
           <div className="prose prose-lg max-w-none">
             <p className="text-xl md:text-2xl leading-relaxed text-gray-800 mb-8 font-medium">
-              We're obsessed with one simple idea: <strong className="text-ev-primary font-bold">batteries are the new oil</strong>.
+              We&apos;re obsessed with one simple idea: <strong className="text-ev-primary font-bold">batteries are the new oil</strong>.
           </p>
 
             <div className="space-y-6 text-gray-700 leading-relaxed text-lg">
@@ -57,7 +57,7 @@ export default function AboutPage() {
             {/* What you'll find section */}
             <div className="mt-12 pt-8 border-t border-gray-200">
               <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
-                What you'll find here
+                What you&apos;ll find here
               </h2>
 
               <ul className="space-y-4 text-gray-700 text-lg">

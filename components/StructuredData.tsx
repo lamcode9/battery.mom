@@ -92,7 +92,7 @@ export default function StructuredData() {
     const organizationData = {
       '@context': 'https://schema.org',
       '@type': 'Organization',
-      name: 'Energy SEA',
+      name: 'battery.mom',
       description: 'Compare electric vehicles available across Southeast Asia',
       url: typeof window !== 'undefined' ? window.location.origin : '',
     }
@@ -101,7 +101,7 @@ export default function StructuredData() {
     const websiteData = {
       '@context': 'https://schema.org',
       '@type': 'WebSite',
-      name: 'Energy SEA',
+      name: 'battery.mom',
       description: 'Compare electric vehicles available across Southeast Asia',
       url: typeof window !== 'undefined' ? window.location.origin : '',
     }

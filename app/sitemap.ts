@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next'
 import { prisma } from '@/lib/prisma'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://evcompare-sea.vercel.app'
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://battery.mom'
   
   // Base sitemap entries (always included)
   const baseEntries: MetadataRoute.Sitemap = [

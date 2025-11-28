@@ -2,44 +2,47 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { Providers } from './providers'
+import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
 const inter = Inter({ subsets: ['latin'] })
 
+// Hard-coded strings - reuse everywhere
+const siteName = "battery.mom"
+const tagline = "Clear data for the energy transition. No sponsors, no noise."
+const description = "Independent, monthly-updated data on solar, battery storage, and electric vehicles — costs, payback times, and adoption rates across Southeast Asia and the world."
+
 export const metadata: Metadata = {
-  title: {
-    default: 'Energy SEA',
-    template: '%s | Energy SEA',
-  },
-  description: 'Compare electric vehicles (EVs) available across Southeast Asia. Compare battery specs, efficiency, range, pricing, and more. Find the perfect EV for you.',
-  keywords: ['electric vehicles', 'EV comparison', 'Singapore', 'Malaysia', 'Tesla', 'BYD', 'EV specs', 'electric car', 'EV Singapore', 'EV Malaysia'],
-  authors: [{ name: 'Energy SEA' }],
-  creator: 'Energy SEA',
-  publisher: 'Energy SEA',
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://ev-sea-26nov25.vercel.app'),
+  title: `${siteName} — ${tagline}`,
+  description: description,
+  keywords: ['electric vehicles', 'EV comparison', 'battery storage', 'solar', 'Southeast Asia', 'Singapore', 'Malaysia', 'Tesla', 'BYD', 'EV specs', 'electric car', 'energy transition'],
+  authors: [{ name: siteName }],
+  creator: siteName,
+  publisher: siteName,
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://battery.mom'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
-    title: 'Energy SEA - Compare Electric Vehicles',
-    description: 'Compare electric vehicles available across Southeast Asia. Battery, efficiency, range, and pricing comparison.',
+    title: `${siteName} — ${tagline}`,
+    description: description,
     type: 'website',
     locale: 'en_US',
-    siteName: 'Energy SEA',
+    siteName: siteName,
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Energy SEA - Compare Electric Vehicles',
+        alt: `${siteName} — ${tagline}`,
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Energy SEA - Compare Electric Vehicles',
-    description: 'Compare electric vehicles available across Southeast Asia',
-    creator: '@energysea',
+    title: `${siteName} — ${tagline}`,
+    description: description,
+    creator: '@batterymom',
   },
   robots: {
     index: true,
@@ -66,6 +69,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <Providers>
+          <Header />
           {children}
           <Footer />
         </Providers>

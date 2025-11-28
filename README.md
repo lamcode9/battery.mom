@@ -1,4 +1,4 @@
-# Energy SEA
+# battery.mom
 
 A comprehensive comparison tool for electric vehicles (EVs) available across Southeast Asia. Compare battery specs, efficiency, range, pricing, and more to make informed EV purchasing decisions.
 
@@ -39,7 +39,7 @@ A comprehensive comparison tool for electric vehicles (EVs) available across Sou
 1. Clone the repository:
 ```bash
 git clone <your-repo-url>
-cd evcompare-sea
+cd battery-mom
 ```
 
 2. Install dependencies:
@@ -80,7 +80,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ## Project Structure
 
 ```
-evcompare-sea/
+battery-mom/
 ├── app/                    # Next.js App Router
 │   ├── api/               # API routes
 │   │   ├── vehicles/      # Vehicle endpoints

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo, ReactNode, useRef, useEffect } from 'react'
+import { useState, useMemo, ReactNode, useRef, useEffect, isValidElement } from 'react'
 import { createPortal } from 'react-dom'
 import { useVehicleStore } from '@/store/VehicleStore'
 import { Vehicle } from '@/types/vehicle'
@@ -9,12 +9,16 @@ import Papa from 'papaparse'
 import {
   ResponsiveContainer,
   BarChart,
+  ComposedChart,
   Bar,
   XAxis,
   YAxis,
   CartesianGrid,
   Cell,
   LabelList,
+  Legend,
+  Tooltip,
+  Scatter,
 } from 'recharts'
 import { 
   calculateCostPerKm, 
@@ -38,6 +42,13 @@ const CURRENCY_BY_COUNTRY: Record<Country, string> = {
   TH: 'THB',
   VN: 'VND',
 }
+
+// Chart container sizing constants - adjust these to change all chart container heights
+const CHART_CONTAINER_HEIGHT = 'h-64' // Tailwind class: h-64 = 256px (16rem)
+const CHART_CONTAINER_PADDING_TOP = 'pt-4' // Top padding
+const CHART_CONTAINER_PADDING_BOTTOM = 'pb-0' // Bottom padding
+const CHART_CONTAINER_PADDING_X = 'px-3' // Horizontal padding
+const CHART_AREA_PADDING_BOTTOM = 'pb-0' // Bottom padding for chart area
 
 const formatPrice = (price: number, country: Country, digits: number = 0) => {
   const currency = CURRENCY_BY_COUNTRY[country] || 'USD'
@@ -145,6 +156,348 @@ function CostPerKmInfoBox({
             <button
               onClick={() => setIsOpen(false)}
               className="mt-3 text-xs text-gray-500 hover:text-gray-700"
+            >
+              Close
+            </button>
+          </div>
+        </>
+      ), document.body)}
+    </div>
+  )
+}
+
+/**
+ * Info box component for Cost / km chart footnote 1
+ */
+function CostPerKmChartInfoBox({
+  countriesRepresented,
+  ICE_FACTS
+}: {
+  countriesRepresented: Country[]
+  ICE_FACTS: Partial<Record<Country, { models: string[]; costPerKm: number; currency: string; blurb: string }>>
+}) {
+  const [isOpen, setIsOpen] = useState(false)
+  const buttonRef = useRef<HTMLButtonElement | null>(null)
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
+    setIsOpen(!isOpen)
+  }
+
+  const getPosition = () => {
+    if (!buttonRef.current || !isOpen) return null
+    const rect = buttonRef.current.getBoundingClientRect()
+    return {
+      top: rect.bottom + 6,
+      left: rect.left,
+    }
+  }
+
+  const position = getPosition()
+
+  return (
+    <div className="relative inline-block">
+      <button
+        ref={buttonRef}
+        type="button"
+        onClick={handleClick}
+        className="text-gray-400 hover:text-gray-600 transition-colors ml-1"
+        aria-label="Show cost per km calculation details"
+      >
+        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </button>
+      
+      {isOpen && position && typeof window !== 'undefined' && createPortal((
+        <>
+          <div 
+            className="fixed inset-0 z-[9998]" 
+            onClick={() => setIsOpen(false)}
+          />
+          <div 
+            className="fixed w-72 bg-white border border-gray-200 rounded-lg shadow-lg p-4 z-[9999]"
+            style={{
+              top: `${position.top}px`,
+              left: `${position.left}px`,
+            }}
+          >
+            <div className="text-xs font-semibold text-gray-900 mb-3">Cost / km Calculation</div>
+            <div className="space-y-2 text-xs text-gray-700">
+              <div>
+                <div className="font-medium text-gray-900 mb-1">Formula:</div>
+                <div className="bg-gray-50 p-2 rounded font-mono text-[10px]">
+                  Cost/km = (Battery capacity in kWh × average electricity rate) ÷ rated range
+                </div>
+              </div>
+              <div className="pt-2 border-t border-gray-100">
+                <div className="font-medium text-gray-900 mb-1.5">Electricity Rates:</div>
+                <div className="text-gray-600">
+                  We use{' '}
+                  {countriesRepresented.map((country, index) => {
+                    const rate = getElectricityRate(country)
+                    const currency = ICE_FACTS[country]?.currency || 'USD'
+                    const countryName = {
+                      SG: 'Singapore',
+                      MY: 'Malaysia',
+                      ID: 'Indonesia',
+                      PH: 'Philippines',
+                      TH: 'Thailand',
+                      VN: 'Vietnam'
+                    }[country] || country
+
+                    const separator = index === countriesRepresented.length - 1 ? '' :
+                                     index === countriesRepresented.length - 2 ? ' and ' : ', '
+
+                    return (
+                      <span key={country}>
+                        {currency} {rate.toFixed(2)}/kWh for {countryName}{separator}
+                      </span>
+                    )
+                  })}
+                  .
+                </div>
+              </div>
+            </div>
+            <button
+              onClick={() => setIsOpen(false)}
+              className="mt-3 text-xs text-gray-500 hover:text-gray-700"
+            >
+              Close
+            </button>
+          </div>
+        </>
+      ), document.body)}
+    </div>
+  )
+}
+
+/**
+ * Info box component for ICE comparison (footnote 2)
+ */
+function ICEComparisonInfoBox({
+  countriesRepresented,
+  ICE_FACTS,
+  formatCostPerKm
+}: {
+  countriesRepresented: Country[]
+  ICE_FACTS: Partial<Record<Country, { models: string[]; costPerKm: number; currency: string; blurb: string }>>
+  formatCostPerKm: (value: number, country: Country) => string
+}) {
+  const [isOpen, setIsOpen] = useState(false)
+  const buttonRef = useRef<HTMLButtonElement | null>(null)
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
+    setIsOpen(!isOpen)
+  }
+
+  const getPosition = () => {
+    if (!buttonRef.current || !isOpen) return null
+    const rect = buttonRef.current.getBoundingClientRect()
+    return {
+      top: rect.bottom + 6,
+      left: rect.left,
+    }
+  }
+
+  const position = getPosition()
+
+  return (
+    <div className="relative inline-block">
+      <button
+        ref={buttonRef}
+        type="button"
+        onClick={handleClick}
+        className="text-gray-400 hover:text-gray-600 transition-colors ml-1"
+        aria-label="Show ICE comparison details"
+      >
+        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </button>
+      
+      {isOpen && position && typeof window !== 'undefined' && createPortal((
+        <>
+          <div 
+            className="fixed inset-0 z-[9998]" 
+            onClick={() => setIsOpen(false)}
+          />
+          <div 
+            className="fixed w-72 bg-white border border-gray-200 rounded-lg shadow-lg p-4 z-[9999]"
+            style={{
+              top: `${position.top}px`,
+              left: `${position.left}px`,
+            }}
+          >
+            <div className="text-xs font-semibold text-gray-900 mb-3">ICE Comparison</div>
+            <div className="space-y-2 text-xs text-gray-700">
+              {countriesRepresented.map((country) => {
+                const fact = ICE_FACTS[country]
+                if (!fact) return null
+                return (
+                  <div key={country} className="pb-2 border-b border-gray-100 last:border-0 last:pb-4">
+                    <div className="font-medium text-gray-900 mb-1">
+                      {(() => {
+                        const countryNames = {
+                          SG: 'Singapore',
+                          MY: 'Malaysia',
+                          ID: 'Indonesia',
+                          PH: 'Philippines',
+                          TH: 'Thailand',
+                          VN: 'Vietnam'
+                        }
+                        return countryNames[country] || country
+                      })()}
+                    </div>
+                    <div className="text-gray-600">
+                      Comparable ICE sedans such as <span className="font-semibold">{fact.models.join(' or ')}</span> average around{' '}
+                      <span className="font-semibold">
+                        {formatCostPerKm(fact.costPerKm, country)}
+                      </span>
+                      . {fact.blurb}
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+            <button
+              onClick={() => setIsOpen(false)}
+              className="mt-3 text-xs text-gray-500 hover:text-gray-700"
+            >
+              Close
+            </button>
+          </div>
+        </>
+      ), document.body)}
+    </div>
+  )
+}
+
+/**
+ * Info box component for Public Fast legend
+ */
+function PublicFastInfoBox() {
+  const [isOpen, setIsOpen] = useState(false)
+  const buttonRef = useRef<HTMLButtonElement | null>(null)
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
+    setIsOpen(!isOpen)
+  }
+
+  const getPosition = () => {
+    if (!buttonRef.current || !isOpen) return null
+    const rect = buttonRef.current.getBoundingClientRect()
+    return {
+      top: rect.bottom + 6,
+      left: rect.left,
+    }
+  }
+
+  const position = getPosition()
+
+  return (
+    <div className="relative inline-block">
+      <button
+        ref={buttonRef}
+        type="button"
+        onClick={handleClick}
+        className="text-gray-400 hover:text-gray-600 transition-colors ml-1"
+        aria-label="Show public fast charging info"
+      >
+        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </button>
+      
+      {isOpen && position && typeof window !== 'undefined' && createPortal((
+        <>
+          <div 
+            className="fixed inset-0 z-[9998]" 
+            onClick={() => setIsOpen(false)}
+          />
+          <div 
+            className="fixed w-72 bg-white border border-gray-200 rounded-lg shadow-lg p-4 z-[9999]"
+            style={{
+              top: `${position.top}px`,
+              left: `${position.left}px`,
+            }}
+          >
+            <div className="text-xs font-semibold text-gray-900 mb-2">Public Fast Charging</div>
+            <div className="text-xs text-gray-600 mb-2">
+              *Public: 100 kW DC – the most common fast-charger power in urban SEA 2025–26 (200–350 kW hubs expanding fast).*
+            </div>
+            <button
+              onClick={() => setIsOpen(false)}
+              className="mt-2 text-xs text-gray-500 hover:text-gray-700"
+            >
+              Close
+            </button>
+          </div>
+        </>
+      ), document.body)}
+    </div>
+  )
+}
+
+/**
+ * Info box component for Home Solar legend
+ */
+function HomeSolarInfoBox() {
+  const [isOpen, setIsOpen] = useState(false)
+  const buttonRef = useRef<HTMLButtonElement | null>(null)
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
+    setIsOpen(!isOpen)
+  }
+
+  const getPosition = () => {
+    if (!buttonRef.current || !isOpen) return null
+    const rect = buttonRef.current.getBoundingClientRect()
+    return {
+      top: rect.bottom + 6,
+      left: rect.left,
+    }
+  }
+
+  const position = getPosition()
+
+  return (
+    <div className="relative inline-block">
+      <button
+        ref={buttonRef}
+        type="button"
+        onClick={handleClick}
+        className="text-gray-400 hover:text-gray-600 transition-colors ml-1"
+        aria-label="Show home solar info"
+      >
+        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </button>
+      
+      {isOpen && position && typeof window !== 'undefined' && createPortal((
+        <>
+          <div 
+            className="fixed inset-0 z-[9998]" 
+            onClick={() => setIsOpen(false)}
+          />
+          <div 
+            className="fixed w-72 bg-white border border-gray-200 rounded-lg shadow-lg p-4 z-[9999]"
+            style={{
+              top: `${position.top}px`,
+              left: `${position.left}px`,
+            }}
+          >
+            <div className="text-xs font-semibold text-gray-900 mb-2">Home Solar Charging</div>
+            <div className="text-xs text-gray-600 mb-2">
+              *Home solar: Real daily production of a 10 kW rooftop system (4–5.5 peak sun hours). Most urban owners mix ~60% public + 40% home charging.*
+            </div>
+            <button
+              onClick={() => setIsOpen(false)}
+              className="mt-2 text-xs text-gray-500 hover:text-gray-700"
             >
               Close
             </button>
@@ -413,6 +766,80 @@ export default function ComparisonTable() {
     return vehicle.modelTrim ? `${vehicle.name} ${vehicle.modelTrim}` : vehicle.name
   }
 
+  // Daily yield (kWh) for 10 kW solar system by country
+  const dailyYield: Record<Country, number> = {
+    SG: 42, // Singapore
+    MY: 45, // Malaysia
+    ID: 48, // Indonesia
+    PH: 46, // Philippines
+    TH: 48, // Thailand
+    VN: 45, // Vietnam
+  }
+
+  // Extract maximum DC charging rate from chargingCapabilities (e.g., "DC Fast Charge: Up to 250kW" -> 250)
+  const getMaxDcChargingRate = (vehicle: Vehicle): number => {
+    if (!vehicle.chargingCapabilities) return 100 // Default to 100 kW if not specified
+    const match = vehicle.chargingCapabilities.match(/(?:up to|max|maximum)\s*(\d+)\s*kw/i)
+    if (match && match[1]) {
+      return parseInt(match[1], 10)
+    }
+    // Fallback: try to find any number followed by kW
+    const fallbackMatch = vehicle.chargingCapabilities.match(/(\d+)\s*kw/i)
+    if (fallbackMatch && fallbackMatch[1]) {
+      return parseInt(fallbackMatch[1], 10)
+    }
+    return 100 // Default to 100 kW
+  }
+
+  // Calculate public fast charge minutes using vehicle's max DC charging rate
+  // Assumptions:
+  // - Charger power is capped at 100 kW (typical fast charger)
+  // - If the vehicle's max DC rate is LOWER than 100 kW, use that lower vehicle rate
+  // Formula: (batteryCapacityKwh * 0.8) / effectiveMaxChargingRateKw * 60, rounded to nearest 5 min
+  const getPublicFastMinutes = (vehicle: Vehicle): number | null => {
+    if (!vehicle.batteryCapacityKwh || vehicle.batteryCapacityKwh <= 0) {
+      return null
+    }
+    const parsedMaxChargingRate = getMaxDcChargingRate(vehicle)
+    // Cap at 100 kW but respect vehicles that can only take less than that
+    const effectiveMaxChargingRate = Math.min(parsedMaxChargingRate, 100)
+    const minutes = Math.ceil(vehicle.batteryCapacityKwh * 0.8 / effectiveMaxChargingRate * 60)
+    // Round to nearest 5 minutes
+    return Math.round(minutes / 5) * 5
+  }
+
+  // Calculate home solar days: (batteryCapacityKwh * 0.6) / dailyYield[country]
+  // Assumes 20-80% charge (60% of battery capacity)
+  const getHomeSolarDays = (vehicle: Vehicle): number | null => {
+    if (!vehicle.batteryCapacityKwh || vehicle.batteryCapacityKwh <= 0) {
+      return null
+    }
+    const yieldValue = dailyYield[vehicle.country] || 45
+    return (vehicle.batteryCapacityKwh * 0.6) / yieldValue
+  }
+
+  const batteryCapacityChartData = sortedVehicles
+    .map((vehicle, idx) => ({
+      label: getVehicleLabel(vehicle),
+      value: vehicle.batteryCapacityKwh,
+    color: vehicleColors[idx % vehicleColors.length],
+  }))
+    .filter((d): d is { label: string; value: number; color: string } => d.value !== null && d.value !== undefined && d.value > 0)
+
+  const publicFastVsHomeSolarChartData = sortedVehicles
+    .map((vehicle, idx) => {
+      const publicMinutes = getPublicFastMinutes(vehicle)
+      const homeDays = getHomeSolarDays(vehicle)
+      if (publicMinutes === null || homeDays === null) return null
+      return {
+        label: getVehicleLabel(vehicle),
+        publicFast: publicMinutes,
+        homeSolar: homeDays,
+        color: vehicleColors[idx % vehicleColors.length],
+      }
+    })
+    .filter((d): d is { label: string; publicFast: number; homeSolar: number; color: string } => d !== null)
+
   const efficiencyChartData = sortedVehicles
     .map((vehicle, idx) => ({
     label: getVehicleLabel(vehicle),
@@ -618,18 +1045,27 @@ export default function ComparisonTable() {
       </div>
 
       <div className="px-6 pt-2 pb-2 space-y-4">
-        <h3 className="font-semibold text-gray-800 flex items-center gap-2">
-          📈 Efficiency, Range & Cost Snapshot
+        <h3 className="font-semibold text-gray-800">
+          Data Snapshot
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <MetricChart title="Efficiency (kWh/100km)" data={efficiencyChartData} suffix=" kWh">
-            Lower numbers indicate better energy use.
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <MetricChart title="Battery Capacity (kWh)" data={batteryCapacityChartData} suffix=" kWh">
+            Total energy storage capacity.
           </MetricChart>
+          <PublicFastVsHomeSolarChart 
+            data={publicFastVsHomeSolarChartData}
+            country={sortedVehicles[0]?.country || 'MY'}
+          />
           <MetricChart title="Range (km)" data={rangeChartData} suffix=" km">
-            WLTP/EPA rated range per full charge.
+            WLTP rated range per full charge.
           </MetricChart>
           <MetricChart
-            title="Cost / km¹"
+            title={
+              <div className="flex items-center gap-1.5">
+                <span>Cost / km</span>
+                <CostPerKmChartInfoBox countriesRepresented={countriesRepresented} ICE_FACTS={ICE_FACTS} />
+              </div>
+            }
             data={costPerKmChartData}
             formatter={(value, entry) =>
               formatCostPerKm(
@@ -637,69 +1073,21 @@ export default function ComparisonTable() {
                 ((entry?.payload?.country as Country) ?? sortedVehicles[0]?.country) || 'SG'
               )
             }
+            customLabelRenderer={(label: string) => {
+              if (label === 'ICE²') {
+                return (
+                  <div className="flex items-center gap-1">
+                    <span>ICE</span>
+                    <ICEComparisonInfoBox countriesRepresented={countriesRepresented} ICE_FACTS={ICE_FACTS} formatCostPerKm={formatCostPerKm} />
+                  </div>
+                )
+              }
+              return label
+            }}
           >
             Based on average DC charging tariffs.
           </MetricChart>
         </div>
-        <div className="text-[10px] text-gray-500 pl-4">
-          <p>
-            <span className="font-semibold">Note:</span>
-          </p>
-          <p className="mb-1">
-            <span className="font-semibold">1.</span> Cost/km = (Battery capacity in kWh × average electricity rate) ÷ rated range.{' '}
-            We use{' '}
-            {countriesRepresented.map((country, index) => {
-              const rate = getElectricityRate(country)
-              const currency = ICE_FACTS[country]?.currency || 'USD'
-              const countryName = {
-                SG: 'Singapore',
-                MY: 'Malaysia',
-                ID: 'Indonesia',
-                PH: 'Philippines',
-                TH: 'Thailand',
-                VN: 'Vietnam'
-              }[country] || country
-
-              const separator = index === countriesRepresented.length - 1 ? '' :
-                               index === countriesRepresented.length - 2 ? ' and ' : ', '
-
-              return (
-                <span key={country}>
-                  {currency} {rate.toFixed(2)}/kWh for {countryName}{separator}
-                </span>
-              )
-            })}
-            .
-        </p>
-        {countriesRepresented.length > 0 && (
-            <div>
-              {countriesRepresented.map((country) => {
-                const fact = ICE_FACTS[country]
-                if (!fact) return null
-                return (
-                  <p key={country} className="leading-relaxed">
-                    <span className="font-semibold">2.</span> In {(() => {
-                      const countryNames = {
-                        SG: 'Singapore',
-                        MY: 'Malaysia',
-                        ID: 'Indonesia',
-                        PH: 'Philippines',
-                        TH: 'Thailand',
-                        VN: 'Vietnam'
-                      }
-                      return countryNames[country] || country
-                    })()}, comparable ICE sedans such as{' '}
-                    <span className="font-semibold">{fact.models.join(' or ')}</span> average around{' '}
-                    <span className="font-semibold">
-                      {fact.currency} {fact.costPerKm.toFixed(2)} per km
-                    </span>{' '}
-                    ({fact.blurb})
-                  </p>
-                )
-              })}
-          </div>
-        )}
-          </div>
       </div>
 
       {insights.length > 0 && (
@@ -1284,59 +1672,323 @@ interface MetricDatum {
   country?: Country
 }
 
+interface PublicFastVsHomeSolarDatum {
+  label: string
+  publicFast: number
+  homeSolar: number
+  color: string
+}
+
+interface PublicFastVsHomeSolarChartProps {
+  data: PublicFastVsHomeSolarDatum[]
+  country: Country
+}
+
+/**
+ * Info box component for Time-to-Charge chart
+ */
+function TimeToChargeInfoBox() {
+  const [isOpen, setIsOpen] = useState(false)
+  const buttonRef = useRef<HTMLButtonElement | null>(null)
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
+    setIsOpen(!isOpen)
+  }
+
+  const getPosition = () => {
+    if (!buttonRef.current || !isOpen) return null
+    const rect = buttonRef.current.getBoundingClientRect()
+    return {
+      top: rect.bottom + 6,
+      left: rect.left,
+    }
+  }
+
+  const position = getPosition()
+
+  return (
+    <div className="relative inline-block">
+      <button
+        ref={buttonRef}
+        type="button"
+        onClick={handleClick}
+        className="text-gray-400 hover:text-gray-600 transition-colors ml-1"
+        aria-label="Show time-to-charge info"
+      >
+        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </button>
+      
+      {isOpen && position && typeof window !== 'undefined' && createPortal((
+        <>
+          <div 
+            className="fixed inset-0 z-[9998]" 
+            onClick={() => setIsOpen(false)}
+          />
+          <div 
+            className="fixed w-72 bg-white border border-gray-200 rounded-lg shadow-lg p-4 z-[9999]"
+            style={{
+              top: `${position.top}px`,
+              left: `${position.left}px`,
+            }}
+          >
+            <div className="text-xs font-semibold text-gray-900 mb-3">Charging time</div>
+            <div className="space-y-3 text-xs text-gray-700">
+              <div>
+                <div className="font-medium text-gray-900 mb-1.5">Public fast charging:</div>
+                <div className="text-gray-600 mb-2">
+                  Assume 100 kW DC — the most common fast charger in urban SEA 2025–26. Almost all real sessions are 20→80 %. Future plans for 200–350 kW hubs expanding fast.
+                </div>
+                <div className="bg-gray-50 p-2 rounded font-mono text-[10px] text-gray-700">
+                  Minutes = (Battery Capacity × 0.8) ÷ Max DC Rate (kW) × 60
+                </div>
+              </div>
+              <div className="pt-2 border-t border-gray-100">
+                <div className="font-medium text-gray-900 mb-1.5">Home solar:</div>
+                <div className="text-gray-600 mb-2">
+                  Real daily yield of a 10 kW system (4–5.5 peak sun hours). Daily yield varies by country based on average sunlight hours.
+                </div>
+                <div className="bg-gray-50 p-2 rounded font-mono text-[10px] text-gray-700">
+                  Days = (Battery Capacity × 0.6) ÷ Daily Yield (kWh/day)
+                </div>
+                <div className="text-[10px] text-gray-500 mt-1">
+                  Assumes 20→80% charge (60% of battery capacity)
+                </div>
+              </div>
+            </div>
+            <button
+              onClick={() => setIsOpen(false)}
+              className="mt-3 text-xs text-gray-500 hover:text-gray-700"
+            >
+              Close
+            </button>
+          </div>
+        </>
+      ), document.body)}
+    </div>
+  )
+}
+
+/**
+ * Shared CustomTick component for X-axis labels
+ * Standardized formatting: fontSize 9, gray color, multi-line wrapping
+ */
+const CustomXAxisTick = ({ x, y, payload, customLabel }: any) => {
+  const label = payload.value
+  const maxWidth = 60 // Maximum width in pixels for each line
+  const words = label.split(' ')
+  const lines: string[] = []
+  let currentLine = ''
+  
+  words.forEach((word: string) => {
+    const testLine = currentLine ? `${currentLine} ${word}` : word
+    // Approximate width: ~6px per character for fontSize 9
+    if (testLine.length * 6 <= maxWidth || !currentLine) {
+      currentLine = testLine
+    } else {
+      lines.push(currentLine)
+      currentLine = word
+    }
+  })
+  if (currentLine) lines.push(currentLine)
+  
+  // If custom label renderer is provided and label matches, use custom rendering
+  // Only use foreignObject for React components, not plain strings
+  if (customLabel && isValidElement(customLabel)) {
+    return (
+      <foreignObject x={x - 30} y={y + 10} width="60" height="40">
+        <div className="flex items-center justify-center text-[9px] text-gray-600">
+          {customLabel}
+        </div>
+      </foreignObject>
+    )
+  }
+  
+  // For regular labels (including string returns from customLabelRenderer), use SVG text
+  return (
+    <g transform={`translate(${x},${y + 5})`}>
+      <text
+        x={0}
+        y={0}
+        dy={0}
+        textAnchor="middle"
+        fill="#6b7280"
+        fontSize={9}
+      >
+        {lines.map((line, idx) => (
+          <tspan
+            key={idx}
+            x={0}
+            dy={idx === 0 ? 0 : 12}
+            textAnchor="middle"
+          >
+            {line}
+          </tspan>
+        ))}
+      </text>
+    </g>
+  )
+}
+
+/**
+ * Grouped bar chart component for Public Fast vs Home Solar
+ */
+function PublicFastVsHomeSolarChart({ data, country }: PublicFastVsHomeSolarChartProps) {
+
+  // Format minutes as single value with ~ (e.g., "~15 min", "~25 min")
+  const formatMinutesSingle = (minutes: number): string => {
+    return `~${minutes} min`
+  }
+
+  // Custom legend without info boxes - pattern based (no colors)
+  const renderLegend = (props: any) => {
+    const { payload } = props
+    return (
+      <div className="flex justify-center gap-4 mt-1.5 mb-0.5">
+        {payload.map((entry: any, index: number) => (
+          <div key={index} className="flex items-center gap-1">
+            {entry.value === 'publicFast' ? (
+              <div className="w-2.5 h-2.5 border border-gray-400 bg-gray-200" />
+            ) : (
+              <div className="w-2.5 h-2.5 rounded-full border border-gray-400 bg-gray-200" />
+            )}
+            <span className="text-[10px] text-gray-600">
+              {entry.value === 'publicFast' ? 'Public Fast' : 'Home Solar'}
+            </span>
+          </div>
+        ))}
+      </div>
+    )
+  }
+
+  return (
+    <div className="bg-gray-50 rounded-lg px-3 pt-4 pb-0 flex flex-col gap-0">
+      <div>
+        <div className="flex items-center gap-1.5">
+          <p className="font-semibold text-gray-800">Typical Top-Up (20-80%)</p>
+          <TimeToChargeInfoBox />
+        </div>
+        <p className="text-xs text-gray-500 mt-1">
+          Public fast charging; Home Solar
+        </p>
+        <div className="flex justify-center gap-3 mt-5 mb-0">
+          <div className="flex items-center gap-1">
+            <div className="w-2.5 h-2.5 border border-gray-400 bg-gray-200" />
+            <span className="text-[9px] text-gray-600">Public Fast</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="w-2.5 h-2.5 rounded-full border border-gray-400 bg-gray-200" />
+            <span className="text-[9px] text-gray-600">Home Solar</span>
+          </div>
+        </div>
+      </div>
+      <div className="h-64 flex items-end justify-center pb-0">
+        <ResponsiveContainer width="100%" height="100%">
+          <ComposedChart data={data} margin={{ top: 25, right: 10, left: 10, bottom: 23 }}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis 
+              dataKey="label" 
+              interval={0}
+              tick={(props) => <CustomXAxisTick {...props} />}
+              height={70}
+            />
+            <YAxis 
+              yAxisId="left"
+              tick={{ fontSize: 9, fill: '#6b7280' }} 
+              width={30}
+              label={{ value: 'Minutes', angle: -90, position: 'insideLeft', style: { textAnchor: 'middle', fontSize: 10, fill: '#9ca3af' } }}
+            />
+            <YAxis 
+              yAxisId="right"
+              orientation="right"
+              tick={{ fontSize: 9, fill: '#6b7280' }} 
+              width={40}
+              tickFormatter={(value: number) => value.toFixed(1)}
+              label={{ value: 'Days', angle: 90, position: 'insideRight', style: { textAnchor: 'middle', fontSize: 10, fill: '#9ca3af' } }}
+            />
+            <Tooltip 
+              formatter={(value: number, name: string) => {
+                if (name === 'publicFast') {
+                  return [formatMinutesSingle(value), 'Public Fast (20→80 %)']
+                } else {
+                  return [`${value.toFixed(1)} days`, 'Home Solar']
+                }
+              }}
+              labelStyle={{ fontSize: 11, fontWeight: 600 }}
+              contentStyle={{ fontSize: 11 }}
+            />
+            <Bar 
+              yAxisId="left"
+              dataKey="publicFast" 
+              name="publicFast"
+              fill="#0ea5e9"
+              radius={[4, 4, 0, 0]}
+            >
+              {data.map((entry, idx) => (
+                <Cell 
+                  key={`public-${idx}`} 
+                  fill={entry.color}
+                />
+              ))}
+              <LabelList
+                dataKey="publicFast"
+                position="inside"
+                formatter={(value: number) => formatMinutesSingle(value)}
+                style={{ fontSize: 9, fill: '#fff', fontWeight: 500 }}
+              />
+            </Bar>
+            <Scatter
+              yAxisId="right"
+              dataKey="homeSolar"
+              name="homeSolar"
+              fill="#10b981"
+              shape={(props: any) => {
+                const { cx, cy, payload } = props
+                // Access color from payload (ComposedChart passes full data object)
+                const dotColor = payload.color || '#10b981'
+                const homeSolarValue = payload.homeSolar || payload.y
+                return (
+                  <g>
+                    <circle
+                      cx={cx}
+                      cy={cy}
+                      r={4}
+                      fill={dotColor}
+                      stroke="#000"
+                      strokeWidth={1.5}
+                    />
+                    <text
+                      x={cx}
+                      y={cy - 12}
+                      textAnchor="middle"
+                      fontSize={9}
+                      fill="#374151"
+                    >
+                      {homeSolarValue?.toFixed(1)} days
+                    </text>
+                  </g>
+                )
+              }}
+            />
+          </ComposedChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  )
+}
+
 interface MetricChartProps {
   title: string | ReactNode
   data: MetricDatum[]
   suffix?: string
   formatter?: (value: number, entry?: any) => string
   children?: ReactNode
+  customLabelRenderer?: (label: string) => ReactNode
 }
 
-function MetricChart({ title, data, suffix, formatter, children }: MetricChartProps) {
-  // Custom tick component to wrap long labels
-  const CustomTick = ({ x, y, payload }: any) => {
-    const label = payload.value
-    const maxWidth = 60 // Maximum width in pixels for each line
-    const words = label.split(' ')
-    const lines: string[] = []
-    let currentLine = ''
-    
-    words.forEach((word: string) => {
-      const testLine = currentLine ? `${currentLine} ${word}` : word
-      // Approximate width: ~6px per character for fontSize 10
-      if (testLine.length * 6 <= maxWidth || !currentLine) {
-        currentLine = testLine
-      } else {
-        lines.push(currentLine)
-        currentLine = word
-      }
-    })
-    if (currentLine) lines.push(currentLine)
-    
-  return (
-      <g transform={`translate(${x},${y + 10})`}>
-        <text
-          x={0}
-          y={0}
-          dy={0}
-          textAnchor="middle"
-          fill="#6b7280"
-          fontSize={10}
-        >
-          {lines.map((line, idx) => (
-            <tspan
-              key={idx}
-              x={0}
-              dy={idx === 0 ? 0 : 12}
-              textAnchor="middle"
-            >
-              {line}
-            </tspan>
-          ))}
-        </text>
-      </g>
-    )
-  }
+function MetricChart({ title, data, suffix, formatter, children, customLabelRenderer }: MetricChartProps) {
 
   return (
     <div className="bg-gray-50 rounded-lg px-3 pt-4 pb-0 flex flex-col gap-3">
@@ -1344,29 +1996,40 @@ function MetricChart({ title, data, suffix, formatter, children }: MetricChartPr
         <p className="font-semibold text-gray-800">{title}</p>
         {children && <p className="text-xs text-gray-500 mt-1">{children}</p>}
       </div>
-      <div className="h-60">
+      <div className="h-64 flex items-end justify-center pb-0">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={data} margin={{ top: 25, right: 10, left: -10, bottom: 0 }}>
+          <BarChart data={data} margin={{ top: 25, right: 10, left: 10, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis 
               dataKey="label" 
               interval={0}
-              tick={<CustomTick />}
+              tick={(props) => {
+                const label = props.payload.value
+                if (customLabelRenderer) {
+                  const customLabel = customLabelRenderer(label)
+                  return <CustomXAxisTick {...props} customLabel={customLabel} />
+                }
+                return <CustomXAxisTick {...props} />
+              }}
               height={70}
             />
-            <YAxis tick={{ fontSize: 12, fill: '#6b7280' }} width={40} />
+            <YAxis 
+              tick={{ fontSize: 9, fill: '#6b7280' }} 
+              width={50}
+              tickFormatter={(value: number) => value.toFixed(2)}
+            />
             <Bar dataKey="value" radius={[4, 4, 0, 0]}>
               {data.map((entry) => (
                 <Cell key={entry.label} fill={entry.color} />
               ))}
               <LabelList
                 dataKey="value"
-                position="top"
+                position="inside"
                 formatter={(value: number, entry: any) => {
                   const formatted = formatter ? formatter(value, entry) : `${value}${suffix ?? ''}`
                   return formatted
                 }}
-                style={{ fontSize: 10, fill: '#374151' }}
+                style={{ fontSize: 10, fill: '#fff', fontWeight: 500 }}
               />
             </Bar>
           </BarChart>

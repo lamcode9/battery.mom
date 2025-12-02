@@ -178,7 +178,7 @@ function EnergyFlowChart({ energyFlow, country }: { energyFlow: any; country: Co
             stroke="#6b7280"
             fontSize={isMobile ? 10 : 12}
             width={isMobile ? 35 : 50}
-            label={isMobile ? undefined : { value: 'Energy (kWh)', angle: -90, position: 'insideLeft', style: { textAnchor: 'middle' } }}
+            label={isMobile ? { value: 'Energy (kWh)', angle: -90, position: 'insideLeft', style: { textAnchor: 'middle', fontSize: '9px' } } : { value: 'Energy (kWh)', angle: -90, position: 'insideLeft', style: { textAnchor: 'middle' } }}
           />
           <YAxis 
             yAxisId="battery"
@@ -188,7 +188,7 @@ function EnergyFlowChart({ energyFlow, country }: { energyFlow: any; country: Co
             width={isMobile ? 35 : 50}
             domain={[0, 'auto']} // Ensure battery level Y-axis always starts at 0, never goes negative
             allowDataOverflow={false}
-            label={isMobile ? undefined : { value: 'Battery Level (kWh)', angle: 90, position: 'insideRight', style: { textAnchor: 'middle' } }}
+            label={isMobile ? { value: 'Battery (kWh)', angle: 90, position: 'insideRight', style: { textAnchor: 'middle', fontSize: '9px' } } : { value: 'Battery Level (kWh)', angle: 90, position: 'insideRight', style: { textAnchor: 'middle' } }}
           />
           <Tooltip
             contentStyle={{

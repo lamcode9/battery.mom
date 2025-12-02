@@ -7,19 +7,37 @@ import { usePathname } from 'next/navigation'
 const siteName = "battery.mom"
 const tagline = "Clear data for the energy transition. No sponsors, no noise."
 
-const navLinks = [
+type NavLink = {
+  href: string
+  label: string
+  tooltip?: string
+  dropdown?: Array<{ href: string; label: string }>
+}
+
+const navLinks: NavLink[] = [
   { href: '/', label: 'Home' },
   { href: '/about', label: 'About' },
-  { href: '/ev', label: 'EV', tooltip: 'Electric Vehicles' },
-  { href: '/bess', label: 'BESS', tooltip: 'Battery Energy Storage Systems' },
+  { href: '/ev', label: 'EV' },
+  { 
+    href: '/bess', 
+    label: 'BESS', 
+    tooltip: 'Battery Energy Storage Systems',
+    dropdown: [
+      { href: '/bess/home', label: 'Batteries at Home' },
+      { href: '/bess/commercial', label: 'Commercial BESS' },
+      { href: '/bess/grid', label: 'Grid / Industrial BESS' },
+    ]
+  },
   { href: '/scoreboard', label: 'Scoreboard' },
   { href: '/calculators', label: 'Calculators' },
+  { href: '/insights', label: 'Insights' },
 ]
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isMenuClosing, setIsMenuClosing] = useState(false)
   const [hoveredTooltip, setHoveredTooltip] = useState<string | null>(null)
+  const [hoveredDropdown, setHoveredDropdown] = useState<string | null>(null)
   const pathname = usePathname()
 
   // Close mobile menu when route changes
@@ -62,14 +80,19 @@ export default function Header() {
     return pathname.startsWith(href)
   }
 
+  const isBessHovered = hoveredDropdown === '/bess'
+
   return (
     <>
       <header
-        className="fixed top-0 left-0 right-0 z-50 h-12 md:h-14 backdrop-blur-md border-b border-gray-200/50"
+        className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b border-gray-200/50 transition-all duration-200 ${
+          isBessHovered ? 'h-32 md:h-36' : 'h-12 md:h-14'
+        }`}
         style={{
           backgroundColor: 'rgba(255, 255, 255, 0.5)',
           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
         }}
+        onMouseLeave={() => setHoveredDropdown(null)}
       >
         <div className="max-w-[1200px] mx-auto h-full px-4 md:px-6 relative">
           {/* Logo (Left) */}
@@ -80,18 +103,31 @@ export default function Header() {
           </Link>
 
           {/* Desktop Navigation (Center) */}
-          <nav className="hidden md:flex items-center gap-0.5 justify-center h-full relative">
+          <nav className="hidden md:flex items-center gap-0.5 justify-center h-12 md:h-14 relative">
               {navLinks.map((link, index) => (
-                <span key={link.href} className="flex items-center">
+                <span 
+                  key={link.href} 
+                  className="flex items-center relative"
+                  onMouseEnter={() => {
+                    if (link.dropdown) {
+                      setHoveredDropdown(link.href)
+                    } else if (link.tooltip) {
+                      setHoveredTooltip(link.tooltip)
+                    }
+                  }}
+                  onMouseLeave={() => {
+                    if (!link.dropdown) {
+                      setHoveredTooltip(null)
+                    }
+                  }}
+                >
                   <Link
                     href={link.href}
                     className={`px-3 py-2 text-sm font-medium transition-colors ${
-                      isActive(link.href)
+                      isActive(link.href) || (link.dropdown && link.dropdown.some(item => isActive(item.href)))
                         ? 'text-emerald-600'
                         : 'text-gray-700 hover:text-emerald-600'
                     }`}
-                    onMouseEnter={() => link.tooltip && setHoveredTooltip(link.tooltip)}
-                    onMouseLeave={() => setHoveredTooltip(null)}
                   >
                     {link.label}
                   </Link>
@@ -107,6 +143,27 @@ export default function Header() {
                 </div>
               )}
             </nav>
+
+          {/* Extended BESS Dropdown Area */}
+          {isBessHovered && (
+            <div className="hidden md:flex items-center justify-center h-20 md:h-22 border-t border-gray-200/30">
+              <div className="flex items-center gap-6">
+                {navLinks.find(link => link.href === '/bess')?.dropdown?.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`px-4 py-2 text-sm font-medium transition-colors ${
+                      isActive(item.href)
+                        ? 'text-emerald-600'
+                        : 'text-gray-700 hover:text-emerald-600'
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Mobile Hamburger Button (Right) */}
           <button
@@ -180,6 +237,35 @@ export default function Header() {
                 <ul className="space-y-1">
                   {navLinks.map((link) => (
                     <li key={link.href}>
+                      {link.dropdown ? (
+                        <div>
+                          <div className="px-4 py-3 text-base font-medium text-gray-300">
+                            <span className="block">{link.label}</span>
+                            {link.tooltip && (
+                              <span className="block text-sm text-gray-500 mt-0.5">
+                                {link.tooltip}
+                              </span>
+                            )}
+                          </div>
+                          <ul className="ml-4 mt-1 space-y-1">
+                            {link.dropdown.map((item) => (
+                              <li key={item.href}>
+                                <Link
+                                  href={item.href}
+                                  className={`block px-4 py-2 text-sm font-medium rounded-xl transition-all text-left ${
+                                    isActive(item.href)
+                                      ? 'text-emerald-500 bg-gray-800/50'
+                                      : 'text-gray-400 hover:text-emerald-500 hover:bg-gray-800/50'
+                                  }`}
+                                  onClick={handleCloseMenu}
+                                >
+                                  {item.label}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ) : (
                       <Link
                         href={link.href}
                         className={`block px-4 py-3 text-base font-medium rounded-xl transition-all text-left ${
@@ -197,6 +283,7 @@ export default function Header() {
                           </span>
                         )}
                       </Link>
+                      )}
                     </li>
                   ))}
                 </ul>

@@ -1,0 +1,179 @@
+[
+  {
+    "name": "Tesla Powerwall 3",
+    "capacityKwh": 13.5,
+    "usableCapacityKwh": 13.5,
+    "roundTripEfficiency": 96,
+    "warrantyCycles": 6000,
+    "warrantyYears": 10,
+    "continuousPowerKw": 11.5,
+    "peakPowerKw": 20,
+    "priceLocalCurrency": {
+      "MY": 48000,
+      "SG": 15800,
+      "ID": 185000000,
+      "TH": 420000,
+      "VN": 320000000,
+      "PH": 680000
+    },
+    "v2xSupport": "V2H ready",
+    "manufacturer": "Tesla",
+    "releaseYear": 2024,
+    "isAvailable": true
+  },
+  {
+    "name": "BYD Battery-Box Premium HVS 12.8",
+    "capacityKwh": 12.8,
+    "usableCapacityKwh": 12.2,
+    "roundTripEfficiency": 96,
+    "warrantyCycles": 6000,
+    "warrantyYears": 10,
+    "continuousPowerKw": 10,
+    "peakPowerKw": 12,
+    "priceLocalCurrency": {
+      "MY": 38000,
+      "SG": 12500,
+      "ID": 145000000,
+      "TH": 330000,
+      "VN": 250000000,
+      "PH": 540000
+    },
+    "v2xSupport": "V2H ready",
+    "manufacturer": "BYD",
+    "releaseYear": 2023,
+    "isAvailable": true
+  },
+  {
+    "name": "sonnenBatterie 10",
+    "capacityKwh": 11,
+    "usableCapacityKwh": 10.5,
+    "roundTripEfficiency": 98,
+    "warrantyCycles": 10000,
+    "warrantyYears": 10,
+    "continuousPowerKw": 8,
+    "peakPowerKw": 10,
+    "priceLocalCurrency": {
+      "MY": 52000,
+      "SG": 17200,
+      "ID": 200000000,
+      "TH": 450000,
+      "VN": 340000000,
+      "PH": 730000
+    },
+    "v2xSupport": "V2H ready",
+    "manufacturer": "sonnen",
+    "releaseYear": 2023,
+    "isAvailable": true
+  },
+  {
+    "name": "Huawei LUNA2000 15 kWh",
+    "capacityKwh": 15,
+    "usableCapacityKwh": 15,
+    "roundTripEfficiency": 96,
+    "warrantyCycles": 6000,
+    "warrantyYears": 10,
+    "continuousPowerKw": 10,
+    "peakPowerKw": 15,
+    "priceLocalCurrency": {
+      "MY": 45000,
+      "SG": 14800,
+      "ID": 175000000,
+      "TH": 390000,
+      "VN": 300000000,
+      "PH": 640000
+    },
+    "v2xSupport": "V2H ready",
+    "manufacturer": "Huawei",
+    "releaseYear": 2024,
+    "isAvailable": true
+  },
+  {
+    "name": "Sungrow SBR128",
+    "capacityKwh": 12.8,
+    "usableCapacityKwh": 12.2,
+    "roundTripEfficiency": 96,
+    "warrantyCycles": 6000,
+    "warrantyYears": 10,
+    "continuousPowerKw": 10,
+    "peakPowerKw": 12,
+    "priceLocalCurrency": {
+      "MY": 32000,
+      "SG": 10500,
+      "ID": 125000000,
+      "TH": 280000,
+      "VN": 210000000,
+      "PH": 460000
+    },
+    "v2xSupport": "No",
+    "manufacturer": "Sungrow",
+    "releaseYear": 2024,
+    "isAvailable": true
+  },
+  {
+    "name": "Pylontech Force H2",
+    "capacityKwh": 14.2,
+    "usableCapacityKwh": 13.5,
+    "roundTripEfficiency": 95,
+    "warrantyCycles": 6000,
+    "warrantyYears": 10,
+    "continuousPowerKw": 10,
+    "peakPowerKw": 15,
+    "priceLocalCurrency": {
+      "MY": 36000,
+      "SG": 11800,
+      "ID": 140000000,
+      "TH": 310000,
+      "VN": 240000000,
+      "PH": 510000
+    },
+    "v2xSupport": "No",
+    "manufacturer": "Pylontech",
+    "releaseYear": 2024,
+    "isAvailable": true
+  },
+  {
+    "name": "Enphase IQ Battery 10",
+    "capacityKwh": 10.5,
+    "usableCapacityKwh": 10.08,
+    "roundTripEfficiency": 96,
+    "warrantyCycles": 6000,
+    "warrantyYears": 15,
+    "continuousPowerKw": 5.76,
+    "peakPowerKw": 11.52,
+    "priceLocalCurrency": {
+      "MY": 42000,
+      "SG": 13800,
+      "ID": 165000000,
+      "TH": 360000,
+      "VN": 280000000,
+      "PH": 600000
+    },
+    "v2xSupport": "No",
+    "manufacturer": "Enphase",
+    "releaseYear": 2024,
+    "isAvailable": true
+  },
+  {
+    "name": "LG ESS Home 16H Prime",
+    "capacityKwh": 16,
+    "usableCapacityKwh": 15.4,
+    "roundTripEfficiency": 95,
+    "warrantyCycles": 6000,
+    "warrantyYears": 10,
+    "continuousPowerKw": 10,
+    "peakPowerKw": 16,
+    "priceLocalCurrency": {
+      "MY": 58000,
+      "SG": 19000,
+      "ID": 225000000,
+      "TH": 500000,
+      "VN": 380000000,
+      "PH": 820000
+    },
+    "v2xSupport": "No",
+    "manufacturer": "LG Energy Solution",
+    "releaseYear": 2023,
+    "isAvailable": true
+  }
+]
+

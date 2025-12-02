@@ -16,6 +16,26 @@ export default function EVPage() {
           <h2 className="text-2xl font-semibold text-gray-900 mb-8 text-left">
             Search and Compare Electric Vehicles
           </h2>
+          
+          {/* Hero Intro Section */}
+          <div className="mb-12 max-w-4xl">
+            <div className="border-l-4 border-emerald-600 pl-6 md:pl-8 py-6 bg-gray-50/50">
+              <div className="space-y-5">
+                <p className="text-2xl md:text-3xl font-bold text-gray-900 leading-tight tracking-tight">
+                  EVs ranked as batteries first, cars second.
+                </p>
+                <p className="text-lg md:text-xl text-gray-700 leading-relaxed max-w-3xl">
+                  Real range, real charging times, real solar fit — no marketing fluff.
+                </p>
+                <div className="pt-2 border-t border-gray-200/60">
+                  <p className="text-base text-gray-600 leading-relaxed">
+                    Select your country to see local pricing, incentives, and solar charging reality.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div className="mb-8 max-w-4xl mx-auto">
             <div className="flex items-center gap-4">
               <div className="flex-shrink-0">

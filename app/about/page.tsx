@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'About - battery.mom',
-  description: 'Independent EV comparison tool for Southeast Asia. Real numbers, no sponsorships, no bullshit.',
+  description: 'Independent EV comparison tool for Southeast Asia. Real numbers and data.',
 }
 
 export default function AboutPage() {

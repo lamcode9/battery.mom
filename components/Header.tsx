@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 const siteName = "battery.mom"
-const tagline = "Clear data for the energy transition. No sponsors, no noise."
+const tagline = "Clear data for the energy transition."
 
 type NavLink = {
   href: string

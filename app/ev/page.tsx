@@ -18,7 +18,7 @@ export default function EVPage() {
           </h2>
           
           {/* Hero Intro Section */}
-          <div className="mb-12 max-w-4xl">
+          <div className="mb-12 max-w-7xl">
             <div className="border-l-4 border-emerald-600 pl-6 md:pl-8 py-6 bg-gray-50/50">
               <div className="space-y-5">
                 <p className="text-2xl md:text-3xl font-bold text-gray-900 leading-tight tracking-tight">

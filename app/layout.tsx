@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 // Hard-coded strings - reuse everywhere
 const siteName = "battery.mom"
-const tagline = "Clear data for the energy transition. No sponsors, no noise."
+const tagline = "Clear data for the energy transition."
 const description = "Independent, monthly-updated data on solar, battery storage, and electric vehicles — costs, payback times, and adoption rates across Southeast Asia and the world."
 
 export const metadata: Metadata = {

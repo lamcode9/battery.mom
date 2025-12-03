@@ -823,6 +823,61 @@ export function calculateZeroBill(inputs: ZeroBillInputs): ZeroBillOutputs {
     hourlyGridSupply = remainingLoad + remainingEvCharging
     hourlyEvChargingFromGrid = remainingEvCharging
     
+    // Balance check: Ensure generation always equals consumption
+    // If there's a mismatch, grid must supply the difference
+    const totalGenerationWithoutGrid = hourlySolar + hourlyBatteryDischarge
+    const totalConsumption = hourlyHouseholdLoad + hourlyEvCharging + hourlyBatteryCharge
+    const requiredGridSupply = Math.max(0, totalConsumption - totalGenerationWithoutGrid)
+    
+    // If calculated grid supply is less than required, use the required amount
+    if (hourlyGridSupply < requiredGridSupply) {
+      const gridSupplyDifference = requiredGridSupply - hourlyGridSupply
+      hourlyGridSupply = requiredGridSupply
+      // Adjust EV charging from grid proportionally if needed
+      if (remainingEvCharging > 0) {
+        hourlyEvChargingFromGrid = remainingEvCharging + gridSupplyDifference
+      }
+    }
+    
+    // Debug: Detailed breakdown for hour 2 (02:00)
+    if (hour === 2) {
+      const totalGeneration = hourlySolar + hourlyBatteryDischarge + hourlyGridSupply
+      const totalConsumption = hourlyHouseholdLoad + hourlyEvCharging + hourlyBatteryCharge
+      const batteryLevelBefore = currentBatteryLevel + hourlyBatteryDischarge + hourlyEvChargingFromBattery
+      console.log('=== Hour 2 (02:00) Detailed Breakdown ===')
+      console.log('INITIAL VALUES:')
+      console.log(`  Solar: ${hourlySolar.toFixed(3)} kWh`)
+      console.log(`  Household Load: ${hourlyHouseholdLoad.toFixed(3)} kWh`)
+      console.log(`  EV Charging: ${hourlyEvCharging.toFixed(3)} kWh`)
+      console.log(`  Battery Level (start of hour): ${batteryLevelBefore.toFixed(3)} kWh`)
+      console.log('AFTER SOLAR ALLOCATION:')
+      console.log(`  Household Load Remaining: ${householdLoadRemaining.toFixed(3)} kWh`)
+      console.log(`  EV Charging From Solar: ${hourlyEvChargingFromSolar.toFixed(3)} kWh`)
+      console.log(`  EV Charging Remaining (after solar): ${(hourlyEvCharging - hourlyEvChargingFromSolar).toFixed(3)} kWh`)
+      console.log('AFTER BATTERY DISCHARGE:')
+      console.log(`  Battery Discharge (Household): ${hourlyBatteryDischarge.toFixed(3)} kWh`)
+      console.log(`  Battery Discharge (EV): ${hourlyEvChargingFromBattery.toFixed(3)} kWh`)
+      console.log(`  Remaining Load (after battery): ${remainingLoad.toFixed(3)} kWh`)
+      console.log(`  Remaining EV Charging (after battery): ${remainingEvCharging.toFixed(3)} kWh`)
+      console.log(`  Battery Level After: ${currentBatteryLevel.toFixed(3)} kWh`)
+      console.log('FINAL CALCULATION:')
+      console.log(`  hourlyGridSupply = remainingLoad + remainingEvCharging = ${remainingLoad.toFixed(3)} + ${remainingEvCharging.toFixed(3)} = ${hourlyGridSupply.toFixed(3)} kWh`)
+      console.log('GENERATION:')
+      console.log(`  Solar: ${hourlySolar.toFixed(3)} kWh`)
+      console.log(`  Battery Usage: ${hourlyBatteryDischarge.toFixed(3)} kWh`)
+      console.log(`  Grid: ${hourlyGridSupply.toFixed(3)} kWh`)
+      console.log(`  Total Generation: ${totalGeneration.toFixed(3)} kWh`)
+      console.log('CONSUMPTION:')
+      console.log(`  Household Load: ${hourlyHouseholdLoad.toFixed(3)} kWh`)
+      console.log(`  EV Charging: ${hourlyEvCharging.toFixed(3)} kWh`)
+      console.log(`  Battery Charge: ${hourlyBatteryCharge.toFixed(3)} kWh`)
+      console.log(`  Total Consumption: ${totalConsumption.toFixed(3)} kWh`)
+      console.log('BALANCE CHECK:')
+      console.log(`  Generation = Consumption: ${Math.abs(totalGeneration - totalConsumption) < 0.01 ? '✓ MATCH' : '✗ MISMATCH'}`)
+      console.log(`  Difference: ${(totalGeneration - totalConsumption).toFixed(3)} kWh`)
+      console.log('=========================================')
+    }
+    
     // Final safety check: ensure battery level is within valid bounds before storing
     // Use multiple clamping operations to handle any edge cases
     let finalBatteryLevel = currentBatteryLevel

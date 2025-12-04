@@ -380,9 +380,17 @@ const EnergyFlowChart = memo(function EnergyFlowChart({ energyFlow, country }: {
             connectNulls={false}
           />
           
-          {/* Grid export - negative bar (only if country supports it) */}
+          {/* Grid export - stacked area on top of consumption (only if country supports it) */}
           {showGridExport && (
-            <Bar yAxisId="energy" dataKey="Grid Export" stackId="export" fill={COLORS['Grid Export']} />
+            <Area
+              yAxisId="energy"
+              type="monotone"
+              dataKey="Grid Export"
+              stackId="consumption"
+              fill={COLORS['Grid Export']}
+              stroke={COLORS['Grid Export']}
+              fillOpacity={0.6}
+            />
           )}
         </ComposedChart>
       </ResponsiveContainer>

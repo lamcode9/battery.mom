@@ -200,21 +200,91 @@ const EnergyFlowChart = memo(function EnergyFlowChart({ energyFlow, country }: {
             label={isMobile ? { value: 'Battery (kWh)', angle: 90, position: 'insideRight', style: { textAnchor: 'middle', fontSize: '9px' } } : { value: 'Battery Level (kWh)', angle: 90, position: 'insideRight', style: { textAnchor: 'middle' } }}
           />
           <Tooltip
-            contentStyle={{
-              backgroundColor: '#fff',
-              border: '1px solid #e5e7eb',
-              borderRadius: '8px',
-              padding: isMobile ? '8px' : '12px',
-              fontSize: isMobile ? '11px' : '12px',
-            }}
-            formatter={(value: number, name: string) => {
-              const absValue = Math.abs(value)
-              // Categorize by Power Generation and Power Consumption
-              const generationItems = ['Solar', 'Battery Usage', 'Grid', 'Grid Export']
-              const consumptionItems = ['Household Load', 'EV Charging', 'Battery Charge']
-              const category = generationItems.includes(name) ? 'Power Generation' : consumptionItems.includes(name) ? 'Power Consumption' : ''
-              const categoryLabel = category ? ` (${category})` : ''
-              return [`${absValue.toFixed(2)} kWh`, `${name}${categoryLabel}`]
+            content={({ active, payload, label }) => {
+              if (!active || !payload || payload.length === 0) return null
+
+              // Group items by category
+              const generationItems = payload.filter((item: any) =>
+                ['Solar', 'Battery Usage', 'Grid', 'Grid Export'].includes(item.name || item.dataKey)
+              )
+              const consumptionItems = payload.filter((item: any) =>
+                ['Household Load', 'EV Charging', 'Battery Charge'].includes(item.name || item.dataKey)
+              )
+
+              return (
+                <div
+                  className="border border-gray-200 rounded-lg overflow-hidden bg-white/70 backdrop-blur-sm shadow-lg max-w-xs"
+                  style={{
+                    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                    backdropFilter: 'blur(8px)',
+                  }}
+                >
+                  <div className="px-3 py-2 bg-gray-50/80 border-b border-gray-200">
+                    <div className="text-xs font-semibold text-gray-700">{label}</div>
+                  </div>
+
+                  {/* Power Generation Section */}
+                  {generationItems.length > 0 && (
+                    <div className="p-3">
+                      <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Power Generation</div>
+                      <div className="space-y-1.5">
+                        {generationItems.map((item: any, index: number) => {
+                          const value = Math.abs(item.value || 0)
+                          const name = item.name || item.dataKey
+                          const displayName = name === 'Battery Usage' ? 'Battery' : name
+                          return (
+                            <div key={index} className="flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <div
+                                  className="w-2.5 h-2.5 rounded-sm"
+                                  style={{ backgroundColor: item.color || COLORS[name as keyof typeof COLORS] }}
+                                ></div>
+                                <span className="text-xs text-gray-700">{displayName}</span>
+                              </div>
+                              <span className="text-xs font-semibold text-gray-900 tabular-nums">
+                                {value.toFixed(1)} kWh
+                              </span>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Separator line if both sections exist */}
+                  {generationItems.length > 0 && consumptionItems.length > 0 && (
+                    <div className="border-t border-gray-100 mx-3 opacity-50"></div>
+                  )}
+
+                  {/* Power Consumption Section */}
+                  {consumptionItems.length > 0 && (
+                    <div className="p-3">
+                      <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Power Consumption</div>
+                      <div className="space-y-1.5">
+                        {consumptionItems.map((item: any, index: number) => {
+                          const value = Math.abs(item.value || 0)
+                          const name = item.name || item.dataKey
+                          const displayName = name === 'Battery Charge' ? 'Battery Charging' : name === 'Household Load' ? 'Household' : name
+                          return (
+                            <div key={index} className="flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <div
+                                  className="w-2.5 h-2.5 rounded-sm opacity-60"
+                                  style={{ backgroundColor: item.color || COLORS[name as keyof typeof COLORS] }}
+                                ></div>
+                                <span className="text-xs text-gray-700">{displayName}</span>
+                              </div>
+                              <span className="text-xs font-semibold text-gray-900 tabular-nums">
+                                {value.toFixed(1)} kWh
+                              </span>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )
             }}
           />
           {/* Generation sources - stacked bars */}

@@ -333,65 +333,66 @@ const EnergyFlowChart = memo(function EnergyFlowChart({ energyFlow, country }: {
               )
             }}
           />
+
+          {/* Grid export - background area behind bars (only if country supports it) */}
+          {showGridExport && (
+            <Area
+              yAxisId="energy"
+              type="monotone"
+              dataKey="Grid Export"
+              stackId="background"
+              fill={COLORS['Grid Export']}
+              stroke={COLORS['Grid Export']}
+              fillOpacity={0.8}
+            />
+          )}
+
           {/* Generation sources - stacked bars */}
           <Bar yAxisId="energy" dataKey="Solar" stackId="generation" fill={COLORS.Solar} />
           <Bar yAxisId="energy" dataKey="Battery Usage" stackId="generation" fill={COLORS['Battery Usage']} />
           <Bar yAxisId="energy" dataKey="Grid" stackId="generation" fill={COLORS.Grid} stroke={COLORS.Grid} strokeWidth={1} />
-          
+
           {/* Consumption - stacked areas (Household Load + EV Charging + Battery Charging) */}
-          <Area 
+          <Area
             yAxisId="energy"
-            type="monotone" 
-            dataKey="Household Load" 
-            stackId="consumption" 
-            fill={COLORS['Household Load']} 
+            type="monotone"
+            dataKey="Household Load"
+            stackId="consumption"
+            fill={COLORS['Household Load']}
             stroke={COLORS['Household Load']}
             fillOpacity={0.4}
           />
-          <Area 
+          <Area
             yAxisId="energy"
-            type="monotone" 
-            dataKey="EV Charging" 
-            stackId="consumption" 
-            fill={COLORS['EV Charging']} 
+            type="monotone"
+            dataKey="EV Charging"
+            stackId="consumption"
+            fill={COLORS['EV Charging']}
             stroke={COLORS['EV Charging']}
             fillOpacity={0.4}
           />
-          <Area 
+          <Area
             yAxisId="energy"
-            type="monotone" 
-            dataKey="Battery Charge" 
-            stackId="consumption" 
-            fill={COLORS['Battery Charge']} 
+            type="monotone"
+            dataKey="Battery Charge"
+            stackId="consumption"
+            fill={COLORS['Battery Charge']}
             stroke={COLORS['Battery Charge']}
             fillOpacity={0.4}
           />
-          
+
           {/* Battery level - secondary line */}
-          <Line 
+          <Line
             yAxisId="battery"
-            type="monotone" 
-            dataKey="Battery Level" 
-            stroke={COLORS['Battery Level']} 
+            type="monotone"
+            dataKey="Battery Level"
+            stroke={COLORS['Battery Level']}
             strokeWidth={2}
             strokeDasharray="3 3"
             dot={false}
             isAnimationActive={false}
             connectNulls={false}
           />
-          
-          {/* Grid export - stacked area on top of consumption (only if country supports it) */}
-          {showGridExport && (
-            <Area
-              yAxisId="energy"
-              type="monotone"
-              dataKey="Grid Export"
-              stackId="consumption"
-              fill={COLORS['Grid Export']}
-              stroke={COLORS['Grid Export']}
-              fillOpacity={0.6}
-            />
-          )}
         </ComposedChart>
       </ResponsiveContainer>
       

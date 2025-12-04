@@ -1286,9 +1286,12 @@ export function findOffGridSystem(
 
   try {
     const result = calculateZeroBill(testInputs)
-    
-    // Return system if it achieves near-zero grid usage (within 5 kWh/month)
-    if (result.gridElectricityNeededThisMonth <= 5) {
+
+    // For true off-grid, ensure no grid imports at any hour
+    const hasGridImports = result.energyFlow.hourly.some(hour => hour.gridSupply > 0.01)
+
+    // Return system if it achieves true zero grid dependency (no grid imports)
+    if (!hasGridImports && result.gridElectricityNeededThisMonth <= 0.1) {
       return {
         solarSizeKw: requiredSolarKw,
         batteries: bestBatteryCombo,
@@ -1352,8 +1355,8 @@ export function findZeroBillSystem(
       try {
         const result = calculateZeroBill(inputs)
         
-        // Find the system with the lowest monthly bill (closest to zero)
-        if (result.monthlyBillWithSystem < bestBill && result.monthlyBillWithSystem >= 0) {
+        // Find the system that achieves true zero bill (monthly bill = 0)
+        if (result.monthlyBillWithSystem <= 0.01 && (bestSystem === null || result.totalSystemCost < bestSystem.totalSystemCost)) {
           bestBill = result.monthlyBillWithSystem
           bestSystem = {
             solarSizeKw: solarKw,

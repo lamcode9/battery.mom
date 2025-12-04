@@ -490,48 +490,6 @@ const EnergyFlowChart = memo(function EnergyFlowChart({ energyFlow, country }: {
             </div>
           </div>
 
-          {/* Energy Balance Check */}
-          <div className={isMobile ? "p-2" : "p-3"}>
-            <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Energy Balance</div>
-            <div className="space-y-1">
-              <div className="flex justify-between text-xs">
-                <span>Generation:</span>
-                <span className="font-semibold tabular-nums">
-                  {(energyFlow.solarGeneration + energyFlow.batteryDischarge + energyFlow.gridSupply).toFixed(1)} kWh
-                </span>
-              </div>
-              <div className="flex justify-between text-xs">
-                <span>Consumption:</span>
-                <span className="font-semibold tabular-nums">
-                  {(energyFlow.daytimeLoad + energyFlow.nighttimeLoad + energyFlow.evCharging + energyFlow.batteryCharging).toFixed(1)} kWh
-                </span>
-              </div>
-              {showGridExport && energyFlow.excessSolarExported > 0 && (
-                <div className="flex justify-between text-xs">
-                  <span>+ Grid Export:</span>
-                  <span className="font-semibold tabular-nums">{energyFlow.excessSolarExported.toFixed(1)} kWh</span>
-                </div>
-              )}
-              <div className="border-t border-gray-200 mt-2 pt-1">
-                <div className="flex justify-between text-xs font-semibold">
-                  <span>Balance:</span>
-                  <span className={`tabular-nums ${
-                    Math.abs(
-                      (energyFlow.solarGeneration + energyFlow.batteryDischarge + energyFlow.gridSupply) -
-                      (energyFlow.daytimeLoad + energyFlow.nighttimeLoad + energyFlow.evCharging + energyFlow.batteryCharging + (showGridExport ? energyFlow.excessSolarExported : 0))
-                    ) < 0.1
-                      ? 'text-emerald-600'
-                      : 'text-red-600'
-                  }`}>
-                    {(
-                      (energyFlow.solarGeneration + energyFlow.batteryDischarge + energyFlow.gridSupply) -
-                      (energyFlow.daytimeLoad + energyFlow.nighttimeLoad + energyFlow.evCharging + energyFlow.batteryCharging + (showGridExport ? energyFlow.excessSolarExported : 0))
-                    ).toFixed(1)} kWh
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
         <div className="px-3 py-2 bg-gray-50 border-t border-gray-200">
           <div className="text-[10px] text-gray-500 text-center">All values in kWh/day</div>

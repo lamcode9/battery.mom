@@ -228,7 +228,7 @@ const EnergyFlowChart = memo(function EnergyFlowChart({ energyFlow, country }: {
                     <div className="p-3">
                       <div className="flex items-center justify-between mb-2">
                         <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Power Generation</div>
-                        <div className="text-xs font-bold text-emerald-600 tabular-nums">
+                        <div className="text-xs font-bold text-emerald-600 tabular-nums ml-8">
                           {generationItems.reduce((sum, item) => sum + Math.abs(Number(item.value) || 0), 0).toFixed(1)} kWh
                         </div>
                       </div>
@@ -240,7 +240,7 @@ const EnergyFlowChart = memo(function EnergyFlowChart({ energyFlow, country }: {
                           const isGridExport = name === 'Grid Export'
                           return (
                             <div key={index}>
-                              {isGridExport && <div className="border-t border-gray-100 my-2 opacity-50"></div>}
+                              {isGridExport && <div className="border-t border-gray-300 my-2"></div>}
                               <div className="flex items-center gap-4">
                                 <div className="flex items-center gap-2">
                                   <div
@@ -270,7 +270,7 @@ const EnergyFlowChart = memo(function EnergyFlowChart({ energyFlow, country }: {
                     <div className="p-3">
                       <div className="flex items-center justify-between mb-2">
                         <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Power Consumption</div>
-                        <div className="text-xs font-bold text-red-600 tabular-nums">
+                        <div className="text-xs font-bold text-red-600 tabular-nums ml-8">
                           {consumptionItems.reduce((sum, item) => sum + Math.abs(Number(item.value) || 0), 0).toFixed(1)} kWh
                         </div>
                       </div>

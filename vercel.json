@@ -3,6 +3,12 @@
     "app/api/cron/update-vehicles/route.ts": {
       "maxDuration": 300
     }
-  }
+  },
+  "crons": [
+    {
+      "path": "/api/cron/update-vehicles",
+      "schedule": "0 2 * * *"
+    }
+  ]
 }
 

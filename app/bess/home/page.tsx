@@ -376,9 +376,9 @@ const EnergyFlowChart = memo(function EnergyFlowChart({ energyFlow, country }: {
           )}
 
           {/* Generation sources - stacked bars (with translucency) */}
-          <Bar yAxisId="energy" dataKey="Solar" stackId="generation" fill={COLORS.Solar} fillOpacity={0.8} />
-          <Bar yAxisId="energy" dataKey="Battery Usage" stackId="generation" fill={COLORS['Battery Usage']} fillOpacity={0.8} />
-          <Bar yAxisId="energy" dataKey="Grid" stackId="generation" fill={COLORS.Grid} stroke={COLORS.Grid} strokeWidth={1} fillOpacity={0.8} />
+          <Bar yAxisId="energy" dataKey="Solar" stackId="generation" fill={COLORS.Solar} fillOpacity={0.8} barSize={20} />
+          <Bar yAxisId="energy" dataKey="Battery Usage" stackId="generation" fill={COLORS['Battery Usage']} fillOpacity={0.8} barSize={20} />
+          <Bar yAxisId="energy" dataKey="Grid" stackId="generation" fill={COLORS.Grid} stroke={COLORS.Grid} strokeWidth={1} fillOpacity={0.8} barSize={20} />
 
           {/* Battery level - secondary line */}
           <Line

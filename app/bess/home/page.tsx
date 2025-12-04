@@ -226,24 +226,33 @@ const EnergyFlowChart = memo(function EnergyFlowChart({ energyFlow, country }: {
                   {/* Power Generation Section */}
                   {generationItems.length > 0 && (
                     <div className="p-3">
-                      <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Power Generation</div>
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Power Generation</div>
+                        <div className="text-xs font-bold text-emerald-600 tabular-nums">
+                          {generationItems.reduce((sum, item) => sum + Math.abs(Number(item.value) || 0), 0).toFixed(1)} kWh
+                        </div>
+                      </div>
                       <div className="space-y-1.5">
                         {generationItems.map((item: any, index: number) => {
                           const value = Math.abs(item.value || 0)
                           const name = item.name || item.dataKey
                           const displayName = name === 'Battery Usage' ? 'Battery' : name
+                          const isGridExport = name === 'Grid Export'
                           return (
-                            <div key={index} className="flex items-center gap-4">
-                              <div className="flex items-center gap-2">
-                                <div
-                                  className="w-2.5 h-2.5 rounded-sm"
-                                  style={{ backgroundColor: item.color || COLORS[name as keyof typeof COLORS] }}
-                                ></div>
-                                <span className="text-xs text-gray-700">{displayName}</span>
+                            <div key={index}>
+                              {isGridExport && <div className="border-t border-gray-100 my-2 opacity-50"></div>}
+                              <div className="flex items-center gap-4">
+                                <div className="flex items-center gap-2">
+                                  <div
+                                    className="w-2.5 h-2.5 rounded-sm"
+                                    style={{ backgroundColor: item.color || COLORS[name as keyof typeof COLORS] }}
+                                  ></div>
+                                  <span className="text-xs text-gray-700">{displayName}</span>
+                                </div>
+                                <span className="text-xs font-semibold text-gray-900 tabular-nums">
+                                  {value.toFixed(1)} kWh
+                                </span>
                               </div>
-                              <span className="text-xs font-semibold text-gray-900 tabular-nums">
-                                {value.toFixed(1)} kWh
-                              </span>
                             </div>
                           )
                         })}
@@ -259,7 +268,12 @@ const EnergyFlowChart = memo(function EnergyFlowChart({ energyFlow, country }: {
                   {/* Power Consumption Section */}
                   {consumptionItems.length > 0 && (
                     <div className="p-3">
-                      <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Power Consumption</div>
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Power Consumption</div>
+                        <div className="text-xs font-bold text-red-600 tabular-nums">
+                          {consumptionItems.reduce((sum, item) => sum + Math.abs(Number(item.value) || 0), 0).toFixed(1)} kWh
+                        </div>
+                      </div>
                       <div className="space-y-1.5">
                         {consumptionItems.map((item: any, index: number) => {
                           const value = Math.abs(item.value || 0)
@@ -269,7 +283,7 @@ const EnergyFlowChart = memo(function EnergyFlowChart({ energyFlow, country }: {
                             <div key={index} className="flex items-center gap-4">
                               <div className="flex items-center gap-2">
                                 <div
-                                  className="w-2.5 h-2.5 rounded-sm"
+                                  className="w-2.5 h-2.5 rounded-sm opacity-60"
                                   style={{ backgroundColor: item.color || COLORS[name as keyof typeof COLORS] }}
                                 ></div>
                                 <span className="text-xs text-gray-700">{displayName}</span>

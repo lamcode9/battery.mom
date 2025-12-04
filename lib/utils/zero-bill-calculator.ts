@@ -404,20 +404,7 @@ export function calculateZeroBill(inputs: ZeroBillInputs): ZeroBillOutputs {
   // Monthly calculations
   // Actual grid usage (before export credit) - this is the physical grid power used
   const actualMonthlyGridUsage = totalGridNeeded * 30
-  // Monthly grid export
-  const monthlyGridExport = excessSolar * 30
-  // Export credit value (in currency)
-  const exportRate = ELECTRICITY_TARIFFS[country] * EXPORT_RATE_MULTIPLIER[country][netMetering]
-  const monthlyExportCreditValue = monthlyGridExport * exportRate
-  
-  // Calculate bill with system: grid usage cost minus export credit value
-  const monthlyGridUsageCost = actualMonthlyGridUsage * ELECTRICITY_TARIFFS[country]
-  const monthlyBillWithSystem = Math.max(0, monthlyGridUsageCost - monthlyExportCreditValue)
-  
-  // Net grid needed (for display purposes - represents kWh you effectively pay for after currency offset)
-  const monthlyGridNeeded = monthlyBillWithSystem / ELECTRICITY_TARIFFS[country]
-  // Daily equivalent for compatibility with existing code
-  gridNeeded = monthlyGridNeeded / 30
+  // Monthly grid export and export credit will be calculated after hourly simulation
   // Monthly bill without system should include household load + EV charging at home + EV public charging
   const monthlyBillWithoutSystemHousehold = totalDailyLoad * 30 * ELECTRICITY_TARIFFS[country]
   const monthlyBillWithoutSystemEvHome = evHomeChargingKwh * 30 * ELECTRICITY_TARIFFS[country]
@@ -429,40 +416,9 @@ export function calculateZeroBill(inputs: ZeroBillInputs): ZeroBillOutputs {
   // Total monthly bill without system = household + EV home charging + EV public charging
   const monthlyBillWithoutSystem = monthlyBillWithoutSystemHousehold + monthlyBillWithoutSystemEvTotal
   
-  // Calculate EV charging grid usage (needed for breakdown calculation)
-  const monthlyGridUsedForEvChargingHome = (evChargeFromGridDay + evChargeFromGrid) * 30
-  
-  // Calculate breakdown for monthly bill with system
-  // Household power cost with system = grid usage for household (after export credit offset)
-  // The grid usage cost already accounts for export credits, so we need to calculate household portion
-  const householdGridUsage = dayLoadFromGrid + nightLoadRemaining
-  const householdGridUsageCost = householdGridUsage * 30 * ELECTRICITY_TARIFFS[country]
-  // Apply export credit proportionally (simplified: assume export credit offsets proportionally)
-  const exportCreditRatio = monthlyExportCreditValue > 0 && monthlyGridUsageCost > 0 
-    ? Math.min(1, monthlyExportCreditValue / monthlyGridUsageCost)
-    : 0
-  const monthlyBillWithSystemHousehold = Math.max(0, householdGridUsageCost * (1 - exportCreditRatio))
-  
-  // EV home charging cost with system = grid usage for EV charging (after export credit offset)
-  const evHomeGridUsageCost = monthlyGridUsedForEvChargingHome * ELECTRICITY_TARIFFS[country]
-  const monthlyBillWithSystemEvHome = Math.max(0, evHomeGridUsageCost * (1 - exportCreditRatio))
-  
-  // Public charging cost is the same with or without system
-  const monthlyBillWithSystemEvPublic = monthlyBillWithoutSystemEvPublic
-  
-  // Total EV power cost with system
-  const monthlyBillWithSystemEvTotal = monthlyBillWithSystemEvHome + monthlyBillWithSystemEvPublic
-  
-  // Total cost with system = home electricity bill + public charging (public charging is same with/without system)
-  const monthlyTotalCostWithSystem = monthlyBillWithSystem + monthlyBillWithoutSystemEvPublic
-  
-  // Monthly savings = bill without system - total cost with system (including public charging)
-  const monthlySavings = monthlyBillWithoutSystem - monthlyTotalCostWithSystem
+  // EV charging and bill calculations will be done after bill variables are available
 
   // Calculate EV charging costs and savings
-  // Grid electricity used for EV charging (monthly) - already calculated above
-  // Total grid usage (only home charging uses grid)
-  const monthlyGridUsedForEvCharging = monthlyGridUsedForEvChargingHome
   
   // Cost of public charging (away from home) - using commercial fast charging rates (already defined above)
   const monthlyEvPublicChargingCost = evPublicChargingKwh * 30 * evPublicChargingRate
@@ -470,17 +426,7 @@ export function calculateZeroBill(inputs: ZeroBillInputs): ZeroBillOutputs {
   // Cost if all home charging was done from grid (residential rate)
   const monthlyEvHomeChargingCostIfAllFromGrid = evHomeChargingKwh * 30 * ELECTRICITY_TARIFFS[country]
   
-  // Actual cost of home charging from grid (only the portion that comes from grid)
-  const monthlyEvHomeChargingCostFromGrid = monthlyGridUsedForEvCharging * ELECTRICITY_TARIFFS[country]
-  
-  // Savings from charging at home:
-  // 1. Avoided public charging cost (for the portion charged at home)
-  // 2. Free charging from solar/battery (savings vs grid rate)
-  // 3. Lower residential rate vs public rate for grid portion
-  const avoidedPublicChargingCost = evHomeChargingKwh * 30 * evPublicChargingRate
-  const freeChargingSavings = totalFreeEvCharging * 30 * ELECTRICITY_TARIFFS[country] // Savings from free solar/battery
-  const rateDifferenceSavings = monthlyEvHomeChargingCostFromGrid * (evPublicChargingRate / ELECTRICITY_TARIFFS[country] - 1) // Savings from lower residential rate
-  const monthlyEvChargingSavings = avoidedPublicChargingCost - monthlyEvHomeChargingCostFromGrid + freeChargingSavings
+  // EV charging savings calculations will be done after monthlyEvHomeChargingCostFromGrid is declared
 
   // Calculate total energy used (household + EV home + EV public)
   const monthlyHomeEnergyUsed = totalDailyLoad * 30
@@ -488,111 +434,8 @@ export function calculateZeroBill(inputs: ZeroBillInputs): ZeroBillOutputs {
   const monthlyEvPublicChargingEnergy = evPublicChargingKwh * 30
   const monthlyTotalEnergyUsed = monthlyHomeEnergyUsed + monthlyEvEnergyUsed + monthlyEvPublicChargingEnergy
 
-  // System cost
-  const batteryCost = batteries.reduce((sum, b) => {
-    if (!b.model) return sum
-    const price = b.model.priceLocalCurrency[country] || 0
-    return sum + (price * b.quantity)
-  }, 0)
+  // System cost, payback, and 25-year calculations will be done after monthlySavings is available
 
-  const totalSolarCost = includeSolarCost ? solarSizeKw * SOLAR_COST_PER_KW[country] : 0
-  const baseSystemCost = batteryCost + totalSolarCost
-  const inverterMaintenanceCost = baseSystemCost * INVERTER_MAINTENANCE_PERCENT
-  const totalSystemCost = baseSystemCost + inverterMaintenanceCost
-
-  // Payback calculation (accounting for tariff inflation and yearly opex)
-  // Simplified: use average savings over payback period
-  let paybackYears = Infinity
-  const yearlyOpex = totalSystemCost * YEARLY_OPEX_PERCENT
-  if (monthlySavings > 0) {
-    let cumulativeSavings = 0
-    let year = 0
-    
-    while (cumulativeSavings < totalSystemCost && year < 50) {
-      year++
-      // Apply tariff inflation to savings
-      const inflatedMonthlySavings = monthlySavings * Math.pow(1 + TARIFF_INFLATION_RATE, year - 1) * 12
-      cumulativeSavings += inflatedMonthlySavings - yearlyOpex
-    }
-    paybackYears = year <= 50 ? year : Infinity
-  }
-
-  // Calculate 25-year net gains/expenses
-  // With system: cumulative savings - system cost - maintenance
-  // Without system: cumulative electricity costs
-  let netGainsAfter25Years = -totalSystemCost // Start with negative (cost of system)
-  let netGainsAfter25YearsWithoutSystem = 0
-  let totalElectricityBill25YearsWithSystem = 0
-  let totalElectricityBill25YearsWithoutSystem = 0
-  let totalCost25YearsWithSystem = totalSystemCost // Start with system cost
-  let totalCost25YearsWithoutSystem = 0
-  
-  for (let year = 1; year <= 25; year++) {
-    // Calculate inflated monthly bills for this year
-    const inflationFactor = Math.pow(1 + TARIFF_INFLATION_RATE, year - 1)
-    const inflatedMonthlyBillWithSystem = monthlyBillWithSystem * inflationFactor
-    const inflatedMonthlyBillWithoutSystem = monthlyBillWithoutSystem * inflationFactor
-    // EV public charging costs also inflate with tariff inflation
-    const inflatedMonthlyEvPublicCharging = monthlyBillWithoutSystemEvPublic * inflationFactor
-    
-    // Accumulate total electricity bills over 25 years
-    totalElectricityBill25YearsWithSystem += inflatedMonthlyBillWithSystem * 12
-    totalElectricityBill25YearsWithoutSystem += inflatedMonthlyBillWithoutSystem * 12
-    
-    // Accumulate total costs (electricity + EV + system cost)
-    totalCost25YearsWithSystem += (inflatedMonthlyBillWithSystem + inflatedMonthlyEvPublicCharging) * 12 + yearlyOpex
-    totalCost25YearsWithoutSystem += (inflatedMonthlyBillWithoutSystem + inflatedMonthlyEvPublicCharging) * 12
-    
-    // With system: savings increase with tariff inflation, minus yearly opex
-    const inflatedMonthlySavings = monthlySavings * inflationFactor
-    netGainsAfter25Years += (inflatedMonthlySavings * 12) - yearlyOpex
-    
-    // Without system: electricity costs increase with tariff inflation
-    netGainsAfter25YearsWithoutSystem -= inflatedMonthlyBillWithoutSystem * 12
-  }
-
-  // Zero-bill days calculation
-  // Simple approach: Self-sufficiency percentage directly maps to zero-bill days percentage
-  
-  let zeroBillDaysPerYear = 0
-  
-  // Check if country has export credits
-  const hasExportCredits = EXPORT_RATE_MULTIPLIER[country][netMetering] > 0
-  
-  if (monthlyBillWithSystem < 0.1) {
-    // If monthly bill is essentially zero, the system is fully self-sufficient
-    zeroBillDaysPerYear = 365
-  } else if (!hasExportCredits) {
-    // For countries WITHOUT export credits (e.g., Malaysia)
-    // Approach: Self-sufficiency % = Zero-bill days %
-    // If system is 85% self-sufficient, then 85% of days are zero-bill days
-    
-    // Calculate self-sufficiency ratio: what % of load is covered by solar + battery
-    const dailyGridUsage = actualMonthlyGridUsage / 30 // Physical grid usage per day (kWh)
-    const dailyLoad = totalDailyLoad // Total daily load (kWh)
-    const selfSufficiencyRatio = dailyLoad > 0 
-      ? Math.max(0, Math.min(1, (dailyLoad - dailyGridUsage) / dailyLoad))
-      : 0
-    
-    // Direct mapping: self-sufficiency % = zero-bill days %
-    zeroBillDaysPerYear = Math.round(365 * selfSufficiencyRatio)
-  } else {
-    // For countries WITH export credits
-    // Approach: Calculate effective self-sufficiency considering export credits
-    // Effective self-sufficiency = % of bill eliminated by system (solar + battery + export credits)
-    
-    // Calculate effective self-sufficiency based on bill reduction
-    // This accounts for both physical self-sufficiency AND export credit value
-    const effectiveSelfSufficiencyRatio = monthlyBillWithoutSystem > 0
-      ? Math.max(0, Math.min(1, (monthlyBillWithoutSystem - monthlyBillWithSystem) / monthlyBillWithoutSystem))
-      : 0
-    
-    // Direct mapping: effective self-sufficiency % = zero-bill days %
-    zeroBillDaysPerYear = Math.round(365 * effectiveSelfSufficiencyRatio)
-  }
-  
-  // Ensure it's within valid range
-  zeroBillDaysPerYear = Math.max(0, Math.min(365, zeroBillDaysPerYear))
 
   // CO₂ avoided
   const annualGridAvoided = (totalDailyLoad - gridNeeded) * 365
@@ -934,6 +777,160 @@ export function calculateZeroBill(inputs: ZeroBillInputs): ZeroBillOutputs {
     currentBatteryLevel = Math.max(0, finalBatteryLevel)
   }
 
+  // Calculate monthly grid export using realistic hourly data
+  const dailyGridExport = hourlyData.reduce((sum, hour) => sum + hour.gridExport, 0)
+  const monthlyGridExport = dailyGridExport * 30
+
+  // Export credit calculations (now that we have realistic monthlyGridExport)
+  const exportRate = ELECTRICITY_TARIFFS[country] * EXPORT_RATE_MULTIPLIER[country][netMetering]
+  const monthlyExportCreditValue = monthlyGridExport * exportRate
+
+  // Calculate bill with system: grid usage cost minus export credit value
+  const monthlyGridUsageCost = actualMonthlyGridUsage * ELECTRICITY_TARIFFS[country]
+  const monthlyBillWithSystem = Math.max(0, monthlyGridUsageCost - monthlyExportCreditValue)
+
+  // Net grid needed (for display purposes - represents kWh you effectively pay for after currency offset)
+  const monthlyGridNeeded = monthlyBillWithSystem / ELECTRICITY_TARIFFS[country]
+  // Daily equivalent for compatibility with existing code
+  gridNeeded = monthlyGridNeeded / 30
+
+  // Calculate EV charging grid usage (needed for breakdown calculation)
+  const monthlyGridUsedForEvChargingHome = (evChargeFromGridDay + evChargeFromGrid) * 30
+
+  // Actual cost of home charging from grid (only the portion that comes from grid)
+  const monthlyEvHomeChargingCostFromGrid = monthlyGridUsedForEvChargingHome * ELECTRICITY_TARIFFS[country]
+
+  // Savings from charging at home:
+  // 1. Avoided public charging cost (for the portion charged at home)
+  // 2. Free charging from solar/battery (savings vs grid rate)
+  // 3. Lower residential rate vs public rate for grid portion
+  const avoidedPublicChargingCost = evHomeChargingKwh * 30 * evPublicChargingRate
+  const freeChargingSavings = totalFreeEvCharging * 30 * ELECTRICITY_TARIFFS[country] // Savings from free solar/battery
+  const rateDifferenceSavings = monthlyEvHomeChargingCostFromGrid * (evPublicChargingRate / ELECTRICITY_TARIFFS[country] - 1) // Savings from lower residential rate
+  const monthlyEvChargingSavings = avoidedPublicChargingCost - monthlyEvHomeChargingCostFromGrid + freeChargingSavings
+
+  // Calculate breakdown for monthly bill with system
+  // Household power cost with system = grid usage for household (after export credit offset)
+  // The grid usage cost already accounts for export credits, so we need to calculate household portion
+  const householdGridUsage = dayLoadFromGrid + nightLoadRemaining
+  const householdGridUsageCost = householdGridUsage * 30 * ELECTRICITY_TARIFFS[country]
+  // Apply export credit proportionally (simplified: assume export credit offsets proportionally)
+  const exportCreditRatio = monthlyExportCreditValue > 0 && monthlyGridUsageCost > 0
+    ? Math.min(1, monthlyExportCreditValue / monthlyGridUsageCost)
+    : 0
+  const monthlyBillWithSystemHousehold = Math.max(0, householdGridUsageCost * (1 - exportCreditRatio))
+
+  // EV home charging cost with system = grid usage for EV charging (after export credit offset)
+  const evHomeGridUsageCost = monthlyGridUsedForEvChargingHome * ELECTRICITY_TARIFFS[country]
+  const monthlyBillWithSystemEvHome = Math.max(0, evHomeGridUsageCost * (1 - exportCreditRatio))
+
+  // Public charging cost is the same with or without system
+  const monthlyBillWithSystemEvPublic = monthlyBillWithoutSystemEvPublic
+
+  // Total EV power cost with system
+  const monthlyBillWithSystemEvTotal = monthlyBillWithSystemEvHome + monthlyBillWithSystemEvPublic
+
+  // Total cost with system = home electricity bill + public charging (public charging is same with/without system)
+  const monthlyTotalCostWithSystem = monthlyBillWithSystem + monthlyBillWithoutSystemEvPublic
+
+  // Monthly savings = bill without system - total cost with system (including public charging)
+  const monthlySavings = monthlyBillWithoutSystem - monthlyTotalCostWithSystem
+
+  // Calculate EV charging costs and savings
+  // Grid electricity used for EV charging (monthly) - already calculated above
+  // Cost of public charging (away from home) - using commercial fast charging rates (already defined above)
+  // This is the same with or without system
+  const evPublicChargingCost = evPublicChargingKwh * 30 * evPublicChargingRate
+
+  // System cost
+  const batteryCost = batteries.reduce((sum, b) => {
+    if (!b.model) return sum
+    const price = b.model.priceLocalCurrency[country] || 0
+    return sum + (price * b.quantity)
+  }, 0)
+
+  const totalSolarCost = includeSolarCost ? solarSizeKw * SOLAR_COST_PER_KW[country] : 0
+  const baseSystemCost = batteryCost + totalSolarCost
+  const inverterMaintenanceCost = baseSystemCost * INVERTER_MAINTENANCE_PERCENT
+  const totalSystemCost = baseSystemCost + inverterMaintenanceCost
+
+  // Payback calculation (accounting for tariff inflation and yearly opex)
+  // Simplified: use average savings over payback period
+  let paybackYears = Infinity
+  const yearlyOpex = totalSystemCost * YEARLY_OPEX_PERCENT
+  if (monthlySavings > 0) {
+    let cumulativeSavings = 0
+    let year = 0
+
+    while (cumulativeSavings < totalSystemCost && year < 50) {
+      year++
+      // Apply tariff inflation to savings
+      const inflatedMonthlySavings = monthlySavings * Math.pow(1 + TARIFF_INFLATION_RATE, year - 1) * 12
+      cumulativeSavings += inflatedMonthlySavings - yearlyOpex
+    }
+    paybackYears = year <= 50 ? year : Infinity
+  }
+
+  // Calculate 25-year net gains/expenses
+  // With system: cumulative savings - system cost - maintenance
+  // Without system: cumulative electricity costs
+  let netGainsAfter25Years = -totalSystemCost // Start with negative (cost of system)
+  let netGainsAfter25YearsWithoutSystem = 0
+  let totalElectricityBill25YearsWithSystem = 0
+  let totalElectricityBill25YearsWithoutSystem = 0
+  let totalCost25YearsWithSystem = totalSystemCost // Start with system cost
+  let totalCost25YearsWithoutSystem = 0
+
+  for (let year = 1; year <= 25; year++) {
+    // Calculate inflated monthly bills for this year
+    const inflationFactor = Math.pow(1 + TARIFF_INFLATION_RATE, year - 1)
+    const inflatedMonthlyBillWithSystem = monthlyBillWithSystem * inflationFactor
+    const inflatedMonthlyBillWithoutSystem = monthlyBillWithoutSystem * inflationFactor
+    // EV public charging costs also inflate with tariff inflation
+    const inflatedMonthlyEvPublicCharging = monthlyBillWithoutSystemEvPublic * inflationFactor
+
+    // Accumulate total electricity bills over 25 years
+    totalElectricityBill25YearsWithSystem += inflatedMonthlyBillWithSystem * 12
+    totalElectricityBill25YearsWithoutSystem += inflatedMonthlyBillWithoutSystem * 12
+
+    // Accumulate total costs (electricity + EV + system cost)
+    totalCost25YearsWithSystem += (inflatedMonthlyBillWithSystem + inflatedMonthlyEvPublicCharging) * 12 + yearlyOpex
+    totalCost25YearsWithoutSystem += (inflatedMonthlyBillWithoutSystem + inflatedMonthlyEvPublicCharging) * 12
+
+    // With system: savings increase with tariff inflation, minus yearly opex
+    const inflatedMonthlySavings = monthlySavings * inflationFactor
+    netGainsAfter25Years += (inflatedMonthlySavings * 12) - yearlyOpex
+
+    // Without system: electricity costs increase with tariff inflation
+    netGainsAfter25YearsWithoutSystem -= inflatedMonthlyBillWithoutSystem * 12
+  }
+
+  // Zero-bill days calculation
+  // Simple approach: Self-sufficiency percentage directly maps to zero-bill days percentage
+
+  let zeroBillDaysPerYear = 0
+
+  // Check if country has export credits
+  const hasExportCredits = EXPORT_RATE_MULTIPLIER[country][netMetering] > 0
+
+  if (monthlyBillWithSystem < 0.1) {
+    // If monthly bill is essentially zero, the system is fully self-sufficient
+    zeroBillDaysPerYear = 365
+  } else if (!hasExportCredits) {
+    // For countries WITHOUT export credits (e.g., Malaysia)
+    // Approach: Self-sufficiency % = Zero-bill days %
+    const gridIndependencePercent = monthlyBillWithSystem < 0.1 ? 100 :
+      Math.max(0, (1 - monthlyBillWithSystem / monthlyBillWithoutSystem) * 100)
+    zeroBillDaysPerYear = (gridIndependencePercent / 100) * 365
+  } else {
+    // For countries WITH export credits (e.g., Singapore)
+    // Approach: Account for export credits in zero-bill calculation
+    const effectiveBill = Math.max(0, monthlyBillWithSystem)
+    const gridIndependencePercent = monthlyBillWithSystem < 0.1 ? 100 :
+      Math.max(0, (1 - effectiveBill / monthlyBillWithoutSystem) * 100)
+    zeroBillDaysPerYear = (gridIndependencePercent / 100) * 365
+  }
+
   return {
     dailySolarGeneration: Math.round(dailySolarGeneration * 10) / 10,
     batteryChargedFromSolarPercent,
@@ -960,7 +957,7 @@ export function calculateZeroBill(inputs: ZeroBillInputs): ZeroBillOutputs {
     totalElectricityBill25YearsWithoutSystem: Math.round(totalElectricityBill25YearsWithoutSystem),
     totalCost25YearsWithSystem: Math.round(totalCost25YearsWithSystem),
     totalCost25YearsWithoutSystem: Math.round(totalCost25YearsWithoutSystem),
-    monthlyGridUsedForEvCharging: Math.round(monthlyGridUsedForEvCharging * 10) / 10,
+    monthlyGridUsedForEvCharging: Math.round(monthlyGridUsedForEvChargingHome * 10) / 10,
     monthlyGridUsedForEvChargingHome: Math.round(monthlyGridUsedForEvChargingHome * 10) / 10,
     monthlyEvPublicChargingEnergy: Math.round(monthlyEvPublicChargingEnergy * 10) / 10,
     monthlyEvPublicChargingCost: Math.round(monthlyEvPublicChargingCost * 10) / 10,
@@ -987,7 +984,7 @@ export function calculateZeroBill(inputs: ZeroBillInputs): ZeroBillOutputs {
       evChargingFromSolar: Math.round(evChargeFromSolar * 10) / 10,
       evChargingFromBattery: Math.round(evChargeFromBattery * 10) / 10,
       evChargingFromGrid: Math.round((evChargeFromGridDay + evChargeFromGrid) * 10) / 10,
-      excessSolarExported: Math.round(excessSolar * 10) / 10,
+      excessSolarExported: Math.round(hourlyData.reduce((sum, hour) => sum + hour.gridExport, 0) * 10) / 10,
       hourly: hourlyData,
     },
   }

@@ -182,11 +182,12 @@ const EnergyFlowChart = memo(function EnergyFlowChart({ energyFlow, country }: {
             angle={isMobile ? -45 : 0}
             textAnchor={isMobile ? 'end' : 'middle'}
           />
-          <YAxis 
+          <YAxis
             yAxisId="energy"
             stroke="#6b7280"
             fontSize={isMobile ? 10 : 12}
             width={isMobile ? 35 : 50}
+            domain={[0, 'dataMax']}
             label={isMobile ? { value: 'Energy (kWh)', angle: -90, position: 'insideLeft', style: { textAnchor: 'middle', fontSize: '9px' } } : { value: 'Energy (kWh)', angle: -90, position: 'insideLeft', style: { textAnchor: 'middle' } }}
           />
           <YAxis 

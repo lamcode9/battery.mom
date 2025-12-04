@@ -1224,10 +1224,13 @@ export function findOffGridSystem(
   const solarYieldPerKw = baseSolarYield * roofMultiplier
 
   // For off-grid, we need:
-  // 1. Enough solar to generate daytime load + daytime EV charging (with 20% buffer)
+  // 1. Enough solar to generate TOTAL daily load (day + night + all EV) because:
+  //    - Solar powers daytime loads directly
+  //    - Solar charges battery for nighttime loads
+  //    - Solar charges battery for nighttime EV charging
   // 2. Enough battery to store energy for night + nighttime EV charging + 2-3 days autonomy
-  const daytimeLoad = dayLoadKwh + dayEvChargingKwh
-  const requiredSolarKw = Math.ceil((daytimeLoad * 1.2) / solarYieldPerKw)
+  const totalDailyLoad = dayLoadKwh + nightLoadKwh + evHomeChargingKwh
+  const requiredSolarKw = Math.ceil((totalDailyLoad * 1.2) / solarYieldPerKw) // 20% buffer for cloudy days
   const nighttimeLoad = nightLoadKwh + nightEvChargingKwh
   const requiredBatteryKwh = Math.ceil(nighttimeLoad * 2.5) // 2.5 days autonomy
 
@@ -1293,35 +1296,52 @@ export function findOffGridSystem(
   const totalSystemCost = baseSystemCost + inverterMaintenanceCost
 
   // Verify off-grid by calculating with this system
-  const testInputs: ZeroBillInputs = {
-    ...baseInputs,
-    solarSizeKw: requiredSolarKw,
-    batteries: bestBatteryCombo,
-    includeSolarCost: true,
-  }
-
-  try {
-    const result = calculateZeroBill(testInputs)
-
-    // For true off-grid, ensure no grid imports at any hour
-    const hasGridImports = result.energyFlow.hourly.some(hour => hour.gridSupply > 0.01)
-
-    // Return system if it achieves true zero grid dependency (no grid imports)
-    if (!hasGridImports && result.gridElectricityNeededThisMonth <= 0.1) {
-      return {
-        solarSizeKw: requiredSolarKw,
-        batteries: bestBatteryCombo,
-        paybackYears: result.fullSystemPaybackYears,
-        monthlySavings: result.monthlySavings,
-        totalSystemCost,
-        gridElectricityNeeded: result.gridElectricityNeededThisMonth,
-      }
+  // Try the calculated size first, then iterate with larger sizes if needed
+  for (let solarMultiplier = 1; solarMultiplier <= 1.5; solarMultiplier += 0.1) {
+    const testSolarKw = Math.ceil(requiredSolarKw * solarMultiplier)
+    
+    // Try with current battery combo first
+    const testInputs: ZeroBillInputs = {
+      ...baseInputs,
+      solarSizeKw: testSolarKw,
+      batteries: bestBatteryCombo,
+      includeSolarCost: true,
     }
-  } catch (error) {
-    console.warn('Off-grid system verification failed:', error)
+
+    try {
+      const result = calculateZeroBill(testInputs)
+
+      // For true off-grid, ensure no grid imports at any hour
+      const hasGridImports = result.energyFlow.hourly.some(hour => hour.gridSupply > 0.01)
+
+      // Return system if it achieves true zero grid dependency (no grid imports)
+      if (!hasGridImports && result.gridElectricityNeededThisMonth <= 0.1) {
+        // Recalculate cost with actual solar size used
+        const actualSolarCost = testSolarKw * SOLAR_COST_PER_KW[baseInputs.country]
+        const actualBatteryCost = bestBatteryCombo.reduce((sum, b) => {
+          if (!b.model) return sum
+          const price = b.model.priceLocalCurrency[baseInputs.country] || 0
+          return sum + (price * b.quantity)
+        }, 0)
+        const actualBaseCost = actualBatteryCost + actualSolarCost
+        const actualTotalCost = actualBaseCost + (actualBaseCost * INVERTER_MAINTENANCE_PERCENT)
+        
+        return {
+          solarSizeKw: testSolarKw,
+          batteries: bestBatteryCombo,
+          paybackYears: result.fullSystemPaybackYears,
+          monthlySavings: result.monthlySavings,
+          totalSystemCost: actualTotalCost,
+          gridElectricityNeeded: result.gridElectricityNeededThisMonth,
+        }
+      }
+    } catch (error) {
+      // Continue to next iteration
+      continue
+    }
   }
 
-  // If we get here, no valid off-grid system was found
+  // If we get here, no valid off-grid system was found even with 50% larger solar
   return null
 }
 
@@ -1365,8 +1385,25 @@ export function findZeroBillSystem(
       try {
         const result = calculateZeroBill(inputs)
         
-        // Find the system that achieves true zero bill (monthly bill = 0)
-        if (result.monthlyBillWithSystem <= 0.01 && (bestSystem === null || result.totalSystemCost < bestSystem.totalSystemCost)) {
+        // Check if country supports grid export credits
+        const hasExportCredits = EXPORT_RATE_MULTIPLIER[baseInputs.country].net_billing > 0
+        
+        // For zero-bill:
+        // - Countries WITHOUT export credits (e.g., Malaysia): must have no grid imports at any hour
+        // - Countries WITH export credits: monthly bill must be zero (imports can be offset by exports)
+        let isValidZeroBill = false
+        
+        if (!hasExportCredits) {
+          // No export credits: must be truly off-grid (no grid imports)
+          const hasGridImports = result.energyFlow.hourly.some(hour => hour.gridSupply > 0.01)
+          isValidZeroBill = !hasGridImports && result.monthlyBillWithSystem <= 0.01
+        } else {
+          // Has export credits: monthly bill must be zero (net zero)
+          isValidZeroBill = result.monthlyBillWithSystem <= 0.01
+        }
+        
+        // Find the system that achieves true zero bill
+        if (isValidZeroBill && (bestSystem === null || result.totalSystemCost < bestSystem.totalSystemCost)) {
           bestBill = result.monthlyBillWithSystem
           bestSystem = {
             solarSizeKw: solarKw,

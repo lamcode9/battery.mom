@@ -698,7 +698,7 @@ function BatteriesAtHomePageContent() {
     }
     
     if (mode === 'full_off_grid') {
-      return findOffGridSystem(baseInputs, filteredBessList)
+      return findOffGridSystem(baseInputs, filteredBessList, 50, 6) // Increased search space
     } else if (mode === 'zero_bill') {
       return findZeroBillSystem(baseInputs, filteredBessList, 50, 6) // Increased search space
     } else if (mode === 'best_net_savings') {
@@ -744,7 +744,9 @@ function BatteriesAtHomePageContent() {
       setNeedsOptimizationReapply(false)
     } else {
       // No valid system found for this mode
-      alert(`No ${mode.replace('_', ' ')} system found within the search constraints (0-30kW solar, 0-4 batteries). Try adjusting your load settings or EV configuration.`)
+      const maxSolar = mode === 'full_off_grid' || mode === 'zero_bill' ? '50kW' : '30kW'
+      const maxBatteries = mode === 'full_off_grid' || mode === 'zero_bill' ? '6' : '4'
+      alert(`No ${mode.replace('_', ' ')} system found within the search constraints (0-${maxSolar} solar, 0-${maxBatteries} batteries). Try adjusting your load settings or EV configuration.`)
     }
   }, [calculateOptimalSystemForMode])
 

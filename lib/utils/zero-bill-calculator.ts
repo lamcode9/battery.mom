@@ -1297,51 +1297,85 @@ export function findOffGridSystem(
 
   // Verify off-grid by calculating with this system
   // Try the calculated size first, then iterate with larger sizes if needed
-  for (let solarMultiplier = 1; solarMultiplier <= 1.5; solarMultiplier += 0.1) {
-    const testSolarKw = Math.ceil(requiredSolarKw * solarMultiplier)
-    
-    // Try with current battery combo first
-    const testInputs: ZeroBillInputs = {
-      ...baseInputs,
-      solarSizeKw: testSolarKw,
-      batteries: bestBatteryCombo,
-      includeSolarCost: true,
-    }
-
-    try {
-      const result = calculateZeroBill(testInputs)
-
-      // For true off-grid, ensure no grid imports at any hour
-      const hasGridImports = result.energyFlow.hourly.some(hour => hour.gridSupply > 0.01)
-
-      // Return system if it achieves true zero grid dependency (no grid imports)
-      if (!hasGridImports && result.gridElectricityNeededThisMonth <= 0.1) {
-        // Recalculate cost with actual solar size used
-        const actualSolarCost = testSolarKw * SOLAR_COST_PER_KW[baseInputs.country]
-        const actualBatteryCost = bestBatteryCombo.reduce((sum, b) => {
-          if (!b.model) return sum
-          const price = b.model.priceLocalCurrency[baseInputs.country] || 0
-          return sum + (price * b.quantity)
-        }, 0)
-        const actualBaseCost = actualBatteryCost + actualSolarCost
-        const actualTotalCost = actualBaseCost + (actualBaseCost * INVERTER_MAINTENANCE_PERCENT)
-        
-        return {
-          solarSizeKw: testSolarKw,
-          batteries: bestBatteryCombo,
-          paybackYears: result.fullSystemPaybackYears,
-          monthlySavings: result.monthlySavings,
-          totalSystemCost: actualTotalCost,
-          gridElectricityNeeded: result.gridElectricityNeededThisMonth,
-        }
+  // Also try larger battery combinations if initial battery is insufficient
+  const batteryCombinationsToTry: Array<Array<{ model: BESS | null; quantity: number }>> = [bestBatteryCombo]
+  
+  // If initial battery combo might be insufficient, try larger combinations
+  if (bestBatteryCapacity < requiredBatteryKwh * 1.2 && availableBatteries.length > 0) {
+    // Try adding more batteries to the best combo
+    for (let additionalQty = 1; additionalQty <= 2; additionalQty++) {
+      if (bestBatteryCombo[0]?.model) {
+        const largerCombo = [{
+          model: bestBatteryCombo[0].model,
+          quantity: Math.min((bestBatteryCombo[0].quantity || 0) + additionalQty, maxBatteries)
+        }]
+        batteryCombinationsToTry.push(largerCombo)
       }
-    } catch (error) {
-      // Continue to next iteration
-      continue
+    }
+    
+    // Also try largest battery with more quantity
+    const largestBattery = availableBatteries.reduce((largest, b) => {
+      const largestCapacity = largest.usableCapacityKwh * (1 - BATTERY_DEGRADATION_RATE * 5)
+      const bCapacity = b.usableCapacityKwh * (1 - BATTERY_DEGRADATION_RATE * 5)
+      return bCapacity > largestCapacity ? b : largest
+    })
+    for (let qty = Math.ceil(requiredBatteryKwh / (largestBattery.usableCapacityKwh * (1 - BATTERY_DEGRADATION_RATE * 5))); 
+         qty <= Math.min(maxBatteries, Math.ceil(requiredBatteryKwh * 1.5 / (largestBattery.usableCapacityKwh * (1 - BATTERY_DEGRADATION_RATE * 5)))); 
+         qty++) {
+      batteryCombinationsToTry.push([{ model: largestBattery, quantity: qty }])
+    }
+  }
+  
+  for (let solarMultiplier = 1; solarMultiplier <= 2.0; solarMultiplier += 0.1) {
+    const testSolarKw = Math.min(Math.ceil(requiredSolarKw * solarMultiplier), maxSolarKw)
+    
+    // Skip if we've already exceeded max
+    if (testSolarKw > maxSolarKw) break
+    
+    // Try each battery combination
+    for (const batteryCombo of batteryCombinationsToTry) {
+      const testInputs: ZeroBillInputs = {
+        ...baseInputs,
+        solarSizeKw: testSolarKw,
+        batteries: batteryCombo,
+        includeSolarCost: true,
+      }
+
+      try {
+        const result = calculateZeroBill(testInputs)
+
+        // For true off-grid, ensure no grid imports at any hour
+        const hasGridImports = result.energyFlow.hourly.some(hour => hour.gridSupply > 0.01)
+
+        // Return system if it achieves true zero grid dependency (no grid imports)
+        if (!hasGridImports && result.gridElectricityNeededThisMonth <= 0.1) {
+          // Recalculate cost with actual solar size used
+          const actualSolarCost = testSolarKw * SOLAR_COST_PER_KW[baseInputs.country]
+          const actualBatteryCost = batteryCombo.reduce((sum, b) => {
+            if (!b.model) return sum
+            const price = b.model.priceLocalCurrency[baseInputs.country] || 0
+            return sum + (price * b.quantity)
+          }, 0)
+          const actualBaseCost = actualBatteryCost + actualSolarCost
+          const actualTotalCost = actualBaseCost + (actualBaseCost * INVERTER_MAINTENANCE_PERCENT)
+          
+          return {
+            solarSizeKw: testSolarKw,
+            batteries: batteryCombo,
+            paybackYears: result.fullSystemPaybackYears,
+            monthlySavings: result.monthlySavings,
+            totalSystemCost: actualTotalCost,
+            gridElectricityNeeded: result.gridElectricityNeededThisMonth,
+          }
+        }
+      } catch (error) {
+        // Continue to next iteration
+        continue
+      }
     }
   }
 
-  // If we get here, no valid off-grid system was found even with 50% larger solar
+  // If we get here, no valid off-grid system was found even with 2x solar and larger batteries
   return null
 }
 

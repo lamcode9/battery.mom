@@ -13,14 +13,14 @@ export const SOLAR_YIELD_PER_KW: Record<Country, number> = {
   PH: 4.6,
 }
 
-// Solar cost per kW by country (2025)
+// Solar cost per kW by country (2024/2025)
 export const SOLAR_COST_PER_KW: Record<Country, number> = {
-  MY: 4000,      // RM per kW
-  SG: 3500,      // S$ per kW
-  ID: 15000000,  // Rp per kW
-  TH: 35000,     // THB per kW
-  VN: 20000000,  // VND per kW
-  PH: 40000,     // ₱ per kW
+  MY: 3200,      // RM per kW (updated from 4000)
+  SG: 2500,      // S$ per kW (updated from 3500)
+  ID: 14000000,  // Rp per kW (updated from 15000000)
+  TH: 32000,     // THB per kW (updated from 35000)
+  VN: 19000000,  // VND per kW (updated from 20000000)
+  PH: 38000,     // ₱ per kW (updated from 40000)
 }
 
 // Default driving distance per country (km/day)

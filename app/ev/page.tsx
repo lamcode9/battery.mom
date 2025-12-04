@@ -25,7 +25,7 @@ export default function EVPage() {
                   EVs ranked as batteries first, cars second.
                 </p>
                 <p className="text-lg md:text-xl text-gray-700 leading-relaxed max-w-3xl">
-                  Real range, real charging times, real solar fit — no marketing fluff.
+                  Real range, real charging times, real solar fit.
                 </p>
                 <div className="pt-2 border-t border-gray-200/60">
                   <p className="text-base text-gray-600 leading-relaxed">

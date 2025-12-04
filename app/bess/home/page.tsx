@@ -300,7 +300,7 @@ const EnergyFlowChart = memo(function EnergyFlowChart({ energyFlow, country }: {
                     </div>
                   )}
 
-                  {/* Grid Export Section - At bottom of tooltip */}
+                  {/* Grid Export Section */}
                   {generationItems.some((item: any) => (item.name || item.dataKey) === 'Grid Export') && (
                     <div className="p-3 border-t border-gray-100">
                       <div className="flex items-center justify-between mb-2">
@@ -335,6 +335,27 @@ const EnergyFlowChart = memo(function EnergyFlowChart({ energyFlow, country }: {
                       </div>
                     </div>
                   )}
+
+                  {/* Battery Level Section - Always at bottom */}
+                  <div className="p-3 border-t border-gray-100 bg-cyan-50/50">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div
+                          className="w-2.5 h-2.5 rounded-sm"
+                          style={{ backgroundColor: COLORS['Battery Level'] }}
+                        ></div>
+                        <span className="text-xs font-semibold text-gray-700">Battery Level</span>
+                      </div>
+                      <span className="text-xs font-bold text-cyan-600 tabular-nums">
+                        {(() => {
+                          const batteryItem = payload.find((item: any) =>
+                            (item.name || item.dataKey) === 'Battery Level'
+                          )
+                          return batteryItem ? Number(batteryItem.value || 0).toFixed(1) : '0.0'
+                        })()} kWh
+                      </span>
+                    </div>
+                  </div>
                 </div>
               )
             }}
@@ -1871,18 +1892,18 @@ function BatteriesAtHomePageContent() {
             {vehicles.some(v => v.model && v.quantity > 0) && (
               <div className="mb-10">
                 <div className="flex items-center justify-between mb-6 pb-2 border-b-2 border-emerald-600">
-                  <h3 className="text-base font-bold text-gray-900">EV Charging</h3>
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-base font-bold text-gray-900">EV Charging</h3>
+                    <InfoBox title="EV Charging Assumptions">
+                      <div className="space-y-1 text-xs">
+                        <div><span className="font-semibold">Home Charging:</span> 7kW AC charging speed (Level 2)</div>
+                        <div><span className="font-semibold">Public Charging:</span> 100kW DC fast charging speed</div>
+                        <div><span className="font-semibold">Charger Availability:</span> Always available at home, unlimited at public</div>
+                        <div><span className="font-semibold">Night Charging:</span> Starts at 19:00 (7 PM)</div>
+                      </div>
+                    </InfoBox>
+                  </div>
                   <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">kWh/month</span>
-                </div>
-                <div className="mb-4">
-                  <InfoBox title="EV Charging Assumptions">
-                    <div className="space-y-1 text-xs">
-                      <div><span className="font-semibold">Home Charging:</span> 7kW AC charging speed (Level 2)</div>
-                      <div><span className="font-semibold">Public Charging:</span> 100kW DC fast charging speed</div>
-                      <div><span className="font-semibold">Charger Availability:</span> Always available at home, unlimited at public</div>
-                      <div><span className="font-semibold">Night Charging:</span> Starts at 19:00 (7 PM)</div>
-                    </div>
-                  </InfoBox>
                 </div>
                 <div className="border border-gray-200 rounded-lg overflow-hidden">
                   <div className="px-3 py-2 bg-gray-50/50 border-b border-gray-200">

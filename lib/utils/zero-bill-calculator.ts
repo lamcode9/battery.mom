@@ -558,65 +558,77 @@ export function calculateZeroBill(inputs: ZeroBillInputs): ZeroBillOutputs {
   const HOME_CHARGING_SPEED_KW = 7 // Typical home AC charging (7-11kW)
   const PUBLIC_CHARGING_SPEED_KW = 100 // Assumed DC fast charging (user specified 100kW)
 
-  // EV charging distribution based on preference with speed constraints
+  // EV charging distribution based on individual vehicle preferences
   const getEvChargingHourly = (hour: number): number => {
     if (evHomeChargingKwh === 0) return 0
 
-    // Determine if this hour is available for charging and max charging speed
-    let isChargingHour = false
-    let maxChargingKw = 0
-    let availableHours = 0
+    let totalHourlyCharging = 0
 
-    if (effectiveChargingTime === 'Day only') {
-      // Day charging: 6 AM - 6 PM, assume public DC fast charging available
-      if (hour >= 6 && hour < 18) {
-        isChargingHour = true
-        maxChargingKw = PUBLIC_CHARGING_SPEED_KW
-        availableHours = 12
-      }
-    } else if (effectiveChargingTime === 'Night only') {
-      // Night charging: 7 PM - 6 AM, home AC charging
-      if (hour >= 19 || hour < 6) {
-        isChargingHour = true
-        maxChargingKw = HOME_CHARGING_SPEED_KW
-        availableHours = 11 // 19:00 to 06:00 = 11 hours
-      }
-    } else {
-      // Both: day (public) and night (home) charging
-      if (hour >= 6 && hour < 18) {
-        // Day: public charging
-        isChargingHour = true
-        maxChargingKw = PUBLIC_CHARGING_SPEED_KW
-        availableHours = 12 // Day hours
-      } else if (hour >= 19 || hour < 6) {
-        // Night: home charging
-        isChargingHour = true
-        maxChargingKw = HOME_CHARGING_SPEED_KW
-        availableHours = 11 // Night hours
-      }
-    }
+    // Calculate charging for each vehicle individually based on its charging time preference
+    vehicles.forEach(vehicle => {
+      if (!vehicle.model || vehicle.quantity === 0) return
 
-    if (!isChargingHour) return 0
+      // Get this vehicle's individual charging time preference
+      const vehicleChargingTime = vehicle.evChargingTime ?? effectiveChargingTime
+      const vehicleHomeChargingKwh = (evHomeChargingKwh * vehicle.quantity) / vehicles.filter(v => v.model && v.quantity > 0).length
 
-    // Calculate charging amount limited by speed and available energy
-    // For "Both" mode, we need to split the energy appropriately
-    let hourlyEnergyLimit = 0
+      // Determine if this hour is available for this vehicle's charging
+      let isChargingHour = false
+      let maxChargingKw = 0
+      let availableHours = 0
 
-    if (effectiveChargingTime === 'Both') {
-      // In "Both" mode, split energy between day and night
-      if (hour >= 6 && hour < 18) {
-        // Day portion: 50% of energy over 12 hours
-        hourlyEnergyLimit = Math.min(maxChargingKw, (evHomeChargingKwh * 0.5) / 12)
+      if (vehicleChargingTime === 'Day only') {
+        // Day charging: 6 AM - 6 PM, assume public DC fast charging available
+        if (hour >= 6 && hour < 18) {
+          isChargingHour = true
+          maxChargingKw = PUBLIC_CHARGING_SPEED_KW
+          availableHours = 12
+        }
+      } else if (vehicleChargingTime === 'Night only') {
+        // Night charging: 7 PM - 6 AM, home AC charging
+        if (hour >= 19 || hour < 6) {
+          isChargingHour = true
+          maxChargingKw = HOME_CHARGING_SPEED_KW
+          availableHours = 11 // 19:00 to 06:00 = 11 hours
+        }
       } else {
-        // Night portion: 50% of energy over 11 hours
-        hourlyEnergyLimit = Math.min(maxChargingKw, (evHomeChargingKwh * 0.5) / 11)
+        // Both: day (public) and night (home) charging
+        if (hour >= 6 && hour < 18) {
+          // Day: public charging
+          isChargingHour = true
+          maxChargingKw = PUBLIC_CHARGING_SPEED_KW
+          availableHours = 12 // Day hours
+        } else if (hour >= 19 || hour < 6) {
+          // Night: home charging
+          isChargingHour = true
+          maxChargingKw = HOME_CHARGING_SPEED_KW
+          availableHours = 11 // Night hours
+        }
       }
-    } else {
-      // Single period charging
-      hourlyEnergyLimit = Math.min(maxChargingKw, evHomeChargingKwh / availableHours)
-    }
 
-    return hourlyEnergyLimit
+      if (!isChargingHour) return
+
+      // Calculate this vehicle's charging for this hour
+      let vehicleHourlyEnergyLimit = 0
+
+      if (vehicleChargingTime === 'Both') {
+        // In "Both" mode, split energy between day and night
+        if (hour >= 6 && hour < 18) {
+          // Day portion: 50% of energy over available hours
+          vehicleHourlyEnergyLimit = Math.min(maxChargingKw, (vehicleHomeChargingKwh * 0.5) / 12)
+        } else {
+          // Night portion: 50% of energy over available hours
+          vehicleHourlyEnergyLimit = Math.min(maxChargingKw, (vehicleHomeChargingKwh * 0.5) / 11)
+        }
+      } else {
+        // Single period charging
+        vehicleHourlyEnergyLimit = Math.min(maxChargingKw, vehicleHomeChargingKwh / availableHours)
+      }
+
+      totalHourlyCharging += vehicleHourlyEnergyLimit
+    })
+
+    return totalHourlyCharging
   }
 
   // Simulate hourly energy flow
@@ -640,7 +652,8 @@ export function calculateZeroBill(inputs: ZeroBillInputs): ZeroBillOutputs {
   
   // First pass: Run simulation to establish end-of-day battery state
   // This simulates what the battery level would be at the end of a typical day
-  let preliminaryBatteryLevel = 0
+  // Start with 20% battery level to simulate carry-over from previous day
+  let preliminaryBatteryLevel = safeBatteryCapacity * 0.2
   for (let hour = 0; hour < 24; hour++) {
     const hourlySolar = getSolarGenerationHourly(hour)
     const hourlyHouseholdLoad = getHouseholdLoadHourly(hour)
@@ -652,7 +665,7 @@ export function calculateZeroBill(inputs: ZeroBillInputs): ZeroBillOutputs {
     const householdLoadRemaining = Math.max(0, hourlyHouseholdLoad - energyAvailable)
     energyAvailable = Math.max(0, energyAvailable - hourlyHouseholdLoad)
     
-    // Charge battery
+    // Charge battery FIRST (before EV charging)
     if (energyAvailable > 0 && preliminaryBatteryLevel < safeBatteryCapacity) {
       const batterySpaceAvailable = safeBatteryCapacity - preliminaryBatteryLevel
       const hourlyBatteryCharge = Math.min(energyAvailable, batterySpaceAvailable)
@@ -672,17 +685,20 @@ export function calculateZeroBill(inputs: ZeroBillInputs): ZeroBillOutputs {
     let remainingEvCharging = hourlyEvCharging - evChargingFromSolar
     
     if (remainingLoad > 0 || remainingEvCharging > 0) {
+      // Priority: household load first, then EV charging
       if (remainingLoad > 0 && preliminaryBatteryLevel > 0.001) {
-        const batteryDischarge = Math.min(preliminaryBatteryLevel, remainingLoad)
-        preliminaryBatteryLevel = Math.max(0, preliminaryBatteryLevel - batteryDischarge)
-        remainingLoad = Math.max(0, remainingLoad - batteryDischarge)
+        const householdFromBattery = Math.min(preliminaryBatteryLevel, remainingLoad)
+        preliminaryBatteryLevel -= householdFromBattery
+        remainingLoad -= householdFromBattery
       }
-      
+
       if (remainingEvCharging > 0 && preliminaryBatteryLevel > 0.001) {
         const evFromBattery = Math.min(preliminaryBatteryLevel, remainingEvCharging)
-        preliminaryBatteryLevel = Math.max(0, preliminaryBatteryLevel - evFromBattery)
-        remainingEvCharging = Math.max(0, remainingEvCharging - evFromBattery)
+        preliminaryBatteryLevel -= evFromBattery
+        remainingEvCharging -= evFromBattery
       }
+
+      preliminaryBatteryLevel = Math.max(0, preliminaryBatteryLevel)
     }
     
     preliminaryBatteryLevel = Math.max(0, Math.min(safeBatteryCapacity, preliminaryBatteryLevel))
@@ -711,19 +727,20 @@ export function calculateZeroBill(inputs: ZeroBillInputs): ZeroBillOutputs {
     // Priority 1: Power household load
     const householdLoadRemaining = Math.max(0, hourlyHouseholdLoad - energyAvailable)
     energyAvailable = Math.max(0, energyAvailable - hourlyHouseholdLoad)
-    
+
     // Priority 2: Charge battery (if solar available and battery not full)
+    // CRITICAL: Battery charging must happen BEFORE EV charging to ensure battery gets charged
     if (energyAvailable > 0 && currentBatteryLevel < safeBatteryCapacity) {
       const batterySpaceAvailable = safeBatteryCapacity - currentBatteryLevel
       hourlyBatteryCharge = Math.min(energyAvailable, batterySpaceAvailable)
       currentBatteryLevel = Math.min(safeBatteryCapacity, currentBatteryLevel + hourlyBatteryCharge)
       energyAvailable -= hourlyBatteryCharge
     }
-    
+
     // Ensure battery level never exceeds capacity (safety check)
     currentBatteryLevel = Math.min(safeBatteryCapacity, Math.max(0, currentBatteryLevel))
-    
-    // Priority 3: Charge EV from solar
+
+    // Priority 3: Charge EV from remaining solar
     if (energyAvailable > 0 && hourlyEvCharging > 0) {
       hourlyEvChargingFromSolar = Math.min(energyAvailable, hourlyEvCharging)
       energyAvailable -= hourlyEvChargingFromSolar
@@ -738,32 +755,27 @@ export function calculateZeroBill(inputs: ZeroBillInputs): ZeroBillOutputs {
     let remainingLoad = householdLoadRemaining
     let remainingEvCharging = hourlyEvCharging - hourlyEvChargingFromSolar
     
-    // Use battery for night loads/EV charging
-    // IMPORTANT: Only discharge if battery has charge available
+    // Use battery for night loads/EV charging (priority: household first, then EV)
     if (remainingLoad > 0 || remainingEvCharging > 0) {
-      // Ensure currentBatteryLevel is valid before any operations
-      currentBatteryLevel = Math.max(0, currentBatteryLevel)
-      
-      // First, use battery for household load
-      if (remainingLoad > 0 && currentBatteryLevel > 0.001) { // Use small threshold to avoid floating point issues
-        // Ensure we never discharge more than available
-        hourlyBatteryDischarge = Math.min(currentBatteryLevel, remainingLoad)
-        currentBatteryLevel = currentBatteryLevel - hourlyBatteryDischarge
-        // Immediately clamp to prevent any negative values
-        currentBatteryLevel = Math.max(0, currentBatteryLevel)
-        remainingLoad = Math.max(0, remainingLoad - hourlyBatteryDischarge)
+      // Priority 1: Household load
+      if (remainingLoad > 0 && currentBatteryLevel > 0.001) {
+        const householdFromBattery = Math.min(currentBatteryLevel, remainingLoad)
+        hourlyBatteryDischarge += householdFromBattery
+        currentBatteryLevel -= householdFromBattery
+        remainingLoad -= householdFromBattery
       }
-      
-      // Then, use battery for EV charging
-      if (remainingEvCharging > 0 && currentBatteryLevel > 0.001) { // Use small threshold to avoid floating point issues
-        // Ensure we never discharge more than available
+
+      // Priority 2: EV charging from remaining battery capacity
+      if (remainingEvCharging > 0 && currentBatteryLevel > 0.001) {
         const evFromBattery = Math.min(currentBatteryLevel, remainingEvCharging)
+        hourlyBatteryDischarge += evFromBattery
         hourlyEvChargingFromBattery = evFromBattery
-        currentBatteryLevel = currentBatteryLevel - evFromBattery
-        // Immediately clamp to prevent any negative values
-        currentBatteryLevel = Math.max(0, currentBatteryLevel)
-        remainingEvCharging = Math.max(0, remainingEvCharging - evFromBattery)
+        currentBatteryLevel -= evFromBattery
+        remainingEvCharging -= evFromBattery
       }
+
+      // Ensure battery level stays valid
+      currentBatteryLevel = Math.max(0, currentBatteryLevel)
     }
     
     // Ensure battery level never goes negative (safety check after all operations)
@@ -789,8 +801,8 @@ export function calculateZeroBill(inputs: ZeroBillInputs): ZeroBillOutputs {
       }
     }
     
-    // Debug: Detailed breakdown for hour 2 (02:00)
-    if (hour === 2) {
+    // Debug: Detailed breakdown for hours 12 (12:00 - solar) and 22 (22:00 - EV charging)
+    if (hour === 12 || hour === 22) {
       const totalGeneration = hourlySolar + hourlyBatteryDischarge + hourlyGridSupply
       const totalConsumption = hourlyHouseholdLoad + hourlyEvCharging + hourlyBatteryCharge
       const batteryLevelBefore = currentBatteryLevel + hourlyBatteryDischarge + hourlyEvChargingFromBattery
@@ -1225,6 +1237,7 @@ export function findOffGridSystem(
   maxSolarKw: number = 30,
   maxBatteries: number = 4
 ): OptimalSystem | null {
+
   // Calculate total daily energy needs
   const dayLoadKwh = typeof baseInputs.dayLoad === 'number' 
     ? baseInputs.dayLoad 
@@ -1313,28 +1326,49 @@ export function findOffGridSystem(
     solarYieldPerKw = 4.0 // Default fallback to prevent division by zero
   }
 
-  // For off-grid, we need:
-  // 1. Enough solar to generate TOTAL daily load (day + night + all EV) because:
-  //    - Solar powers daytime loads directly
-  //    - Solar charges battery for nighttime loads
-  //    - Solar charges battery for nighttime EV charging
-  // 2. Enough battery to store energy for night + nighttime EV charging + 2-3 days autonomy
-  const totalDailyLoad = (dayLoadKwh || 0) + (nightLoadKwh || 0) + (evHomeChargingKwh || 0)
-  
-  // Ensure totalDailyLoad is valid
-  if (isNaN(totalDailyLoad) || !isFinite(totalDailyLoad) || totalDailyLoad < 0) {
-    // If calculation failed, return null to prevent invalid system
+  // For off-grid, calculate solar and battery sizing based on individual vehicle charging preferences
+  let daytimeLoadWithEv = dayLoadKwh || 0
+  let nighttimeLoadWithEv = nightLoadKwh || 0
+
+  // Distribute EV charging based on each vehicle's individual charging time preference
+  baseInputs.vehicles.forEach(vehicle => {
+    if (!vehicle.model || vehicle.quantity === 0) return
+
+    const vehicleChargingTime = vehicle.evChargingTime ?? baseInputs.evChargingTime ?? 'Night only'
+    const vehicleHomeChargingKwh = (evHomeChargingKwh || 0) * vehicle.quantity / baseInputs.vehicles.filter(v => v.model && v.quantity > 0).length
+
+    if (vehicleChargingTime === 'Day only') {
+      daytimeLoadWithEv += vehicleHomeChargingKwh
+    } else if (vehicleChargingTime === 'Night only') {
+      nighttimeLoadWithEv += vehicleHomeChargingKwh
+    } else if (vehicleChargingTime === 'Both') {
+      // Split this vehicle's charging between day and night
+      daytimeLoadWithEv += vehicleHomeChargingKwh * 0.5
+      nighttimeLoadWithEv += vehicleHomeChargingKwh * 0.5
+    }
+  })
+
+  // Solar needs to cover daytime loads + charge battery for nighttime loads
+  const totalDaytimeLoad = daytimeLoadWithEv
+  const totalNighttimeLoad = nighttimeLoadWithEv
+
+  // Ensure loads are valid
+  if (isNaN(totalDaytimeLoad) || !isFinite(totalDaytimeLoad) || totalDaytimeLoad < 0 ||
+      isNaN(totalNighttimeLoad) || !isFinite(totalNighttimeLoad) || totalNighttimeLoad < 0) {
     return null
   }
-  
-  const requiredSolarKw = Math.ceil((totalDailyLoad * 1.2) / solarYieldPerKw) // 20% buffer for cloudy days
-  
+
+  // Solar must generate enough for daytime loads + battery charging for nighttime loads
+  // Total daily energy needed: day load + night load (both served by solar, night via battery)
+  const totalDailyEnergyNeeded = totalDaytimeLoad + totalNighttimeLoad
+  const requiredSolarKw = Math.ceil((totalDailyEnergyNeeded * 1.15) / solarYieldPerKw) // 15% buffer for efficiency losses and cloudy days
+
   // Ensure requiredSolarKw is valid
   if (isNaN(requiredSolarKw) || !isFinite(requiredSolarKw) || requiredSolarKw < 0) {
     return null
   }
   
-  const nighttimeLoad = (nightLoadKwh || 0) + (nightEvChargingKwh || 0)
+  const nighttimeLoad = totalNighttimeLoad
   
   // Battery must store enough energy for nighttime loads
   // Battery must store enough energy for nighttime loads
@@ -1345,99 +1379,84 @@ export function findOffGridSystem(
   // Calculate peak hourly consumption during nighttime
   // This is the MAXIMUM simultaneous consumption (household + EV at same hour)
   let peakNighttimeHourlyLoad = 0
-  if (baseInputs.evChargingTime === 'Night only' && nightEvChargingKwh > 0) {
+  let nighttimeEvChargingTotal = 0
+
+  // Calculate total EV charging that happens at night
+  baseInputs.vehicles.forEach(vehicle => {
+    if (!vehicle.model || vehicle.quantity === 0) return
+
+    const vehicleChargingTime = vehicle.evChargingTime ?? baseInputs.evChargingTime ?? 'Night only'
+    const vehicleHomeChargingKwh = (evHomeChargingKwh || 0) * vehicle.quantity / baseInputs.vehicles.filter(v => v.model && v.quantity > 0).length
+
+    if (vehicleChargingTime === 'Night only') {
+      nighttimeEvChargingTotal += vehicleHomeChargingKwh
+    } else if (vehicleChargingTime === 'Both') {
+      nighttimeEvChargingTotal += vehicleHomeChargingKwh * 0.5
+    }
+    // Day only vehicles don't contribute to nighttime charging
+  })
+
+  if (nighttimeEvChargingTotal > 0) {
     // Peak household load per hour (use maximum possible, not average)
     // Nighttime household can have peaks, so use 1.5x average for safety
     const avgNightHouseholdPerHour = (nightLoadKwh || 0) / nightHours
     const peakHouseholdPerHour = avgNightHouseholdPerHour * 1.5 // 50% peak factor
-    
+
     // EV charging: can be up to 7kW per hour (home charging speed limit)
     // Use the actual maximum: either 7kW (if charging is concentrated) or average
     // For safety, assume it can reach 7kW at peak hours
-    const maxEvChargingPerHour = Math.min(7, Math.max(nightEvChargingKwh / nightHours, 5)) // At least 5kW or actual max
-    
+    const maxEvChargingPerHour = Math.min(7, Math.max(nighttimeEvChargingTotal / nightHours, 5)) // At least 5kW or actual max
+
     // Peak hourly load = household peak + EV charging (BOTH happening simultaneously)
     peakNighttimeHourlyLoad = peakHouseholdPerHour + maxEvChargingPerHour
-  } else if (baseInputs.evChargingTime === 'Both' && nightEvChargingKwh > 0) {
-    // For "Both": nighttime portion of EV charging
-    const avgNightHouseholdPerHour = (nightLoadKwh || 0) / nightHours
-    const peakHouseholdPerHour = avgNightHouseholdPerHour * 1.5
-    const maxEvChargingPerHour = Math.min(7, Math.max(nightEvChargingKwh / nightHours, 5))
-    peakNighttimeHourlyLoad = peakHouseholdPerHour + maxEvChargingPerHour
   } else {
-    // For day only or no EV: just household nighttime load with peak factor
+    // No nighttime EV charging: just household nighttime load with peak factor
     const avgNightHouseholdPerHour = (nightLoadKwh || 0) / nightHours
     peakNighttimeHourlyLoad = avgNightHouseholdPerHour * 1.5
   }
   
-  // Battery must store enough for:
-  // 1. Total nighttime load (household + EV) to power the entire night
-  // 2. Plus enough capacity to handle peak hourly consumption (critical for simultaneous demand)
-  // 3. Plus autonomy buffer (2.5x for backup)
-  const baseBatteryNeeded = nighttimeLoad
-  // CRITICAL: Battery must be able to handle peak hourly consumption
-  // Add significant buffer to ensure battery can discharge enough for peak hours
-  // Buffer = 3 hours of peak consumption to ensure battery can handle sustained peak demand
-  const peakHourBuffer = peakNighttimeHourlyLoad * 3
-  let requiredBatteryKwh = Math.ceil((baseBatteryNeeded + peakHourBuffer) * 2.5) // 2.5 days autonomy
-  
-  // Ensure requiredBatteryKwh is valid and at least covers one night with peak demand
-  if (isNaN(requiredBatteryKwh) || !isFinite(requiredBatteryKwh) || requiredBatteryKwh < (nighttimeLoad + peakHourBuffer)) {
-    // Minimum: must cover one full night + 3 hours of peak consumption
-    requiredBatteryKwh = Math.ceil((nighttimeLoad + peakHourBuffer) * 1.5)
-  }
+  // Battery sizing for off-grid: more realistic approach
+  // 1. Must cover total nighttime load (household + EV)
+  // 2. Add buffer for peak demand (1-2 hours, not 3)
+  // 3. Reasonable autonomy (1.5x for cloudy days, not 2.5x)
 
-  // Find best battery combination to meet capacity requirement
+  const baseBatteryNeeded = nighttimeLoad
+  // Peak buffer: 2 hours of peak consumption (more reasonable than 3)
+  const peakHourBuffer = peakNighttimeHourlyLoad * 2
+  // Total with reasonable autonomy multiplier (1.5x instead of 2.5x)
+  let requiredBatteryKwh = Math.ceil((baseBatteryNeeded + peakHourBuffer) * 1.5)
+
+  // Minimum safety: cover one full night + 2 hours peak
+  const minimumBattery = nighttimeLoad + (peakNighttimeHourlyLoad * 2)
+  requiredBatteryKwh = Math.max(requiredBatteryKwh, Math.ceil(minimumBattery))
+
+  // Find cheapest single battery type that meets capacity requirement
   let bestBatteryCombo: Array<{ model: BESS | null; quantity: number }> = [{ model: null, quantity: 0 }]
-  let bestBatteryCapacity = 0
   let bestBatteryCost = Infinity
 
-  // Try different battery combinations
-  const batteryCombinations: Array<Array<{ model: BESS | null; quantity: number }>> = []
-  
-  // Single battery options
   for (const battery of availableBatteries) {
     for (let qty = 1; qty <= maxBatteries; qty++) {
-      batteryCombinations.push([{ model: battery, quantity: qty }])
-    }
-  }
-
-  // Find the cheapest combination that meets capacity requirement
-  for (const batteryCombo of batteryCombinations) {
-    const totalCapacity = batteryCombo.reduce((sum, b) => {
-      if (!b.model) return sum
-      const degradedCapacity = b.model.usableCapacityKwh * (1 - BATTERY_DEGRADATION_RATE * 5)
-      return sum + (degradedCapacity * b.quantity)
-    }, 0)
-
-    if (totalCapacity >= requiredBatteryKwh) {
-      const totalCost = batteryCombo.reduce((sum, b) => {
-        if (!b.model) return sum
-        const price = b.model.priceLocalCurrency[baseInputs.country] || 0
-        return sum + (price * b.quantity)
-      }, 0)
-
-      if (totalCost < bestBatteryCost) {
-        bestBatteryCost = totalCost
-        bestBatteryCapacity = totalCapacity
-        bestBatteryCombo = batteryCombo
+      const capacity = battery.usableCapacityKwh * (1 - BATTERY_DEGRADATION_RATE * 5) * qty
+      if (capacity >= requiredBatteryKwh) {
+        const cost = (battery.priceLocalCurrency[baseInputs.country] || 0) * qty
+        if (cost < bestBatteryCost) {
+          bestBatteryCost = cost
+          bestBatteryCombo = [{ model: battery, quantity: qty }]
+        }
       }
     }
   }
 
-  // If no battery combination meets requirement, use the largest available
-  if (bestBatteryCapacity < requiredBatteryKwh && availableBatteries.length > 0) {
-    const largestBattery = availableBatteries.reduce((largest, b) => {
-      const largestCapacity = largest.usableCapacityKwh * (1 - BATTERY_DEGRADATION_RATE * 5)
-      const bCapacity = b.usableCapacityKwh * (1 - BATTERY_DEGRADATION_RATE * 5)
-      return bCapacity > largestCapacity ? b : largest
-    })
-    
+  // If no battery meets requirement, use largest available with required quantity
+  if (bestBatteryCombo[0]?.model === null && availableBatteries.length > 0) {
+    const largestBattery = availableBatteries.reduce((largest, b) =>
+      (b.usableCapacityKwh > largest.usableCapacityKwh) ? b : largest
+    )
     const qtyNeeded = Math.ceil(requiredBatteryKwh / (largestBattery.usableCapacityKwh * (1 - BATTERY_DEGRADATION_RATE * 5)))
     bestBatteryCombo = [{ model: largestBattery, quantity: Math.min(qtyNeeded, maxBatteries) }]
   }
 
-  // Calculate system cost and verify it's truly off-grid
+  // Calculate system cost
   const solarCost = requiredSolarKw * SOLAR_COST_PER_KW[baseInputs.country]
   const batteryCost = bestBatteryCombo.reduce((sum, b) => {
     if (!b.model) return sum
@@ -1448,87 +1467,45 @@ export function findOffGridSystem(
   const inverterMaintenanceCost = baseSystemCost * INVERTER_MAINTENANCE_PERCENT
   const totalSystemCost = baseSystemCost + inverterMaintenanceCost
 
-  // Verify off-grid by calculating with this system
-  // Try the calculated size first, then iterate with larger sizes if needed
-  // Also try larger battery combinations if initial battery is insufficient
-  const batteryCombinationsToTry: Array<Array<{ model: BESS | null; quantity: number }>> = [bestBatteryCombo]
-  
-  // If initial battery combo might be insufficient, try larger combinations
-  if (bestBatteryCapacity < requiredBatteryKwh * 1.2 && availableBatteries.length > 0) {
-    // Try adding more batteries to the best combo
-    for (let additionalQty = 1; additionalQty <= 2; additionalQty++) {
-      if (bestBatteryCombo[0]?.model) {
-        const largerCombo = [{
-          model: bestBatteryCombo[0].model,
-          quantity: Math.min((bestBatteryCombo[0].quantity || 0) + additionalQty, maxBatteries)
-        }]
-        batteryCombinationsToTry.push(largerCombo)
-      }
-    }
-    
-    // Also try largest battery with more quantity
-    const largestBattery = availableBatteries.reduce((largest, b) => {
-      const largestCapacity = largest.usableCapacityKwh * (1 - BATTERY_DEGRADATION_RATE * 5)
-      const bCapacity = b.usableCapacityKwh * (1 - BATTERY_DEGRADATION_RATE * 5)
-      return bCapacity > largestCapacity ? b : largest
-    })
-    for (let qty = Math.ceil(requiredBatteryKwh / (largestBattery.usableCapacityKwh * (1 - BATTERY_DEGRADATION_RATE * 5))); 
-         qty <= Math.min(maxBatteries, Math.ceil(requiredBatteryKwh * 1.5 / (largestBattery.usableCapacityKwh * (1 - BATTERY_DEGRADATION_RATE * 5)))); 
-         qty++) {
-      batteryCombinationsToTry.push([{ model: largestBattery, quantity: qty }])
-    }
-  }
-  
-  for (let solarMultiplier = 1; solarMultiplier <= 2.0; solarMultiplier += 0.1) {
-    const testSolarKw = Math.min(Math.ceil(requiredSolarKw * solarMultiplier), maxSolarKw)
-    
-    // Skip if we've already exceeded max
-    if (testSolarKw > maxSolarKw) break
-    
-    // Try each battery combination
-    for (const batteryCombo of batteryCombinationsToTry) {
-      const testInputs: ZeroBillInputs = {
-        ...baseInputs,
-        solarSizeKw: testSolarKw,
-        batteries: batteryCombo,
-        includeSolarCost: true,
-      }
-
-      try {
-        const result = calculateZeroBill(testInputs)
-
-        // For true off-grid, ensure no grid imports at any hour
-        const hasGridImports = result.energyFlow.hourly.some(hour => hour.gridSupply > 0.01)
-
-        // Return system if it achieves true zero grid dependency (no grid imports)
-        if (!hasGridImports && result.gridElectricityNeededThisMonth <= 0.1) {
-          // Recalculate cost with actual solar size used
-          const actualSolarCost = testSolarKw * SOLAR_COST_PER_KW[baseInputs.country]
-          const actualBatteryCost = batteryCombo.reduce((sum, b) => {
-            if (!b.model) return sum
-            const price = b.model.priceLocalCurrency[baseInputs.country] || 0
-            return sum + (price * b.quantity)
-          }, 0)
-          const actualBaseCost = actualBatteryCost + actualSolarCost
-          const actualTotalCost = actualBaseCost + (actualBaseCost * INVERTER_MAINTENANCE_PERCENT)
-          
-          return {
-            solarSizeKw: testSolarKw,
-            batteries: batteryCombo,
-            paybackYears: result.fullSystemPaybackYears,
-            monthlySavings: result.monthlySavings,
-            totalSystemCost: actualTotalCost,
-            gridElectricityNeeded: result.gridElectricityNeededThisMonth,
-          }
-        }
-      } catch (error) {
-        // Continue to next iteration
-        continue
-      }
-    }
+  // Test the calculated system configuration
+  const testInputs: ZeroBillInputs = {
+    ...baseInputs,
+    solarSizeKw: requiredSolarKw,
+    batteries: bestBatteryCombo,
+    includeSolarCost: true,
   }
 
-  // If we get here, no valid off-grid system was found even with 2x solar and larger batteries
+  try {
+    const result = calculateZeroBill(testInputs)
+
+    // Check if it's truly off-grid (no significant grid usage)
+    const hasGridImports = result.energyFlow.hourly.some(hour => hour.gridSupply > 0.5)
+
+    if (!hasGridImports && result.gridElectricityNeededThisMonth <= 1.0) {
+      // Recalculate cost with actual solar size used
+      const actualSolarCost = requiredSolarKw * SOLAR_COST_PER_KW[baseInputs.country]
+      const actualBatteryCost = bestBatteryCombo.reduce((sum, b) => {
+        if (!b.model) return sum
+        const price = b.model.priceLocalCurrency[baseInputs.country] || 0
+        return sum + (price * b.quantity)
+      }, 0)
+      const actualBaseCost = actualBatteryCost + actualSolarCost
+      const actualTotalCost = actualBaseCost + (actualBaseCost * INVERTER_MAINTENANCE_PERCENT)
+
+      return {
+        solarSizeKw: requiredSolarKw,
+        batteries: bestBatteryCombo,
+        paybackYears: result.fullSystemPaybackYears,
+        monthlySavings: result.monthlySavings,
+        totalSystemCost: actualTotalCost,
+        gridElectricityNeeded: result.gridElectricityNeededThisMonth,
+      }
+    }
+  } catch (error) {
+    // Configuration failed
+  }
+
+  // No valid off-grid system found
   return null
 }
 
@@ -1546,18 +1523,21 @@ export function findZeroBillSystem(
   let bestSystem: OptimalSystem | null = null
   let bestBill = Infinity
 
-  // Test different solar sizes (0 to maxSolarKw, step 1kW for precision)
-  for (let solarKw = 0; solarKw <= maxSolarKw; solarKw += 1) {
-    // Test different battery combinations
+  // Start with a reasonable solar size estimate
+  const estimatedLoad = (baseInputs.dayLoad + baseInputs.nightLoad)
+  const estimatedSolarKw = Math.min(Math.ceil(estimatedLoad * 1.2 / 4.5), maxSolarKw) // Rough estimate
+
+  // Try solar sizes around the estimate
+  for (let solarKw = Math.max(0, estimatedSolarKw - 5); solarKw <= Math.min(maxSolarKw, estimatedSolarKw + 5); solarKw += 2) {
+    // Test reasonable battery combinations
     const batteryCombinations: Array<Array<{ model: BESS | null; quantity: number }>> = [
       [{ model: null, quantity: 0 }], // No battery
     ]
-    
-    // Single battery options
-    for (const battery of availableBatteries) {
-      for (let qty = 1; qty <= maxBatteries; qty++) {
-        batteryCombinations.push([{ model: battery, quantity: qty }])
-      }
+
+    // Add a few reasonable battery options
+    for (const battery of availableBatteries.slice(0, 3)) { // Test top 3 battery types
+      batteryCombinations.push([{ model: battery, quantity: 1 }])
+      if (maxBatteries >= 2) batteryCombinations.push([{ model: battery, quantity: 2 }])
     }
 
     // Test each battery combination
@@ -1581,12 +1561,12 @@ export function findZeroBillSystem(
         let isValidZeroBill = false
         
         if (!hasExportCredits) {
-          // No export credits: must be truly off-grid (no grid imports)
-          const hasGridImports = result.energyFlow.hourly.some(hour => hour.gridSupply > 0.01)
-          isValidZeroBill = !hasGridImports && result.monthlyBillWithSystem <= 0.01
+          // No export credits: must be truly off-grid (no significant grid imports)
+          const hasGridImports = result.energyFlow.hourly.some(hour => hour.gridSupply > 0.5)
+          isValidZeroBill = !hasGridImports && result.monthlyBillWithSystem <= 0.1
         } else {
           // Has export credits: monthly bill must be zero (net zero)
-          isValidZeroBill = result.monthlyBillWithSystem <= 0.01
+          isValidZeroBill = result.monthlyBillWithSystem <= 0.1
         }
         
         // Find the system that achieves true zero bill

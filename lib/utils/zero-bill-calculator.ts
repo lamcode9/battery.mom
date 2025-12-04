@@ -616,18 +616,39 @@ export function calculateZeroBill(inputs: ZeroBillInputs): ZeroBillOutputs {
     : 0
 
   // Calculate hourly energy flow for visualization
-  // Solar generation curve: peaks at noon (12:00), active 6 AM - 6 PM
+  // Country-specific solar generation curves based on latitude and typical irradiance patterns
   const getSolarGenerationHourly = (hour: number): number => {
-    if (hour < 6 || hour >= 18) return 0 // No solar at night
-    // Bell curve centered at 12:00 (noon)
-    const peakHour = 12
-    const sigma = 3 // Controls curve width
+    // Country-specific sunrise/sunset times (approximate averages)
+    const solarHours = {
+      SG: { sunrise: 7.0, sunset: 19.0 }, // Singapore: ~1.3°N
+      MY: { sunrise: 7.0, sunset: 19.0 }, // Malaysia: ~4°N
+      TH: { sunrise: 6.5, sunset: 18.5 }, // Thailand: ~15°N
+      ID: { sunrise: 6.0, sunset: 18.0 }, // Indonesia: ~2°S-7°N (using equatorial average)
+      VN: { sunrise: 6.0, sunset: 18.0 }, // Vietnam: ~14°N-23°N (using northern average)
+      PH: { sunrise: 6.0, sunset: 18.0 }, // Philippines: ~13°N
+    }
+
+    const { sunrise, sunset } = solarHours[country] || solarHours.SG // Default to Singapore
+    if (hour < sunrise || hour >= sunset) return 0 // No solar outside daylight hours
+
+    // Adjust sigma based on latitude - higher latitudes have more concentrated irradiance
+    const latitudeAdjustment = Math.abs(country === 'TH' ? 15 : country === 'VN' ? 16 : 4) // Rough latitude
+    const baseSigma = 3.2
+    const sigma = baseSigma - (latitudeAdjustment / 20) // Slightly narrower curve for equatorial regions
+
+    // Bell curve centered at solar noon (average of sunrise/sunset)
+    const solarNoon = (sunrise + sunset) / 2
+    const peakHour = solarNoon
+
     const normalized = Math.exp(-Math.pow((hour - peakHour) / sigma, 2) / 2)
-    // Scale to match daily total
-    const hourlyFactor = normalized / Array.from({ length: 12 }, (_, i) => {
-      const h = i + 6
+
+    // Scale to match daily total using actual daylight hours
+    const daylightHours = sunset - sunrise
+    const hourlyFactor = normalized / Array.from({ length: Math.floor(daylightHours) }, (_, i) => {
+      const h = sunrise + i + 0.5 // Sample at half-hour intervals
       return Math.exp(-Math.pow((h - peakHour) / sigma, 2) / 2)
     }).reduce((a, b) => a + b, 0)
+
     return dailySolarGeneration * hourlyFactor
   }
 

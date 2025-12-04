@@ -1866,6 +1866,16 @@ function BatteriesAtHomePageContent() {
                   <h3 className="text-base font-bold text-gray-900">EV Charging</h3>
                   <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">kWh/month</span>
                 </div>
+                <div className="mb-4">
+                  <InfoBox title="EV Charging Assumptions">
+                    <div className="space-y-1 text-xs">
+                      <div><span className="font-semibold">Home Charging:</span> 7kW AC charging speed (Level 2)</div>
+                      <div><span className="font-semibold">Public Charging:</span> 100kW DC fast charging speed</div>
+                      <div><span className="font-semibold">Charger Availability:</span> Always available at home, unlimited at public</div>
+                      <div><span className="font-semibold">Night Charging:</span> Starts at 19:00 (7 PM)</div>
+                    </div>
+                  </InfoBox>
+                </div>
                 <div className="border border-gray-200 rounded-lg overflow-hidden">
                   <div className="px-3 py-2 bg-gray-50/50 border-b border-gray-200">
                     <div className="flex justify-between items-baseline">

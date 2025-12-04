@@ -507,30 +507,69 @@ export function calculateZeroBill(inputs: ZeroBillInputs): ZeroBillOutputs {
     return baseLoad * multiplier
   }
 
-  // EV charging distribution based on preference
+  // EV charging speed limits (kW)
+  const HOME_CHARGING_SPEED_KW = 7 // Typical home AC charging (7-11kW)
+  const PUBLIC_CHARGING_SPEED_KW = 100 // Assumed DC fast charging (user specified 100kW)
+
+  // EV charging distribution based on preference with speed constraints
   const getEvChargingHourly = (hour: number): number => {
     if (evHomeChargingKwh === 0) return 0
-    
+
+    // Determine if this hour is available for charging and max charging speed
+    let isChargingHour = false
+    let maxChargingKw = 0
+    let availableHours = 0
+
     if (effectiveChargingTime === 'Day only') {
-      // Distribute across daylight hours (6 AM - 6 PM)
+      // Day charging: 6 AM - 6 PM, assume public DC fast charging available
       if (hour >= 6 && hour < 18) {
-        return evHomeChargingKwh / 12
+        isChargingHour = true
+        maxChargingKw = PUBLIC_CHARGING_SPEED_KW
+        availableHours = 12
       }
-      return 0
     } else if (effectiveChargingTime === 'Night only') {
-      // Distribute across night hours (6 PM - 6 AM)
-      if (hour >= 18 || hour < 6) {
-        return evHomeChargingKwh / 12
+      // Night charging: 7 PM - 6 AM, home AC charging
+      if (hour >= 19 || hour < 6) {
+        isChargingHour = true
+        maxChargingKw = HOME_CHARGING_SPEED_KW
+        availableHours = 11 // 19:00 to 06:00 = 11 hours
       }
-      return 0
     } else {
-      // Both: split 50/50 between day and night
+      // Both: day (public) and night (home) charging
       if (hour >= 6 && hour < 18) {
-        return (evHomeChargingKwh * 0.5) / 12
-      } else {
-        return (evHomeChargingKwh * 0.5) / 12
+        // Day: public charging
+        isChargingHour = true
+        maxChargingKw = PUBLIC_CHARGING_SPEED_KW
+        availableHours = 12 // Day hours
+      } else if (hour >= 19 || hour < 6) {
+        // Night: home charging
+        isChargingHour = true
+        maxChargingKw = HOME_CHARGING_SPEED_KW
+        availableHours = 11 // Night hours
       }
     }
+
+    if (!isChargingHour) return 0
+
+    // Calculate charging amount limited by speed and available energy
+    // For "Both" mode, we need to split the energy appropriately
+    let hourlyEnergyLimit = 0
+
+    if (effectiveChargingTime === 'Both') {
+      // In "Both" mode, split energy between day and night
+      if (hour >= 6 && hour < 18) {
+        // Day portion: 50% of energy over 12 hours
+        hourlyEnergyLimit = Math.min(maxChargingKw, (evHomeChargingKwh * 0.5) / 12)
+      } else {
+        // Night portion: 50% of energy over 11 hours
+        hourlyEnergyLimit = Math.min(maxChargingKw, (evHomeChargingKwh * 0.5) / 11)
+      }
+    } else {
+      // Single period charging
+      hourlyEnergyLimit = Math.min(maxChargingKw, evHomeChargingKwh / availableHours)
+    }
+
+    return hourlyEnergyLimit
   }
 
   // Simulate hourly energy flow

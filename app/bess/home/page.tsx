@@ -233,15 +233,14 @@ const EnergyFlowChart = memo(function EnergyFlowChart({ energyFlow, country }: {
                         </div>
                       </div>
                       <div className="space-y-1.5">
-                        {generationItems.map((item: any, index: number) => {
-                          const value = Math.abs(item.value || 0)
-                          const name = item.name || item.dataKey
-                          const displayName = name === 'Battery Usage' ? 'Battery' : name
-                          const isGridExport = name === 'Grid Export'
-                          return (
-                            <div key={index}>
-                              {isGridExport && <div className="border-t border-gray-300 my-2"></div>}
-                              <div className="flex items-center gap-4">
+                        {generationItems
+                          .filter((item: any) => (item.name || item.dataKey) !== 'Grid Export')
+                          .map((item: any, index: number) => {
+                            const value = Math.abs(item.value || 0)
+                            const name = item.name || item.dataKey
+                            const displayName = name === 'Battery Usage' ? 'Battery' : name
+                            return (
+                              <div key={index} className="flex items-center gap-4">
                                 <div className="flex items-center gap-2">
                                   <div
                                     className="w-2.5 h-2.5 rounded-sm"
@@ -253,10 +252,38 @@ const EnergyFlowChart = memo(function EnergyFlowChart({ energyFlow, country }: {
                                   {value.toFixed(1)} kWh
                                 </span>
                               </div>
-                            </div>
-                          )
-                        })}
+                            )
+                          })}
                       </div>
+
+                      {/* Grid Export Section - Separate at bottom */}
+                      {generationItems.some((item: any) => (item.name || item.dataKey) === 'Grid Export') && (
+                        <>
+                          <div className="border-t border-gray-300 my-2"></div>
+                          <div className="text-xs font-medium text-amber-700 mb-1">Excess Export</div>
+                          <div className="space-y-1">
+                            {generationItems
+                              .filter((item: any) => (item.name || item.dataKey) === 'Grid Export')
+                              .map((item: any, index: number) => {
+                                const value = Math.abs(item.value || 0)
+                                return (
+                                  <div key={`grid-export-${index}`} className="flex items-center gap-4">
+                                    <div className="flex items-center gap-2">
+                                      <div
+                                        className="w-2.5 h-2.5 rounded-sm"
+                                        style={{ backgroundColor: item.color || COLORS['Grid Export'] }}
+                                      ></div>
+                                      <span className="text-xs text-gray-700">Grid Export</span>
+                                    </div>
+                                    <span className="text-xs font-semibold text-gray-900 tabular-nums">
+                                      {value.toFixed(1)} kWh
+                                    </span>
+                                  </div>
+                                )
+                              })}
+                          </div>
+                        </>
+                      )}
                     </div>
                   )}
 

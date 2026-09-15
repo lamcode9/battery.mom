@@ -31,17 +31,16 @@ Think like a senior product engineer, product designer, and data editor at the s
 
 Do not adopt CentsCheck-specific rules such as Flutter UI conventions, CentsCheck feature-doc requirements, pool currency rules, App Store Connect setup, or frosted-glass design mandates. Those belong to the CentsCheck app, not this project.
 
-## Playbooks — read before non-trivial work
+## Playbooks — contextual references
 
-Cross-project operating doctrine at `/Users/km/Developer/playbooks/`, written by Claude
-Fable 5 to raise the execution bar of any model working here — lean on it hardest when a
-smaller model is running. Before planning, read the matching playbook(s) in full, pick
-the three rules most likely to bite on this task, then apply silently (don't recite):
+Use relevant sections of `/Users/km/Developer/playbooks/` when making these decisions:
 
-- `thinking.md` — complex/ambiguous/multi-step work; debugging that resists the first fix.
-- `engineering.md` — architecture, non-trivial coding, refactors, performance, security.
-- `design.md` — anything the user sees: screens, components, pages, assets, microcopy.
-- `product.md` — pricing, monetization, growth, launch, positioning, business decisions.
+- `thinking.md` — uncertainty, conflicting evidence, difficult debugging.
+- `engineering.md` — architecture, implementation, performance, security.
+- `design.md` — layout, interaction, visual quality, accessibility.
+- `product.md` — pricing, positioning, growth, roadmap.
+
+Do not preload all playbooks or require a full read for routine changes.
 
 Full routing + bootstrap rule: `/Users/km/Developer/AGENTS.md` §Playbooks.
 

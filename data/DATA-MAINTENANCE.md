@@ -131,17 +131,18 @@ Pick the figure a typical battery.mom reader actually pays or sees on a quote (G
 
 ### Example — Updating Malaysia electricity tariff:
 ```ts
-// In data/rates.ts
+// In data/rates.ts — typical-reader unit rate, not a naked “Tariff A block” label
 export const RESIDENTIAL_TARIFF: CountryMap<number> = {
-  MY: 0.504,   // RM/kWh — TNB Tariff A, updated Q1 2026
+  MY: 0.444,   // RM/kWh — TNB RP4 Domestic General ≤1500 kWh (27.03+4.55+12.85 sen)
   ...
 }
 
-// Also update provenance
-electricityResidential: {
-  lastVerified: '2026-03-15',
+export const RESIDENTIAL_TARIFF_NOTE: CountryMap<string> = {
+  MY: 'TNB RP4 Domestic General ≤1500 kWh: 44.43 sen/kWh. AFA and EEI are consumption-dependent and are not baked in.',
   ...
 }
+
+// Also update provenance lastVerified
 ```
 
 ---

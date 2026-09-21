@@ -960,9 +960,9 @@ export default function ComparisonTable() {
     },
     PH: {
       models: ['Toyota Vios 1.3', 'Mitsubishi Mirage 1.2'],
-      costPerKm: 7.03, // 91.38 ÷ 13
+      costPerKm: 7.03, // 91.40 ÷ 13
       currency: 'PHP',
-      blurb: 'Assumes RON95 @ PHP 91.38/L (DOE Metro Manila, week of 15–21 Sep 2026) with ~13 km/L real-world efficiency.',
+      blurb: 'Assumes RON95 @ PHP 91.40/L (DOE Metro Manila common, 15–21 Sep 2026) with ~13 km/L real-world efficiency.',
     },
     TH: {
       models: ['Toyota Altis 1.6', 'Honda City 1.5'],

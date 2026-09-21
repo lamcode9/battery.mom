@@ -104,7 +104,7 @@ export const DATA_PROVENANCE: Record<string, ProvenanceEntry> = {
       { name: 'Pertamina / CNBC Indonesia', url: 'https://www.cnbcindonesia.com/news/20260921071808-4-769383/resmi-harga-bbm-di-spbu-pertamina-bp-shell-berlaku-21-september-2026', retrievedDate: '2026-09-21', notes: 'Pertalite Rp10,000/L unchanged 21 Sep 2026; Pertamax Green 95 Rp19,150/L' },
       { name: 'PTT Station / PPTV', url: 'https://www.pptvhd36.com/wealth/economic/283756', retrievedDate: '2026-09-21', notes: 'Gasohol 95 ฿39.94/L effective 21 Sep 2026 05:00' },
       { name: 'Petrolimex', url: 'https://www.petrolimex.com.vn/ndi/thong-cao-bao-chi/petrolimex-dieu-chinh-gia-xang-dau-tu-15-gio-00-phut-ngay-17-9-2026.html', retrievedDate: '2026-09-21', notes: 'E10 RON 95-III Region 1 ₫25,630/L from 15:00 17 Sep 2026' },
-      { name: 'DOE Philippines / Rappler', url: 'https://www.rappler.com/business/fuel-prices-adjustments-september-15-2026/', retrievedDate: '2026-09-21', notes: 'Metro Manila common RON95 ₱85.70 (8–14 Sep) plus ₱5.68 gasoline hike for 15–21 Sep' },
+      { name: 'DOE Philippines / Rappler', url: 'https://www.rappler.com/business/fuel-prices-adjustments-september-22-2026/', retrievedDate: '2026-09-21', notes: 'DOE Metro Manila common RON95 ₱91.40/L for 15–21 Sep 2026. A further ₱4.88/L gasoline hike was announced for 22–28 Sep, not yet in force on 21 Sep.' },
     ],
   },
   solarCost: {
@@ -167,9 +167,9 @@ export const DATA_PROVENANCE: Record<string, ProvenanceEntry> = {
     updateFrequency: 'Monthly (as new models launch)',
     sources: [
       { name: 'paultan.org citing Tesla Malaysia configurator (17 Jul 2026)', url: 'https://paultan.org/2026/07/17/tesla-malaysia-raises-prices-model-3-from-rm149k-model-y-from-rm198k-up-rm1400-to-rm3000/', retrievedDate: '2026-09-21' },
-      { name: 'Tesla Singapore / HardwareZone Model 3 COE-inclusive list (18 May 2026)', url: 'https://www.hardwarezone.com.sg/lifestyle/cars/tesla-model-3-rear-wheel-drive-110-cat-a-singapore-price', retrievedDate: '2026-09-21', notes: 'Drive-away including COE: RWD 110 S$179,999; Premium RWD 110 S$199,999; Premium LR RWD S$219,999; Performance AWD S$256,232. COE moves with the quota.' },
-      { name: 'SGCarMart Tesla Model Y authorised-dealer list via PaperValue (15 Aug 2026)', url: 'https://papervalue.sg/cars/tesla-model-y', retrievedDate: '2026-09-21', notes: 'Premium RWD 110 S$215,999 COE-inclusive. Other Model Y trims not rewritten without a matching sourced drive-away quote.' },
-      { name: 'SGCarMart BYD Atto 3 60.5 kWh (20 May 2026)', url: 'https://www.sgcarmart.com/new-cars/info/21508/byd-atto-3-electric', retrievedDate: '2026-09-21', notes: 'COE-inclusive S$181,888 for the 60.5 kWh model. Standard Range left as manufacturer-from and marked unavailable rather than guessing a COE add-on.' },
+      { name: 'PaperValue / SGCarMart Tesla Model 3 authorised-dealer list (12 Sep 2026)', url: 'https://papervalue.sg/cars/tesla-model-3', retrievedDate: '2026-09-21', notes: 'COE-inclusive drive-away: RWD 110 62.5 kWh S$192,999; Premium RWD 110 S$209,999; Premium LR RWD 84 kWh S$222,999; Performance AWD 84 kWh S$259,232. COE moves with the quota.' },
+      { name: 'PaperValue / SGCarMart Tesla Model Y authorised-dealer list (12 Sep 2026)', url: 'https://papervalue.sg/cars/tesla-model-y', retrievedDate: '2026-09-21', notes: 'Premium RWD 110 62.5 kWh S$222,999 COE-inclusive. PaperValue also lists Premium LR RWD S$242,999 and L Premium AWD S$268,999; those rows were not added without a matching sourced spec sheet.' },
+      { name: 'PaperValue / SGCarMart BYD Atto 3 Evo (12 Sep 2026)', url: 'https://papervalue.sg/cars/byd-atto-3', retrievedDate: '2026-09-21', notes: 'COE-inclusive S$191,388 for the Evo 60.48 kWh model. Standard Range left as manufacturer-from and marked unavailable rather than guessing a COE add-on.' },
       { name: 'PRO-NET / Proton e.MAS 7 SKD price list (20 Jan 2026)', url: 'https://emas.proton.com/pro-net-introduces-the-new-2026-proton-e-mas-7/', retrievedDate: '2026-09-21' },
       { name: 'BYD Sime Motors / paultan.org 2026 Atto 3 Ultra/Premium', url: 'https://paultan.org/2026/06/19/byd-atto-3-facelift-buyers-guide-ultra-vs-premium-which-2026-atto-3-should-you-buy-in-malaysia/', retrievedDate: '2026-09-21' },
       { name: 'Manufacturer websites and regional distributor price lists (remainder of catalogue)', retrievedDate: '2025-12-01' },
@@ -192,7 +192,7 @@ export const DATA_PROVENANCE: Record<string, ProvenanceEntry> = {
     lastVerified: '2026-09-21',
     updateFrequency: 'Every 6 months',
     sources: [
-      { name: 'Tesla Powerwall website', url: 'https://www.tesla.com/powerwall', retrievedDate: '2026-09-21', notes: 'Powerwall 3: 13.5 kWh, 97.5% round-trip efficiency, 11.5 kW continuous / 22 kW peak. SEA installed prices remain installer quotes, not Tesla list prices.' },
+      { name: 'Tesla Powerwall 3 datasheet (energy library)', url: 'https://energylibrary.tesla.com/docs/Public/EnergyStorage/Powerwall/3/Datasheet/en-us/Powerwall-3-Datasheet.pdf', retrievedDate: '2026-09-21', notes: '13.5 kWh usable. Solar-to-battery-to-home/grid efficiency 89% (the battery-path round trip). Solar-to-home/grid 97.5% is PV passthrough, not RTE. Continuous 11.5 kW; off-grid max continuous 15.4 kW. Tesla does not publish a 22 kW AC peak. SEA installed prices remain installer quotes.' },
       { name: 'BYD Battery-Box product page', url: 'https://www.bydbatterybox.com', retrievedDate: '2025-09-01' },
       { name: 'sonnen product page', url: 'https://sonnen.com', retrievedDate: '2025-09-01' },
       { name: 'Regional installer / distributor quotes', retrievedDate: '2025-09-01' },
@@ -306,7 +306,7 @@ export const PETROL_PRICE_PER_LITRE: CountryMap<number> = {
   ID: 10000,   // IDR — Pertalite (typical ICE fuel), unchanged 21 Sep 2026
   TH: 39.94,   // THB — PTT Gasohol 95, 21 Sep 2026
   VN: 25630,   // VND — Petrolimex E10 RON 95-III Region 1, from 17 Sep 2026
-  PH: 91.38,   // PHP — DOE Metro Manila common RON95 after the 15–21 Sep 2026 hike
+  PH: 91.40,   // PHP — DOE Metro Manila common RON95, week of 15–21 Sep 2026
 }
 
 export const PETROL_PRICE_NOTE: CountryMap<string> = {
@@ -315,7 +315,7 @@ export const PETROL_PRICE_NOTE: CountryMap<string> = {
   ID: 'Pertalite Rp10,000/L, the typical ICE fuel, unchanged 21 Sep 2026. Pertamax Green 95 was Rp19,150/L the same day.',
   TH: 'PTT Gasohol 95 ฿39.94/L from 05:00 on 21 Sep 2026.',
   VN: 'Petrolimex E10 RON 95-III Region 1 ₫25,630/L from 15:00 on 17 Sep 2026.',
-  PH: 'DOE Metro Manila common RON95 ₱91.38/L for 15–21 Sep 2026.',
+  PH: 'DOE Metro Manila common RON95 ₱91.40/L for 15–21 Sep 2026. A ₱4.88/L gasoline hike was announced for 22–28 Sep, not yet in force on 21 Sep.',
 }
 
 export const RATE_VERIFIED_ON = '21 September 2026'

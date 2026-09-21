@@ -10,7 +10,7 @@
     "rangeWltpKm": 534,
     "rangeEpaKm": 438,
     "rangeKm": 534,
-    "batteryCapacityKwh": 60,
+    "batteryCapacityKwh": 62.5,
     "batteryWeightKg": 480,
     "curbWeightKg": 1847,
     "batteryWeightPercentage": 26,
@@ -20,7 +20,7 @@
     "chargingTimeDc0To80Min": 25,
     "chargingCapabilities": "DC Fast Charge: Up to 250kW, AC: 11kW",
     "technologyFeatures": "Autopilot, Full Self-Driving Capability, Sentry Mode, Dog Mode, Over-the-Air Updates, 15\" Center Touchscreen, Premium Audio",
-    "basePriceLocalCurrency": 179999,
+    "basePriceLocalCurrency": 192999,
     "optionPrices": [
       {
         "name": "Enhanced Autopilot",
@@ -48,7 +48,7 @@
     "rangeWltpKm": 534,
     "rangeEpaKm": 438,
     "rangeKm": 534,
-    "batteryCapacityKwh": 60,
+    "batteryCapacityKwh": 62.5,
     "batteryWeightKg": 480,
     "curbWeightKg": 1847,
     "batteryWeightPercentage": 26,
@@ -58,7 +58,7 @@
     "chargingTimeDc0To80Min": 25,
     "chargingCapabilities": "DC Fast Charge: Up to 250kW, AC: 11kW",
     "technologyFeatures": "Autopilot, Full Self-Driving Capability, Sentry Mode, Dog Mode, Over-the-Air Updates, 15\" Center Touchscreen, Premium Audio",
-    "basePriceLocalCurrency": 199999,
+    "basePriceLocalCurrency": 209999,
     "optionPrices": [
       {
         "name": "Enhanced Autopilot",
@@ -85,7 +85,7 @@
     "rangeKm": 750,
     "chargingCapabilities": "DC Fast Charge: Up to 250kW, AC: 11kW",
     "technologyFeatures": "Autopilot, Over-the-Air Updates. COE-inclusive drive-away (Tesla/HardwareZone 18 May 2026).",
-    "basePriceLocalCurrency": 219999,
+    "basePriceLocalCurrency": 222999,
     "optionPrices": [
       {
         "name": "Full Self-Driving",
@@ -94,7 +94,8 @@
     ],
     "isAvailable": true,
     "otaUpdates": "Yes",
-    "hasBidirectional": false
+    "hasBidirectional": false,
+    "batteryCapacityKwh": 84
   },
   {
     "name": "Tesla Model 3",
@@ -141,7 +142,7 @@
     "rangeWltpKm": 571,
     "rangeEpaKm": 475,
     "rangeKm": 571,
-    "batteryCapacityKwh": 75,
+    "batteryCapacityKwh": 84,
     "batteryWeightKg": 520,
     "curbWeightKg": 1940,
     "batteryWeightPercentage": 26.8,
@@ -151,7 +152,7 @@
     "chargingTimeDc0To80Min": 25,
     "chargingCapabilities": "DC Fast Charge: Up to 250kW, AC: 11kW",
     "technologyFeatures": "Track Mode V3, Carbon Spoiler, Performance Brakes, Autopilot, Full Self-Driving Capability, 20\" Überturbine Wheels",
-    "basePriceLocalCurrency": 256232,
+    "basePriceLocalCurrency": 259232,
     "optionPrices": [
       {
         "name": "Track Package",
@@ -175,7 +176,7 @@
     "rangeWltpKm": 466,
     "rangeEpaKm": 455,
     "rangeKm": 466,
-    "batteryCapacityKwh": 60,
+    "batteryCapacityKwh": 62.5,
     "batteryWeightKg": 450,
     "curbWeightKg": 1974,
     "batteryWeightPercentage": 22.8,
@@ -185,7 +186,7 @@
     "chargingTimeDc0To80Min": 25,
     "chargingCapabilities": "DC Fast Charge: Up to 250kW, AC: 11kW",
     "technologyFeatures": "Autopilot, Full Self-Driving Capability, Sentry Mode, 15\" Touchscreen, Premium Interior",
-    "basePriceLocalCurrency": 215999,
+    "basePriceLocalCurrency": 222999,
     "optionPrices": [
       {
         "name": "Tow Hitch",
@@ -379,7 +380,7 @@
     "chargingTimeDc0To80Min": 30,
     "chargingCapabilities": "DC Fast Charge: Up to 88kW, AC: 7kW",
     "technologyFeatures": "DiLink 4.0, 15.6\" Rotating Touchscreen, Panoramic Roof, V2L, NFC Key, 360° Camera",
-    "basePriceLocalCurrency": 181888,
+    "basePriceLocalCurrency": 191388,
     "optionPrices": [
       {
         "name": "Sunroof",
@@ -8394,7 +8395,7 @@
     "batteryTechnology": "LFP",
     "chargingTimeDc0To80Min": 30,
     "chargingCapabilities": "DC Fast Charge: Up to 88kW, AC: 7kW",
-    "basePriceLocalCurrency": 181888,
+    "basePriceLocalCurrency": 191388,
     "optionPrices": [
       {
         "name": "Sunroof",

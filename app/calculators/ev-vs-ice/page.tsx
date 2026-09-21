@@ -92,7 +92,7 @@ export default function EVvsICEPage() {
   // (labelled); SG EV price is a sourced COE-inclusive drive-away.
   const presets: Record<Country, { evPrice: number; icePrice: number; evLabel: string; iceLabel: string }> = useMemo(() => ({
     MY: { evPrice: 125800, icePrice: 115900, evLabel: 'BYD Atto 3 (RM126K)', iceLabel: 'Honda HR-V (RM116K)' },
-    SG: { evPrice: 181888, icePrice: 151999, evLabel: 'BYD Atto 3 (S$182K)', iceLabel: 'Honda HR-V (S$152K)' },
+    SG: { evPrice: 191388, icePrice: 151999, evLabel: 'BYD Atto 3 (S$191K)', iceLabel: 'Honda HR-V (S$152K)' },
     ID: { evPrice: 390000000, icePrice: 388700000, evLabel: 'BYD Atto 3 (Rp390M)', iceLabel: 'Honda HR-V (Rp389M)' },
     TH: { evPrice: 729900, icePrice: 959000, evLabel: 'BYD Atto 3 (฿730K)', iceLabel: 'Honda HR-V e:HEV (฿959K)' },
     VN: { evPrice: 766000000, icePrice: 699000000, evLabel: 'BYD Atto 3 (₫766M)', iceLabel: 'Honda HR-V (₫699M)' },
@@ -417,7 +417,7 @@ export default function EVvsICEPage() {
             <div>ICE insurance: {fmt(ICE_INSURANCE[country], country)}/yr</div>
           </div>
           <p className="text-xs text-ink-400 mt-4">
-            Defaults pair like-for-like compact SUVs — BYD Atto 3 vs Honda HR-V — so the purchase gap reflects a real EV premium rather than a vehicle-class mismatch. In Thailand the HR-V is sold only as a hybrid (a tougher-than-petrol benchmark). In Singapore the Atto 3 default is the SGCarMart COE-inclusive drive-away of S$181,888 (60.5 kWh, 20 May 2026); COE is included and moves with the quota. Listed prices already reflect each market&apos;s EV tax and rebate position. Maintenance, insurance, depreciation, road tax, and financing are simplified regional estimates — ICE maintenance is about 2.3–2.5× EV — not a workshop invoice. Rates last verified {RATE_VERIFIED_ON}. You can override the vehicle prices above.
+            Defaults pair like-for-like compact SUVs — BYD Atto 3 vs Honda HR-V — so the purchase gap reflects a real EV premium rather than a vehicle-class mismatch. In Thailand the HR-V is sold only as a hybrid (a tougher-than-petrol benchmark). In Singapore the Atto 3 default is the PaperValue/SGCarMart COE-inclusive drive-away of S$191,388 (Evo 60.48 kWh, 12 Sep 2026); COE is included and moves with the quota. Listed prices already reflect each market&apos;s EV tax and rebate position. Maintenance, insurance, depreciation, road tax, and financing are simplified regional estimates — ICE maintenance is about 2.3–2.5× EV — not a workshop invoice. Rates last verified {RATE_VERIFIED_ON}. You can override the vehicle prices above.
           </p>
         </div>
       </section>

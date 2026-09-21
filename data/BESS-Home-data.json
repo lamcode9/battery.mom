@@ -3,11 +3,11 @@
     "name": "Tesla Powerwall 3",
     "capacityKwh": 13.5,
     "usableCapacityKwh": 13.5,
-    "roundTripEfficiency": 96,
+    "roundTripEfficiency": 89,
     "warrantyCycles": 6000,
     "warrantyYears": 10,
     "continuousPowerKw": 11.5,
-    "peakPowerKw": 20,
+    "peakPowerKw": 15.4,
     "priceLocalCurrency": {
       "MY": 48000,
       "SG": 15800,

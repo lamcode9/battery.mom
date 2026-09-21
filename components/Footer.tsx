@@ -93,8 +93,7 @@ export default function Footer() {
           </div>
 
           <p className="max-w-4xl text-xs leading-5 text-ink-400">
-            This living database is manually checked against primary sources where available. Prices, incentives,
-            specifications, and deployment figures may change; always confirm with official sources.
+            This living database is manually checked against primary sources where available. Residential tariffs, petrol prices, and USD rates were last verified 21 September 2026. Singapore electricity is the GST-inclusive household bill rate (34.78¢); Malaysia petrol is BUDI95 RM1.99 (unsubsidised RON95 was RM4.37 that week). Prices, incentives, specifications, and deployment figures may change; always confirm with official sources.
           </p>
 
           <div className="flex flex-col gap-2 border-t border-ink/5 pt-4 text-xs text-ink-400 md:flex-row md:items-center md:justify-between">

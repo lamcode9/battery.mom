@@ -124,21 +124,25 @@ The PostgreSQL database mirrors `vehicles-data.json` and adds:
 2. Find the relevant constant (e.g., `RESIDENTIAL_TARIFF`)
 3. Update values for affected countries
 4. Update `lastVerified` date in `DATA_PROVENANCE` for that category
-5. All consuming components automatically pick up the new values
+5. Update `RESIDENTIAL_TARIFF_NOTE` / `PETROL_PRICE_NOTE` so the live UI asterisk matches the number
+6. All consuming components automatically pick up the new values
+
+Pick the figure a typical battery.mom reader actually pays or sees on a quote (GST-inclusive household bill, BUDI95 inside the quota, a documented kWh/month blend). Put the official band, ex-GST, or unsubsidised price in the matching `*_NOTE` string. Do not invent a Singapore COE add-on on top of a manufacturer “from” price.
 
 ### Example — Updating Malaysia electricity tariff:
 ```ts
-// In data/rates.ts
+// In data/rates.ts — typical-reader unit rate, not a naked “Tariff A block” label
 export const RESIDENTIAL_TARIFF: CountryMap<number> = {
-  MY: 0.504,   // RM/kWh — TNB Tariff A, updated Q1 2026
+  MY: 0.444,   // RM/kWh — TNB RP4 Domestic General ≤1500 kWh (27.03+4.55+12.85 sen)
   ...
 }
 
-// Also update provenance
-electricityResidential: {
-  lastVerified: '2026-03-15',
+export const RESIDENTIAL_TARIFF_NOTE: CountryMap<string> = {
+  MY: 'TNB RP4 Domestic General ≤1500 kWh: 44.43 sen/kWh. AFA and EEI are consumption-dependent and are not baked in.',
   ...
 }
+
+// Also update provenance lastVerified
 ```
 
 ---
@@ -146,17 +150,14 @@ electricityResidential: {
 ## Known Data Issues
 
 ### Constants Duplication (Migration In Progress)
-Several older components still define their own local copies of tariffs/rates instead of importing from `data/rates.ts`. These are being migrated:
+Residential tariffs, petrol, and CO₂ grid factors were re-wired to `data/rates.ts` in the Sep 2026 freshness pass. Remaining local copies:
 
 | Component | Local Constant | Should Import |
 |-----------|---------------|---------------|
-| `ScenarioComparisonTool.tsx` | `TARIFF` (MY=0.571 ❌) | `RESIDENTIAL_TARIFF` from `data/rates.ts` |
-| `ESGDashboard.tsx` | `GRID_EMISSION_FACTOR` (MY=0.585 ❌) | `CO2_GRID_FACTOR` from `data/rates.ts` |
-| `CarbonCreditEstimator.tsx` | `GRID_EMISSION_FACTOR` (MY=0.585 ❌) | `CO2_GRID_FACTOR` from `data/rates.ts` |
-| `ev-charging-cost/page.tsx` | `HOME_TARIFF`, `DC_RATE`, `PETROL_PRICE` | `data/rates.ts` |
-| `ev-vs-ice/page.tsx` | `ELECTRICITY_TARIFF`, `PETROL_PRICE` | `data/rates.ts` |
-| `solar-payback/page.tsx` | `TARIFF`, `SOLAR_YIELD`, `SOLAR_COST_PER_KW` | `data/rates.ts` |
-| `zero-bill-calculator.ts` | `ELECTRICITY_TARIFFS`, `CO2_EMISSIONS_FACTOR` | `data/rates.ts` |
+| `solar-payback/page.tsx` | `SOLAR_YIELD`, `SOLAR_COST_PER_KW` | `data/rates.ts` (values still differ from the canonical solar tables) |
+| `zero-bill-calculator.ts` | `SOLAR_YIELD_PER_KW`, `SOLAR_COST_PER_KW` | `data/rates.ts` (same split) |
+| `ev-charging-cost/page.tsx` | `AC_PUBLIC_RATE` | `AC_PUBLIC_RATE` from `data/rates.ts` (PH/TH/SG still disagree) |
+| `bess/commercial/page-client.tsx` | `TARIFF`, `DEMAND_CHARGE` | `COMMERCIAL_TARIFF`, `DEMAND_CHARGE` from `data/rates.ts` |
 
 ### QuickPick "Best Selling" Label
 The "Best Selling" category in QuickPickCards is **algorithmically computed** from range/value/efficiency — it does NOT use real sales data. The label should clarify this to users.

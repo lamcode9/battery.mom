@@ -45,7 +45,7 @@ const CURRENCY: Record<Country, string> = {
 
 // Commercial electricity tariff (local currency / kWh, blended C&I rate)
 const TARIFF: Record<Country, number> = {
-  MY: 0.509, SG: 0.285, ID: 1450, TH: 4.18, VN: 1920, PH: 10.80,
+  MY: 0.507, SG: 0.285, ID: 1450, TH: 4.18, VN: 1920, PH: 10.80,
 }
 
 // Maximum demand charge (local currency / kW / month)

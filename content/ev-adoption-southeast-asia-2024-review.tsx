@@ -77,6 +77,9 @@ export default function EvAdoptionSea2024Content() {
         Wuling Air ev dominated the affordable end, while Hyundai&apos;s Ioniq 5 (locally assembled in
         Cikarang) led the premium segment. The Rp80 million purchase subsidy was impactful but limited
         in allocations.
+        <em className="block text-sm text-gray-500 mt-2">
+          The Rp80 million figure is the 2024 programme described in this year-in-review. It is not the live 2026 instrument — see the scoreboard for the PPN DTP status as of 21 September 2026.
+        </em>
       </p>
       <p>
         Indonesia&apos;s bigger story is on the supply side: it controls ~50% of global nickel reserves
@@ -107,6 +110,9 @@ export default function EvAdoptionSea2024Content() {
         Charging infrastructure remains the biggest barrier — just 800 public points for 117 million
         people. The grid itself is also a constraint: the Philippines has the highest electricity cost
         in ASEAN at ₱12.30/kWh residential, which narrows the fuel-cost savings advantage of EVs.
+        <em className="block text-sm text-gray-500 mt-2">
+          ₱12.30/kWh is the 2024 year-in-review snapshot used in this article (published February 2025). The live scoreboard and calculators now use Meralco’s typical household overall rate of ₱14.74/kWh as of September 2026.
+        </em>
       </p>
 
       <h2>Key trends across the region</h2>

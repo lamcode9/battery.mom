@@ -44,6 +44,7 @@ import SmartInsightsCards from '@/components/SmartInsightsCards'
 import MobileComparisonCards from '@/components/MobileComparisonCards'
 import { useComparisonURL } from '@/lib/hooks/useComparisonURL'
 import { AnimatedEntry } from '@/lib/hooks/useAnimations'
+import InfoTooltip from '@/components/InfoTooltip'
 
 type SortField = 'name' | 'rangeKm' | 'efficiencyKwhPer100km' | 'basePriceLocalCurrency' | 'powerRatingKw' | 'batteryWeightKg'
 type SortDirection = 'asc' | 'desc'
@@ -941,39 +942,39 @@ export default function ComparisonTable() {
   const ICE_FACTS: Partial<Record<Country, { models: string[]; costPerKm: number; currency: string; blurb: string }>> = {
     SG: {
       models: ['Toyota Corolla Altis 1.6', 'Honda Civic 1.5T'],
-      costPerKm: 0.20, // 2.60 ÷ 13 = 0.20
+      costPerKm: 0.27, // 3.49 ÷ 13
       currency: 'SGD',
-      blurb: 'Assumes RON95 @ SGD 2.60/L with ~13 km/L real-world efficiency.',
+      blurb: 'Assumes RON95 @ SGD 3.49/L (major brands, 21 Sep 2026) with ~13 km/L real-world efficiency.',
     },
     MY: {
       models: ['Honda City 1.5L', 'Toyota Vios 1.5L'],
-      costPerKm: 0.16, // 2.05 ÷ 13 = 0.16
+      costPerKm: 0.15, // 1.99 ÷ 13
       currency: 'MYR',
-      blurb: 'Assumes RON95 @ MYR 2.05/L with ~13 km/L efficiency.',
+      blurb: 'Assumes BUDI95 RON95 @ MYR 1.99/L with ~13 km/L efficiency. Unsubsidised RON95 was RM4.37/L in the same week.',
     },
     ID: {
       models: ['Toyota Avanza 1.3', 'Honda Brio 1.2'],
-      costPerKm: 1318.18, // 14500 ÷ 11 = 1318.18
+      costPerKm: 909.09, // 10000 ÷ 11
       currency: 'IDR',
-      blurb: 'Assumes Pertamax @ IDR 14,500/L with ~11 km/L real-world efficiency.',
+      blurb: 'Assumes Pertalite @ IDR 10,000/L with ~11 km/L real-world efficiency.',
     },
     PH: {
       models: ['Toyota Vios 1.3', 'Mitsubishi Mirage 1.2'],
-      costPerKm: 4.77, // 62 ÷ 13 = 4.77
+      costPerKm: 7.03, // 91.40 ÷ 13
       currency: 'PHP',
-      blurb: 'Assumes RON95 @ PHP 62/L with ~13 km/L real-world efficiency.',
+      blurb: 'Assumes RON95 @ PHP 91.40/L (DOE Metro Manila common, 15–21 Sep 2026) with ~13 km/L real-world efficiency.',
     },
     TH: {
       models: ['Toyota Altis 1.6', 'Honda City 1.5'],
-      costPerKm: 2.23, // 29 ÷ 13 = 2.23
+      costPerKm: 3.07, // 39.94 ÷ 13
       currency: 'THB',
-      blurb: 'Assumes Gasohol 95 @ THB 29/L with ~13 km/L real-world efficiency.',
+      blurb: 'Assumes Gasohol 95 @ THB 39.94/L (PTT, 21 Sep 2026) with ~13 km/L real-world efficiency.',
     },
     VN: {
       models: ['Toyota Vios 1.5', 'Honda City 1.5'],
-      costPerKm: 2083.33, // 25000 ÷ 12 = 2083.33
+      costPerKm: 2135.83, // 25630 ÷ 12
       currency: 'VND',
-      blurb: 'Assumes RON95 @ VND 25,000/L with ~12 km/L real-world efficiency.',
+      blurb: 'Assumes E10 RON95 @ VND 25,630/L (Petrolimex Region 1, from 17 Sep 2026) with ~12 km/L real-world efficiency.',
     },
   }
   
@@ -1603,7 +1604,10 @@ export default function ComparisonTable() {
             {/* 11. Vehicle Base Price */}
             <tr>
               <td className="px-2 py-2 text-xs font-medium text-ink-700 sticky left-0 bg-paper-100 z-10 max-w-[6rem] md:max-w-[8rem] lg:max-w-[10rem]">
-                <span className="break-words leading-tight">Vehicle Base Price</span>
+                <span className="inline-flex items-center gap-1">
+                  <span className="break-words leading-tight">Vehicle Base Price</span>
+                  <InfoTooltip content="Malaysia figures are OTR Peninsular list prices where sourced. Singapore Tesla Model 3/Y RWD and BYD Atto 3 Extended are COE-inclusive drive-away quotes; COE is included and moves with the quota. Other Singapore rows may still show a manufacturer ‘from’ price — we did not add an estimated COE on top. Confirm the cheque on SGCarMart before comparing." />
+                </span>
               </td>
               {sortedVehicles.map((vehicle) => {
                 const isBest = bestBasePrice !== null && vehicle.basePriceLocalCurrency === bestBasePrice

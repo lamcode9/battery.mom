@@ -43,25 +43,8 @@ export const COUNTRY_OPTIONS: { value: Country; label: string; flag: string }[] 
   { value: 'PH', label: 'Philippines', flag: '🇵🇭' },
 ]
 
-// ── Residential electricity tariff (local currency per kWh, 2025/2026) ─────
-export const ELECTRICITY_TARIFF: Record<Country, number> = {
-  MY: 0.474,
-  SG: 0.315,
-  ID: 1750,
-  TH: 4.59,
-  VN: 2135,
-  PH: 12.30,
-}
-
-// ── CO₂ grid emission factor (kg CO₂ per kWh, average grid mix) ───────────
-export const CO2_GRID_FACTOR: Record<Country, number> = {
-  MY: 0.65,
-  SG: 0.45,
-  ID: 0.70,
-  TH: 0.55,
-  VN: 0.60,
-  PH: 0.68,
-}
+// Re-export canonical rates so older imports of lib/constants stay in sync.
+export { RESIDENTIAL_TARIFF as ELECTRICITY_TARIFF, CO2_GRID_FACTOR } from '@/data/rates'
 
 // ── Currency formatting helpers ────────────────────────────────────────────
 

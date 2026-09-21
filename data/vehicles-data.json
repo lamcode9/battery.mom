@@ -1,16 +1,16 @@
 [
   {
     "name": "Tesla Model 3",
-    "modelTrim": "RWD",
+    "modelTrim": "RWD 110",
     "country": "SG",
-    "powerRatingKw": 194,
+    "powerRatingKw": 110,
     "torqueNm": 340,
-    "acceleration0To100Kmh": 6.1,
+    "acceleration0To100Kmh": 8.6,
     "efficiencyKwhPer100km": 13.5,
-    "rangeWltpKm": 513,
+    "rangeWltpKm": 534,
     "rangeEpaKm": 438,
-    "rangeKm": 513,
-    "batteryCapacityKwh": 60,
+    "rangeKm": 534,
+    "batteryCapacityKwh": 62.5,
     "batteryWeightKg": 480,
     "curbWeightKg": 1847,
     "batteryWeightPercentage": 26,
@@ -20,7 +20,7 @@
     "chargingTimeDc0To80Min": 25,
     "chargingCapabilities": "DC Fast Charge: Up to 250kW, AC: 11kW",
     "technologyFeatures": "Autopilot, Full Self-Driving Capability, Sentry Mode, Dog Mode, Over-the-Air Updates, 15\" Center Touchscreen, Premium Audio",
-    "basePriceLocalCurrency": 88650,
+    "basePriceLocalCurrency": 192999,
     "optionPrices": [
       {
         "name": "Enhanced Autopilot",
@@ -36,6 +36,66 @@
     "topSpeedKmh": 225,
     "hasBidirectional": false,
     "otaUpdates": "Yes"
+  },
+  {
+    "name": "Tesla Model 3",
+    "modelTrim": "Premium RWD 110",
+    "country": "SG",
+    "powerRatingKw": 110,
+    "torqueNm": 340,
+    "acceleration0To100Kmh": 8.6,
+    "efficiencyKwhPer100km": 13.5,
+    "rangeWltpKm": 534,
+    "rangeEpaKm": 438,
+    "rangeKm": 534,
+    "batteryCapacityKwh": 62.5,
+    "batteryWeightKg": 480,
+    "curbWeightKg": 1847,
+    "batteryWeightPercentage": 26,
+    "batteryManufacturer": "Panasonic",
+    "batteryTechnology": "NMC",
+    "batteryWarranty": "8 years / 160,000 km",
+    "chargingTimeDc0To80Min": 25,
+    "chargingCapabilities": "DC Fast Charge: Up to 250kW, AC: 11kW",
+    "technologyFeatures": "Autopilot, Full Self-Driving Capability, Sentry Mode, Dog Mode, Over-the-Air Updates, 15\" Center Touchscreen, Premium Audio",
+    "basePriceLocalCurrency": 209999,
+    "optionPrices": [
+      {
+        "name": "Enhanced Autopilot",
+        "price": 5000
+      },
+      {
+        "name": "Full Self-Driving",
+        "price": 12000
+      }
+    ],
+    "isAvailable": true,
+    "grossVehicleWeightKg": 2047,
+    "topSpeedKmh": 225,
+    "hasBidirectional": false,
+    "otaUpdates": "Yes"
+  },
+  {
+    "name": "Tesla Model 3",
+    "modelTrim": "Premium Long Range RWD",
+    "country": "SG",
+    "powerRatingKw": 219,
+    "acceleration0To100Kmh": 5.3,
+    "rangeWltpKm": 750,
+    "rangeKm": 750,
+    "chargingCapabilities": "DC Fast Charge: Up to 250kW, AC: 11kW",
+    "technologyFeatures": "Autopilot, Over-the-Air Updates. COE-inclusive drive-away (Tesla/HardwareZone 18 May 2026).",
+    "basePriceLocalCurrency": 222999,
+    "optionPrices": [
+      {
+        "name": "Full Self-Driving",
+        "price": 12000
+      }
+    ],
+    "isAvailable": true,
+    "otaUpdates": "Yes",
+    "hasBidirectional": false,
+    "batteryCapacityKwh": 84
   },
   {
     "name": "Tesla Model 3",
@@ -65,7 +125,7 @@
         "price": 12000
       }
     ],
-    "isAvailable": true,
+    "isAvailable": false,
     "grossVehicleWeightKg": 2112,
     "topSpeedKmh": 233,
     "hasBidirectional": false,
@@ -75,14 +135,14 @@
     "name": "Tesla Model 3",
     "modelTrim": "Performance",
     "country": "SG",
-    "powerRatingKw": 510,
+    "powerRatingKw": 461,
     "torqueNm": 660,
     "acceleration0To100Kmh": 3.1,
     "efficiencyKwhPer100km": 14.5,
-    "rangeWltpKm": 528,
+    "rangeWltpKm": 571,
     "rangeEpaKm": 475,
-    "rangeKm": 528,
-    "batteryCapacityKwh": 75,
+    "rangeKm": 571,
+    "batteryCapacityKwh": 84,
     "batteryWeightKg": 520,
     "curbWeightKg": 1940,
     "batteryWeightPercentage": 26.8,
@@ -92,7 +152,7 @@
     "chargingTimeDc0To80Min": 25,
     "chargingCapabilities": "DC Fast Charge: Up to 250kW, AC: 11kW",
     "technologyFeatures": "Track Mode V3, Carbon Spoiler, Performance Brakes, Autopilot, Full Self-Driving Capability, 20\" Überturbine Wheels",
-    "basePriceLocalCurrency": 134953,
+    "basePriceLocalCurrency": 259232,
     "optionPrices": [
       {
         "name": "Track Package",
@@ -107,26 +167,27 @@
   },
   {
     "name": "Tesla Model Y",
-    "modelTrim": "RWD",
+    "modelTrim": "Premium RWD 110",
     "country": "SG",
-    "powerRatingKw": 220,
-    "torqueNm": 420,
-    "acceleration0To100Kmh": 6.9,
-    "efficiencyKwhPer100km": 15.5,
+    "powerRatingKw": 110,
+    "torqueNm": 350,
+    "acceleration0To100Kmh": 9.6,
+    "efficiencyKwhPer100km": 15.3,
     "rangeWltpKm": 466,
     "rangeEpaKm": 455,
     "rangeKm": 466,
-    "batteryCapacityKwh": 60,
+    "batteryCapacityKwh": 62.5,
     "batteryWeightKg": 450,
     "curbWeightKg": 1974,
     "batteryWeightPercentage": 22.8,
-    "batteryManufacturer": "Panasonic",
-    "batteryTechnology": "NMC",
+    "batteryManufacturer": "Tesla",
+    "batteryTechnology": "LFP",
     "batteryWarranty": "8 years / 160,000 km",
     "chargingTimeDc0To80Min": 25,
-    "chargingCapabilities": "DC Fast Charge: Up to 250kW, AC: 11kW",
-    "technologyFeatures": "Autopilot, Full Self-Driving Capability, Sentry Mode, 15\" Touchscreen, Premium Interior",
-    "basePriceLocalCurrency": 105000,
+    "chargingCapabilities": "DC Fast Charge: Up to 175kW, AC: 11kW",
+    "technologyFeatures": "Autopilot, Full Self-Driving Capability, Sentry Mode, 15\" Touchscreen, Premium Interior. Cat A 110 kW specs: Straits Times 28 Mar 2025; drive-away PaperValue 12 Sep 2026.",
+    "dataSourceUrl": "https://www.straitstimes.com/life/motoring/fast-drive-tesla-announces-singapore-specific-model-y-with-category-a-coe-compliant-output",
+    "basePriceLocalCurrency": 222999,
     "optionPrices": [
       {
         "name": "Tow Hitch",
@@ -135,7 +196,7 @@
     ],
     "isAvailable": true,
     "grossVehicleWeightKg": 2174,
-    "topSpeedKmh": 217,
+    "topSpeedKmh": 201,
     "hasBidirectional": false,
     "otaUpdates": "Yes"
   },
@@ -167,7 +228,7 @@
         "price": 12000
       }
     ],
-    "isAvailable": true,
+    "isAvailable": false,
     "grossVehicleWeightKg": 2203,
     "topSpeedKmh": 217,
     "hasBidirectional": false,
@@ -293,7 +354,7 @@
         "price": 2000
       }
     ],
-    "isAvailable": true,
+    "isAvailable": false,
     "grossVehicleWeightKg": 1880,
     "topSpeedKmh": 160,
     "hasBidirectional": true,
@@ -320,7 +381,7 @@
     "chargingTimeDc0To80Min": 30,
     "chargingCapabilities": "DC Fast Charge: Up to 88kW, AC: 7kW",
     "technologyFeatures": "DiLink 4.0, 15.6\" Rotating Touchscreen, Panoramic Roof, V2L, NFC Key, 360° Camera",
-    "basePriceLocalCurrency": 49990,
+    "basePriceLocalCurrency": 191388,
     "optionPrices": [
       {
         "name": "Sunroof",
@@ -530,7 +591,7 @@
     "chargingTimeDc0To80Min": 28,
     "chargingCapabilities": "DC Fast Charge: Up to 100kW, AC: 7kW",
     "technologyFeatures": "Intelligent Cockpit, ADAS Level 2+, 15.4\" Touchscreen, V2L, OTA Updates",
-    "basePriceLocalCurrency": 105800,
+    "basePriceLocalCurrency": 103800,
     "optionPrices": [
       {
         "name": "Premium Audio System",
@@ -2844,7 +2905,7 @@
         "price": 2000
       }
     ],
-    "isAvailable": true,
+    "isAvailable": false,
     "grossVehicleWeightKg": 2270,
     "topSpeedKmh": 250,
     "hasBidirectional": false,
@@ -3248,7 +3309,7 @@
         "price": 2000
       }
     ],
-    "isAvailable": true,
+    "isAvailable": false,
     "grossVehicleWeightKg": 2300,
     "topSpeedKmh": 217,
     "hasBidirectional": false,
@@ -8017,7 +8078,7 @@
     "chargingTimeDc0To80Min": 25,
     "chargingCapabilities": "DC Fast Charge: Up to 250kW, AC: 11kW",
     "technologyFeatures": "Autopilot, Enhanced Autopilot, Sentry Mode, Over-the-Air Updates, 15.4\" Touchscreen, Ambient Lighting",
-    "basePriceLocalCurrency": 169000,
+    "basePriceLocalCurrency": 149000,
     "optionPrices": [
       {
         "name": "Full Self-Driving Capability",
@@ -8036,7 +8097,45 @@
   },
   {
     "name": "Tesla Model 3",
-    "modelTrim": "Long Range RWD",
+    "modelTrim": "Premium RWD",
+    "country": "MY",
+    "powerRatingKw": 194,
+    "torqueNm": 340,
+    "acceleration0To100Kmh": 6.1,
+    "efficiencyKwhPer100km": 13.5,
+    "rangeWltpKm": 513,
+    "rangeEpaKm": 438,
+    "rangeKm": 513,
+    "batteryCapacityKwh": 60,
+    "batteryWeightKg": 480,
+    "curbWeightKg": 1847,
+    "batteryWeightPercentage": 26,
+    "batteryManufacturer": "Panasonic",
+    "batteryTechnology": "NMC",
+    "batteryWarranty": "8 years / 160,000 km",
+    "chargingTimeDc0To80Min": 25,
+    "chargingCapabilities": "DC Fast Charge: Up to 250kW, AC: 11kW",
+    "technologyFeatures": "Autopilot, Enhanced Autopilot, Sentry Mode, Over-the-Air Updates, 15.4\" Touchscreen, Ambient Lighting",
+    "basePriceLocalCurrency": 171000,
+    "optionPrices": [
+      {
+        "name": "Full Self-Driving Capability",
+        "price": 32000
+      },
+      {
+        "name": "Premium Interior",
+        "price": 5000
+      }
+    ],
+    "isAvailable": true,
+    "grossVehicleWeightKg": 2047,
+    "topSpeedKmh": 225,
+    "hasBidirectional": false,
+    "otaUpdates": "Yes"
+  },
+  {
+    "name": "Tesla Model 3",
+    "modelTrim": "Premium Long Range RWD",
     "country": "MY",
     "powerRatingKw": 366,
     "torqueNm": 510,
@@ -8055,7 +8154,7 @@
     "chargingTimeDc0To80Min": 25,
     "chargingCapabilities": "DC Fast Charge: Up to 250kW, AC: 11kW",
     "technologyFeatures": "Autopilot, Full Self-Driving Capability, Heat Pump, Double-Glazed Glass, 15.4\" Touchscreen",
-    "basePriceLocalCurrency": 189000,
+    "basePriceLocalCurrency": 187000,
     "optionPrices": [
       {
         "name": "19\" Nova Wheels",
@@ -8089,7 +8188,7 @@
     "chargingTimeDc0To80Min": 25,
     "chargingCapabilities": "DC Fast Charge: Up to 250kW, AC: 11kW",
     "technologyFeatures": "Track Mode V3, Carbon Spoiler, Performance Brakes, Autopilot, Full Self-Driving Capability, 20\" Überturbine Wheels",
-    "basePriceLocalCurrency": 223000,
+    "basePriceLocalCurrency": 232000,
     "optionPrices": [
       {
         "name": "Track Package",
@@ -8123,7 +8222,7 @@
     "chargingTimeDc0To80Min": 25,
     "chargingCapabilities": "DC Fast Charge: Up to 250kW, AC: 11kW",
     "technologyFeatures": "Launch Series Badge, Full-Width Lightbar, Autopilot, Sentry Mode, 15\" Touchscreen, Vegan Suede Interior Option",
-    "basePriceLocalCurrency": 195450,
+    "basePriceLocalCurrency": 198000,
     "optionPrices": [
       {
         "name": "7-Seater Option",
@@ -8172,7 +8271,7 @@
         "price": 10000
       }
     ],
-    "isAvailable": true,
+    "isAvailable": false,
     "grossVehicleWeightKg": 2203,
     "topSpeedKmh": 217,
     "hasBidirectional": false,
@@ -8270,7 +8369,7 @@
         "price": 1500
       }
     ],
-    "isAvailable": true,
+    "isAvailable": false,
     "grossVehicleWeightKg": 1880,
     "topSpeedKmh": 160,
     "batteryCapacityKwh": 49.92,
@@ -8297,7 +8396,7 @@
     "batteryTechnology": "LFP",
     "chargingTimeDc0To80Min": 30,
     "chargingCapabilities": "DC Fast Charge: Up to 88kW, AC: 7kW",
-    "basePriceLocalCurrency": 49990,
+    "basePriceLocalCurrency": 191388,
     "optionPrices": [
       {
         "name": "Sunroof",
@@ -9192,7 +9291,7 @@
         "price": 3000
       }
     ],
-    "isAvailable": true,
+    "isAvailable": false,
     "grossVehicleWeightKg": 1880,
     "topSpeedKmh": 160,
     "batteryCapacityKwh": 49.92,
@@ -9204,22 +9303,22 @@
   },
   {
     "name": "BYD Atto 3",
-    "modelTrim": "Extended",
+    "modelTrim": "Ultra",
     "country": "MY",
     "powerRatingKw": 150,
     "acceleration0To100Kmh": 7.3,
     "efficiencyKwhPer100km": 15,
-    "rangeWltpKm": 480,
+    "rangeWltpKm": 420,
     "rangeEpaKm": 420,
-    "rangeKm": 480,
+    "rangeKm": 420,
     "batteryWeightKg": 380,
     "curbWeightKg": 1750,
     "batteryWeightPercentage": 21.7,
     "batteryManufacturer": "BYD",
     "batteryTechnology": "LFP",
     "chargingTimeDc0To80Min": 30,
-    "chargingCapabilities": "DC Fast Charge: Up to 88kW, AC: 7kW",
-    "basePriceLocalCurrency": 124800,
+    "chargingCapabilities": "DC Fast Charge: Up to 110kW, AC: 7kW",
+    "basePriceLocalCurrency": 125800,
     "optionPrices": [
       {
         "name": "Sunroof",
@@ -9234,6 +9333,28 @@
     "batteryWarranty": "8 years / 150,000 km",
     "technologyFeatures": "OTA Updates, 12.8\" Rotating Touchscreen, DiPilot ADAS, V2L Vehicle-to-Load",
     "hasBidirectional": true,
+    "otaUpdates": "Yes"
+  },
+  {
+    "name": "BYD Atto 3",
+    "modelTrim": "Premium",
+    "country": "MY",
+    "powerRatingKw": 230,
+    "torqueNm": 380,
+    "acceleration0To100Kmh": 5.5,
+    "rangeWltpKm": 510,
+    "rangeKm": 510,
+    "batteryCapacityKwh": 74.88,
+    "batteryManufacturer": "BYD",
+    "batteryTechnology": "LFP",
+    "batteryWarranty": "8 years / 160,000 km",
+    "chargingCapabilities": "DC Fast Charge: Up to 220kW (800V architecture; 10-80% in 25 min), AC: 11kW",
+    "technologyFeatures": "RWD Evo, 15.6\" Touchscreen, 8.8\" Instrument Display, DiPilot ADAS, Panoramic Sunroof, 360-degree Camera, 7 airbags. Specs: paultan.org 19 Jun 2026 buyer's guide.",
+    "dataSourceUrl": "https://paultan.org/2026/06/19/byd-atto-3-facelift-buyers-guide-ultra-vs-premium-which-2026-atto-3-should-you-buy-in-malaysia/",
+    "basePriceLocalCurrency": 138800,
+    "optionPrices": [],
+    "isAvailable": true,
+    "topSpeedKmh": 180,
     "otaUpdates": "Yes"
   },
   {
@@ -11386,7 +11507,7 @@
     "batteryTechnology": "LFP",
     "chargingTimeDc0To80Min": 25,
     "chargingCapabilities": "DC Fast Charge: Up to 250kW, AC: 11kW",
-    "basePriceLocalCurrency": 195450,
+    "basePriceLocalCurrency": 198000,
     "optionPrices": [
       {
         "name": "7-Seater",

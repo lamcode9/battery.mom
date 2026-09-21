@@ -3,13 +3,10 @@
 import { useState, useMemo } from 'react'
 import type { Country } from '@/types/bess'
 import { COUNTRY_OPTIONS as COUNTRIES, formatCurrency as fmt } from '@/lib/constants'
+import { PETROL_PRICE_PER_LITRE, PETROL_PRICE_NOTE, RESIDENTIAL_TARIFF, RESIDENTIAL_TARIFF_NOTE, RATE_VERIFIED_ON } from '@/data/rates'
 
-const ELECTRICITY_RATE: Record<Country, number> = {
-  MY: 0.474, SG: 0.315, ID: 1750, TH: 4.59, VN: 2135, PH: 12.30,
-}
-const PETROL_PRICE: Record<Country, number> = {
-  MY: 2.05, SG: 2.84, ID: 13900, TH: 38, VN: 23600, PH: 63,
-}
+const ELECTRICITY_RATE = RESIDENTIAL_TARIFF
+const PETROL_PRICE = PETROL_PRICE_PER_LITRE
 
 export default function EmbedEvVsIce() {
   const [country, setCountry] = useState<Country>('MY')
@@ -84,7 +81,8 @@ export default function EmbedEvVsIce() {
       </div>
 
       <p className="text-[10px] text-ink-400">
-        Based on avg 15 kWh/100km (EV) and 7.5 L/100km (petrol) · <a href="https://battery.mom/calculators/ev-vs-ice" target="_blank" rel="noopener noreferrer" className="underline hover:text-brand-600">Full calculator →</a>
+        Based on avg 15 kWh/100km (EV) and 7.5 L/100km (petrol). Home tariff: {RESIDENTIAL_TARIFF_NOTE[country]} Petrol: {PETROL_PRICE_NOTE[country]} Last verified {RATE_VERIFIED_ON}.{' '}
+        <a href="https://battery.mom/calculators/ev-vs-ice" target="_blank" rel="noopener noreferrer" className="underline hover:text-brand-600">Full calculator →</a>
       </p>
     </div>
   )

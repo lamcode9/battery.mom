@@ -3,13 +3,10 @@
 import { useState, useMemo } from 'react'
 import type { Country } from '@/types/bess'
 import { COUNTRY_OPTIONS as COUNTRIES, formatCurrency as fmt } from '@/lib/constants'
+import { PETROL_PRICE_PER_LITRE, RESIDENTIAL_TARIFF } from '@/data/rates'
 
-const ELECTRICITY_RATE: Record<Country, number> = {
-  MY: 0.474, SG: 0.315, ID: 1750, TH: 4.59, VN: 2135, PH: 12.30,
-}
-const PETROL_PRICE: Record<Country, number> = {
-  MY: 2.05, SG: 2.84, ID: 13900, TH: 38, VN: 23600, PH: 63,
-}
+const ELECTRICITY_RATE = RESIDENTIAL_TARIFF
+const PETROL_PRICE = PETROL_PRICE_PER_LITRE
 
 export default function EmbedEvVsIce() {
   const [country, setCountry] = useState<Country>('MY')

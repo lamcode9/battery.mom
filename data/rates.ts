@@ -57,23 +57,23 @@ export interface ProvenanceEntry {
 export const DATA_PROVENANCE: Record<string, ProvenanceEntry> = {
   electricityResidential: {
     description: 'Residential electricity tariffs (local currency per kWh)',
-    lastVerified: '2025-12-01',
+    lastVerified: '2026-09-21',
     updateFrequency: 'Quarterly',
     sources: [
-      { name: 'Suruhanjaya Tenaga (ST), Malaysia', url: 'https://www.st.gov.my', retrievedDate: '2025-12-01', notes: 'Tariff A (domestic) block 1-200 kWh' },
-      { name: 'Energy Market Authority (EMA), Singapore', url: 'https://www.ema.gov.sg/electricity-tariffs', retrievedDate: '2025-12-01', notes: 'Q4 2025 regulated tariff' },
-      { name: 'PLN, Indonesia', url: 'https://web.pln.co.id', retrievedDate: '2025-12-01', notes: 'R-1/TR 2200VA tariff' },
-      { name: 'Metropolitan Electricity Authority (MEA), Thailand', url: 'https://www.mea.or.th', retrievedDate: '2025-12-01', notes: 'Normal residential rate' },
-      { name: 'EVN, Vietnam', url: 'https://www.evn.com.vn', retrievedDate: '2025-12-01', notes: 'Tier 1 progressive tariff' },
-      { name: 'Meralco, Philippines', url: 'https://www.meralco.com.ph', retrievedDate: '2025-12-01', notes: 'Residential rate (all-in)' },
+      { name: 'Suruhanjaya Tenaga / TNB RP4 Domestic General', url: 'https://myenergystats.st.gov.my/documents/d/guest/jadual-tarif-tnb-terkini', retrievedDate: '2026-09-21', notes: '27.03+4.55+12.85 sen/kWh for ≤1500 kWh; AFA and Energy Efficiency Incentive are consumption-dependent and not baked into this unit rate' },
+      { name: 'Energy Market Authority (EMA) / SP Group, Singapore', url: 'https://www.ema.gov.sg/consumer-information/electricity/buying-electricity/buying-at-regulated-tariff', retrievedDate: '2026-09-21', notes: 'Q3 2026 regulated tariff 31.91 cents/kWh before GST (34.78 with 9% GST), 1 Jul–30 Sep 2026' },
+      { name: 'Kementerian ESDM / PLN, Indonesia', url: 'https://www.cnbcindonesia.com/news/20260901103232-4-763915/daftar-resmi-tarif-listrik-per-kwh-pelanggan-pln-per-1-september-2026', retrievedDate: '2026-09-21', notes: 'R-1/TR 1300–2200 VA Rp1,444.70/kWh, unchanged through Q3 2026' },
+      { name: 'Metropolitan Electricity Authority (MEA), Thailand', url: 'https://www.mea.or.th', retrievedDate: '2026-09-21', notes: 'Sep 2026 energy-band recut; representative blended rate left pending because Ft for Sep–Dec 2026 was not confirmed' },
+      { name: 'EVN, Vietnam', url: 'https://en.evn.com.vn/d6/news/RETAIL-ELECTRICITY-TARIFF-9-28-252.aspx', retrievedDate: '2026-09-21', notes: 'Decision 1279/QD-BCT six-tier schedule still in force; site keeps a representative rate pending a KM call on tier-1 vs blended vs marginal' },
+      { name: 'Meralco, Philippines', url: 'https://company.meralco.com.ph/news-and-advisories/lower-rates-september-2026', retrievedDate: '2026-09-21', notes: 'Typical household overall rate ₱14.7424/kWh for September 2026' },
     ],
   },
   electricityCommercial: {
     description: 'Commercial/industrial electricity tariffs',
-    lastVerified: '2025-12-01',
+    lastVerified: '2026-09-21',
     updateFrequency: 'Quarterly',
     sources: [
-      { name: 'TNB (Tariff C1/C2), Malaysia', url: 'https://www.tnb.com.my', retrievedDate: '2025-12-01' },
+      { name: 'TNB Non-Domestic Low Voltage General (RP4)', url: 'https://myenergystats.st.gov.my/documents/d/guest/jadual-tarif-tnb-terkini', retrievedDate: '2026-09-21', notes: '27.03+8.83+14.82 sen/kWh energy+capacity+network; MY updated. Other countries not independently re-sourced this pass.' },
       { name: 'EMA business tariff, Singapore', url: 'https://www.ema.gov.sg', retrievedDate: '2025-12-01' },
       { name: 'PLN B-2/B-3 tariff, Indonesia', url: 'https://web.pln.co.id', retrievedDate: '2025-12-01' },
       { name: 'MEA large general service, Thailand', url: 'https://www.mea.or.th', retrievedDate: '2025-12-01' },
@@ -95,16 +95,16 @@ export const DATA_PROVENANCE: Record<string, ProvenanceEntry> = {
     ],
   },
   petrolPrice: {
-    description: 'RON 95 petrol price per litre (local currency)',
-    lastVerified: '2025-12-01',
+    description: 'Mass-market petrol price per litre (local currency). Malaysia/Singapore/Thailand/Vietnam/Philippines use RON 95 (or Gasohol 95 / E10 RON 95); Indonesia uses Pertalite, the typical ICE fuel.',
+    lastVerified: '2026-09-21',
     updateFrequency: 'Monthly',
     sources: [
-      { name: 'Ministry of Domestic Trade (KPDNHEP), Malaysia', url: 'https://www.kpdnhep.gov.my', retrievedDate: '2025-12-01', notes: 'Subsidized RON 95 ceiling price' },
-      { name: 'SPC / Caltex Singapore', retrievedDate: '2025-12-01' },
-      { name: 'MyPertamina, Indonesia', retrievedDate: '2025-12-01', notes: 'Pertalite subsidised' },
-      { name: 'Shell / PTT, Thailand', retrievedDate: '2025-12-01' },
-      { name: 'Petrolimex, Vietnam', retrievedDate: '2025-12-01' },
-      { name: 'DOE Philippines', retrievedDate: '2025-12-01' },
+      { name: 'Ministry of Finance Malaysia / BUDI95', url: 'https://www.mof.gov.my/portal/en/news/press-citations/ron97-unsubsidised-ron95-diesel-prices-up-35-sen-for-sept-17-23', retrievedDate: '2026-09-21', notes: 'Eligible citizens pay RM1.99/L; unsubsidised RON 95 was RM4.37 for 17–23 Sep 2026' },
+      { name: 'AsiaOne pump-price roundup (Caltex/Esso/Shell/SPC/Sinopec)', url: 'https://www.asiaone.com/singapore/petrol-prices-diesel-sept-20-middle-east-war-spc', retrievedDate: '2026-09-21', notes: '95-octane S$3.49/L at Caltex, Esso, Shell and Sinopec as of 21 Sep 2026' },
+      { name: 'Pertamina / CNBC Indonesia', url: 'https://www.cnbcindonesia.com/news/20260921071808-4-769383/resmi-harga-bbm-di-spbu-pertamina-bp-shell-berlaku-21-september-2026', retrievedDate: '2026-09-21', notes: 'Pertalite Rp10,000/L unchanged 21 Sep 2026; Pertamax Green 95 Rp19,150/L' },
+      { name: 'PTT Station / PPTV', url: 'https://www.pptvhd36.com/wealth/economic/283756', retrievedDate: '2026-09-21', notes: 'Gasohol 95 ฿39.94/L effective 21 Sep 2026 05:00' },
+      { name: 'Petrolimex', url: 'https://www.petrolimex.com.vn/ndi/thong-cao-bao-chi/petrolimex-dieu-chinh-gia-xang-dau-tu-15-gio-00-phut-ngay-17-9-2026.html', retrievedDate: '2026-09-21', notes: 'E10 RON 95-III Region 1 ₫25,630/L from 15:00 17 Sep 2026' },
+      { name: 'DOE Philippines / Rappler', url: 'https://www.rappler.com/business/fuel-prices-adjustments-september-15-2026/', retrievedDate: '2026-09-21', notes: 'Metro Manila common RON95 ₱85.70 (8–14 Sep) plus ₱5.68 gasoline hike for 15–21 Sep' },
     ],
   },
   solarCost: {
@@ -149,35 +149,47 @@ export const DATA_PROVENANCE: Record<string, ProvenanceEntry> = {
     ],
   },
   evIncentives: {
-    description: 'Government EV purchase incentives and tax breaks',
-    lastVerified: '2025-12-01',
+    description: 'Separable one-time EV cash incentives. Listed vehicle prices already reflect each market’s tax/duty/rebate environment, so cash add-ons are zero to avoid double-counting.',
+    lastVerified: '2026-09-21',
     updateFrequency: 'On policy change',
     sources: [
-      { name: 'MITI / MIDA Malaysia – i-MoVE programme', retrievedDate: '2025-12-01' },
-      { name: 'LTA Singapore – VES/ARF rebates', url: 'https://www.lta.gov.sg', retrievedDate: '2025-12-01' },
-      { name: 'Ministry of Industry Indonesia – LCEV policy', retrievedDate: '2025-12-01' },
-      { name: 'Board of Investment Thailand – EV 3.5 package', retrievedDate: '2025-12-01' },
-      { name: 'MOIT Vietnam – Special Consumption Tax exemption', retrievedDate: '2025-12-01' },
-      { name: 'DTI Philippines – EVIDA IRR', retrievedDate: '2025-12-01' },
+      { name: 'MITI Malaysia CBU EV rules (1 Jul 2026)', retrievedDate: '2026-09-21', notes: 'Import-duty exemption no longer modelled as a cash rebate; duty/excise already in OTR prices' },
+      { name: 'LTA Singapore – VES/ARF rebates', url: 'https://www.lta.gov.sg', retrievedDate: '2026-09-21', notes: 'VES/EEAI is netted into COE-inclusive advertised prices' },
+      { name: 'Ministry of Industry Indonesia – LCEV policy', retrievedDate: '2026-09-21', notes: 'CBU/PPN cash subsidy expired Dec 2025' },
+      { name: 'Board of Investment Thailand – EV 3.5 package', retrievedDate: '2026-09-21', notes: 'Subsidy is reflected in promotional OTR prices' },
+      { name: 'MOIT Vietnam – registration-fee exemption', retrievedDate: '2026-09-21', notes: 'ICE-side cost, not modelled as an EV cash rebate' },
+      { name: 'DTI Philippines – EVIDA IRR', retrievedDate: '2026-09-21', notes: '0% tariff is in the SRP; no cash rebate' },
     ],
   },
   vehicleSpecs: {
     description: 'EV specifications (range, battery, efficiency, price, etc.)',
-    lastVerified: '2025-12-01',
+    lastVerified: '2026-09-21',
     updateFrequency: 'Monthly (as new models launch)',
     sources: [
-      { name: 'Manufacturer websites (Tesla, BYD, Hyundai, Kia, MG, VinFast, etc.)', retrievedDate: '2025-12-01' },
-      { name: 'Regional distributor price lists', retrievedDate: '2025-12-01' },
+      { name: 'paultan.org citing Tesla Malaysia configurator (17 Jul 2026)', url: 'https://paultan.org/2026/07/17/tesla-malaysia-raises-prices-model-3-from-rm149k-model-y-from-rm198k-up-rm1400-to-rm3000/', retrievedDate: '2026-09-21' },
+      { name: 'PRO-NET / Proton e.MAS 7 SKD price list (20 Jan 2026)', url: 'https://emas.proton.com/pro-net-introduces-the-new-2026-proton-e-mas-7/', retrievedDate: '2026-09-21' },
+      { name: 'BYD Sime Motors / paultan.org 2026 Atto 3 Ultra/Premium', url: 'https://paultan.org/2026/06/19/byd-atto-3-facelift-buyers-guide-ultra-vs-premium-which-2026-atto-3-should-you-buy-in-malaysia/', retrievedDate: '2026-09-21' },
+      { name: 'Manufacturer websites and regional distributor price lists (remainder of catalogue)', retrievedDate: '2025-12-01' },
       { name: 'WLTP certification data (European type-approval database)', url: 'https://co2cars.apps.eea.europa.eu', retrievedDate: '2025-12-01' },
-      { name: 'ev-database.org (cross-reference)', url: 'https://ev-database.org', retrievedDate: '2025-12-01' },
+    ],
+  },
+  usdExchange: {
+    description: 'USD exchange rates (local currency per 1 USD)',
+    lastVerified: '2026-09-21',
+    updateFrequency: 'Quarterly',
+    sources: [
+      { name: 'Hong Leong Bank midday currency outlook 21 Sep 2026', url: 'https://www.hlb.com.my/content/dam/hlb/my/docs/pdf/Global_Markets/currency-outlook/2026/21-09-2026.pdf', retrievedDate: '2026-09-21', notes: 'USD/MYR ~4.08; USD/SGD ~1.276' },
+      { name: 'Bank Indonesia JISDOR', url: 'https://www.bi.go.id/id/statistik/informasi-kurs/transaksi-bi/default.aspx', retrievedDate: '2026-09-21', notes: 'USD/IDR reference ~17,813 on 21 Sep 2026' },
+      { name: 'CNBC Indonesia FX roundup', url: 'https://www.cnbcindonesia.com/research/20260921093942-128-769450/mata-uang-asia-pesta-pora-rupiah-malah-gigit-jari', retrievedDate: '2026-09-21', notes: 'USD/THB 33.28; USD/PHP 62.767' },
+      { name: 'State Bank of Vietnam central rate', retrievedDate: '2026-09-21', notes: 'USD/VND central 25,637 on 21 Sep 2026' },
     ],
   },
   bessProducts: {
     description: 'Home battery energy storage system (BESS) specifications and pricing',
-    lastVerified: '2025-09-01',
+    lastVerified: '2026-09-21',
     updateFrequency: 'Every 6 months',
     sources: [
-      { name: 'Tesla Powerwall website', url: 'https://www.tesla.com/powerwall', retrievedDate: '2025-09-01' },
+      { name: 'Tesla Powerwall website', url: 'https://www.tesla.com/powerwall', retrievedDate: '2026-09-21', notes: 'Powerwall 3: 13.5 kWh, 97.5% round-trip efficiency, 11.5 kW continuous / 22 kW peak. SEA installed prices remain installer quotes, not Tesla list prices.' },
       { name: 'BYD Battery-Box product page', url: 'https://www.bydbatterybox.com', retrievedDate: '2025-09-01' },
       { name: 'sonnen product page', url: 'https://sonnen.com', retrievedDate: '2025-09-01' },
       { name: 'Regional installer / distributor quotes', retrievedDate: '2025-09-01' },
@@ -191,12 +203,12 @@ export const DATA_PROVENANCE: Record<string, ProvenanceEntry> = {
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const RESIDENTIAL_TARIFF: CountryMap<number> = {
-  MY: 0.474,   // RM/kWh — TNB Tariff A (domestic), block 1-200 kWh
-  SG: 0.315,   // SGD/kWh — EMA regulated Q4 2025
-  ID: 1750,    // IDR/kWh — PLN R-1/TR 2200VA
-  TH: 4.59,    // THB/kWh — MEA normal residential
-  VN: 2135,    // VND/kWh — EVN tier 1 progressive
-  PH: 12.30,   // PHP/kWh — Meralco residential all-in
+  MY: 0.444,   // RM/kWh — TNB Domestic General ≤1500 kWh: 27.03 + 4.55 + 12.85 sen (RP4). Excludes AFA (+3.67 sen Sep 2026, waived ≤600 kWh) and Energy Efficiency Incentive.
+  SG: 0.3191,  // SGD/kWh — EMA/SP Q3 2026 regulated tariff, 31.91 cents before GST (34.78 with GST)
+  ID: 1445,    // IDR/kWh — PLN R-1/TR 1300–2200 VA, Q3 2026 (Rp1,444.70)
+  TH: 4.59,    // THB/kWh — previous representative MEA rate; Sep 2026 energy bands recut, left unchanged pending Ft/blend call
+  VN: 2135,    // VND/kWh — previous representative EVN rate; official tiers are 1,984–3,460 (Decision 1279/QD-BCT)
+  PH: 14.74,   // PHP/kWh — Meralco typical household overall rate, Sep 2026 (₱14.7424)
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -204,7 +216,7 @@ export const RESIDENTIAL_TARIFF: CountryMap<number> = {
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const COMMERCIAL_TARIFF: CountryMap<number> = {
-  MY: 0.509,   // RM/kWh — TNB Tariff C1 (commercial, peak)
+  MY: 0.507,   // RM/kWh — TNB Non-Domestic LV General: 27.03 + 8.83 + 14.82 sen (RP4)
   SG: 0.245,   // SGD/kWh — EMA business contestable
   ID: 1445,    // IDR/kWh — PLN B-2 commercial
   TH: 5.33,    // THB/kWh — MEA large general service
@@ -276,12 +288,12 @@ export const DEMAND_CHARGE: CountryMap<number> = {
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const PETROL_PRICE_PER_LITRE: CountryMap<number> = {
-  MY: 2.05,    // RM — subsidized RON 95
-  SG: 2.78,    // SGD
-  ID: 10000,   // IDR — Pertalite
-  TH: 36.50,   // THB
-  VN: 22000,   // VND
-  PH: 62.00,   // PHP
+  MY: 1.99,    // RM — BUDI95 RON 95 for eligible citizens (300 L/month quota). Unsubsidised RON 95 was RM4.37 for 17–23 Sep 2026.
+  SG: 3.49,    // SGD — major-brand 95-octane, 21 Sep 2026
+  ID: 10000,   // IDR — Pertalite (typical ICE fuel), unchanged 21 Sep 2026
+  TH: 39.94,   // THB — PTT Gasohol 95, 21 Sep 2026
+  VN: 25630,   // VND — Petrolimex E10 RON 95-III Region 1, from 17 Sep 2026
+  PH: 91.38,   // PHP — DOE Metro Manila common RON95 after the 15–21 Sep 2026 hike
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -351,12 +363,12 @@ export const CARBON_CREDIT_PRICE_USD: Record<string, number> = {
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const USD_EXCHANGE_RATE: CountryMap<number> = {
-  MY: 4.70,
-  SG: 1.35,
-  ID: 16200,
-  TH: 35.50,
-  VN: 25400,
-  PH: 58.00,
+  MY: 4.08,    // HLB midday 21 Sep 2026
+  SG: 1.28,    // HLB USD/SGD ~1.276, 21 Sep 2026
+  ID: 17800,   // BI JISDOR ~17,813, 21 Sep 2026
+  TH: 33.28,   // USD/THB 21 Sep 2026
+  VN: 25640,   // SBV central 25,637, 21 Sep 2026
+  PH: 62.77,   // USD/PHP 21 Sep 2026
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -364,12 +376,12 @@ export const USD_EXCHANGE_RATE: CountryMap<number> = {
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const EV_INCENTIVE: CountryMap<number> = {
-  MY: 0,           // Full import duty + excise tax exemption (already reflected in price)
-  SG: 5000,        // ARF rebate under VES A1 band
-  ID: 80000000,    // IDR — subsidy for qualifying LCEV CKD
-  TH: 100000,      // THB — EV 3.5 purchase subsidy
-  VN: 0,           // SCT exemption reflected in price
-  PH: 0,           // No direct purchase subsidy (duty exemption only)
+  MY: 0,           // Duty/excise already in OTR prices (MITI CBU rules from 1 Jul 2026)
+  SG: 0,           // VES/EEAI already netted into COE-inclusive advertised prices
+  ID: 0,           // CBU/PPN cash subsidy expired Dec 2025
+  TH: 0,           // EV 3.5 subsidy is in the promotional OTR price
+  VN: 0,           // Registration-fee exemption is an ICE-side cost, not an EV cash rebate
+  PH: 0,           // EVIDA 0% tariff is in the SRP; no cash rebate
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

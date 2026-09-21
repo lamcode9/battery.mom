@@ -1,5 +1,6 @@
 import type { Country } from '@prisma/client'
 import { CURRENCY_BY_COUNTRY } from '@/lib/constants'
+import { DC_FAST_CHARGING_RATE } from '@/data/rates'
 
 export function formatPrice(price: number, country: Country, minimumFractionDigits: number = 0): string {
   const currency = CURRENCY_BY_COUNTRY[country] || 'USD'
@@ -11,23 +12,12 @@ export function formatPrice(price: number, country: Country, minimumFractionDigi
   }).format(price)
 }
 
-// EV charging rates per kWh for DC fast chargers in Southeast Asia (2025)
-// These are typical commercial fast-charging rates, not residential rates
-const ELECTRICITY_RATE_BY_COUNTRY: Record<Country, number> = {
-  SG: 0.50, // SGD per kWh (typical DC fast charger: $0.45-$0.55/kWh)
-  MY: 1.20, // MYR per kWh (typical DC fast charger: RM1.00-RM1.40/kWh)
-  ID: 3500, // IDR per kWh (typical DC fast charger: 3,000-4,000 IDR/kWh)
-  PH: 8.50, // PHP per kWh (typical DC fast charger: 7.50-9.50 PHP/kWh)
-  TH: 6.50, // THB per kWh (typical DC fast charger: 6.00-7.00 THB/kWh)
-  VN: 3500, // VND per kWh (typical DC fast charger: 3,000-4,000 VND/kWh)
-}
-
 /**
  * Get electricity rate for EV charging in the specified country
  * Returns rate in local currency per kWh for DC fast charging
  */
 export function getElectricityRate(country: Country): number {
-  return ELECTRICITY_RATE_BY_COUNTRY[country] || 0.40 // Default fallback
+  return DC_FAST_CHARGING_RATE[country] || 0.40 // Default fallback
 }
 
 /**

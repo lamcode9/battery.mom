@@ -91,7 +91,7 @@ const COUNTRIES: CountryData[] = [
     code: 'SG', name: 'Singapore', flag: '🇸🇬', population: 5.9,
     evAdoptionRate: 45.1, totalEvs: 23684, chargingStations: 10996, chargersPerMillion: 1864,
     solarCapacityGw: 1.5, bessPenetrationPct: 8.5, policyGrade: 'A-', evSalesGrowth: 64,
-    topSellingEv: 'BYD Sealion 7', electricityTariff: 'S$0.315/kWh',
+    topSellingEv: 'BYD Sealion 7', electricityTariff: 'S$0.319/kWh',
     evIncentives: '$45K ARF rebate, VES rebate up to $25K',
     prev: { evAdoptionRate: 33.6, totalEvs: 14450, chargersPerMillion: 915, solarCapacityGw: 1.1, bessPenetrationPct: 8.0, evSalesGrowth: 218 },
     historical: {
@@ -102,13 +102,13 @@ const COUNTRIES: CountryData[] = [
       bessPenetrationPct: [2.0, 3.5, 5.0, 8.0, 8.5],
       evSalesGrowth: [90, 160, 78, 218, 64],
     },
-    gdpPerCapita: 65233, electricityCostUsd: 0.22, avgEvPriceUsd: 62000, avgAnnualIncomeUsd: 58000,
+    gdpPerCapita: 65233, electricityCostUsd: 0.25, avgEvPriceUsd: 62000, avgAnnualIncomeUsd: 58000,
   },
   {
     code: 'MY', name: 'Malaysia', flag: '🇲🇾', population: 34,
     evAdoptionRate: 3.8, totalEvs: 30848, chargingStations: 5360, chargersPerMillion: 158,
     solarCapacityGw: 3.1, bessPenetrationPct: 2.3, policyGrade: 'B+', evSalesGrowth: 109,
-    topSellingEv: 'Proton e.MAS 7', electricityTariff: 'RM0.474/kWh',
+    topSellingEv: 'Proton e.MAS 7', electricityTariff: 'RM0.444/kWh',
     evIncentives: 'Zero import duty & excise to 2027, road tax exemption',
     prev: { evAdoptionRate: 1.8, totalEvs: 14766, chargersPerMillion: 106, solarCapacityGw: 3.1, bessPenetrationPct: 2.0, evSalesGrowth: 120 },
     historical: {
@@ -119,7 +119,7 @@ const COUNTRIES: CountryData[] = [
       bessPenetrationPct: [0.3, 0.7, 1.1, 2.0, 2.3],
       evSalesGrowth: [150, 280, 180, 120, 109],
     },
-    gdpPerCapita: 12570, electricityCostUsd: 0.10, avgEvPriceUsd: 35000, avgAnnualIncomeUsd: 11500,
+    gdpPerCapita: 12570, electricityCostUsd: 0.11, avgEvPriceUsd: 35000, avgAnnualIncomeUsd: 11500,
   },
   {
     code: 'VN', name: 'Vietnam', flag: '🇻🇳', population: 100,
@@ -142,7 +142,7 @@ const COUNTRIES: CountryData[] = [
     code: 'ID', name: 'Indonesia', flag: '🇮🇩', population: 278,
     evAdoptionRate: 12.9, totalEvs: 103900, chargingStations: 4655, chargersPerMillion: 17,
     solarCapacityGw: 1.5, bessPenetrationPct: 0.7, policyGrade: 'B', evSalesGrowth: 141,
-    topSellingEv: 'BYD Atto 1', electricityTariff: 'Rp1,750/kWh',
+    topSellingEv: 'BYD Atto 1', electricityTariff: 'Rp1,445/kWh',
     evIncentives: 'Rp80M purchase subsidy, 0% luxury tax, reduced PKB',
     prev: { evAdoptionRate: 5.0, totalEvs: 43100, chargersPerMillion: 12, solarCapacityGw: 0.9, bessPenetrationPct: 0.5, evSalesGrowth: 190 },
     historical: {
@@ -153,13 +153,13 @@ const COUNTRIES: CountryData[] = [
       bessPenetrationPct: [0.05, 0.1, 0.2, 0.5, 0.7],
       evSalesGrowth: [60, 200, 120, 190, 141],
     },
-    gdpPerCapita: 4788, electricityCostUsd: 0.09, avgEvPriceUsd: 25000, avgAnnualIncomeUsd: 5100,
+    gdpPerCapita: 4788, electricityCostUsd: 0.08, avgEvPriceUsd: 25000, avgAnnualIncomeUsd: 5100,
   },
   {
     code: 'PH', name: 'Philippines', flag: '🇵🇭', population: 117,
     evAdoptionRate: 12.0, totalEvs: 58905, chargingStations: 1110, chargersPerMillion: 9,
     solarCapacityGw: 3.9, bessPenetrationPct: 1.2, policyGrade: 'C+', evSalesGrowth: 143,
-    topSellingEv: 'BYD Seagull', electricityTariff: '₱12.30/kWh',
+    topSellingEv: 'BYD Seagull', electricityTariff: '₱14.74/kWh',
     evIncentives: 'EVIDA Act: 0% tariff, priority registration, HOV access',
     prev: { evAdoptionRate: 5.1, totalEvs: 24294, chargersPerMillion: 5, solarCapacityGw: 3.0, bessPenetrationPct: 1.0, evSalesGrowth: 80 },
     historical: {
@@ -170,7 +170,7 @@ const COUNTRIES: CountryData[] = [
       bessPenetrationPct: [0.1, 0.2, 0.5, 1.0, 1.2],
       evSalesGrowth: [40, 150, 130, 80, 143],
     },
-    gdpPerCapita: 3905, electricityCostUsd: 0.18, avgEvPriceUsd: 30000, avgAnnualIncomeUsd: 4500,
+    gdpPerCapita: 3905, electricityCostUsd: 0.23, avgEvPriceUsd: 30000, avgAnnualIncomeUsd: 4500,
   },
 ]
 

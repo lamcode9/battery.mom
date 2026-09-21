@@ -3,12 +3,10 @@
 import { memo, useState } from 'react'
 import type { Country } from '@/types/bess'
 import { CURRENCY_SYMBOLS, COUNTRY_NAMES } from '@/lib/constants'
+import { CO2_GRID_FACTOR } from '@/data/rates'
 import InfoTooltip from '@/components/InfoTooltip'
 
-// Grid emission factors by country (kg CO₂ per kWh) — 2024 IEA data
-const GRID_EMISSION_FACTOR: Record<Country, number> = {
-  MY: 0.585, SG: 0.408, ID: 0.761, TH: 0.493, VN: 0.590, PH: 0.672,
-}
+const GRID_EMISSION_FACTOR = CO2_GRID_FACTOR
 
 // Equivalent metrics
 function treesEquivalent(co2Kg: number) {
@@ -61,7 +59,7 @@ System: ${Math.round(solarKw)} kW Solar PV + ${Math.round(batteryCapacityKwh)} k
 Framework References: GRI 302/305, CDP C6/C7, TCFD Metrics & Targets
 
 SCOPE 2 EMISSIONS REDUCTION
-  Grid emission factor: ${GRID_EMISSION_FACTOR[country]} kg CO₂e/kWh (IEA ${new Date().getFullYear() - 1})
+  Grid emission factor: ${GRID_EMISSION_FACTOR[country]} kg CO₂e/kWh (IEA 2024)
   Annual renewable generation: ${Math.round(annualSolarGenKwh).toLocaleString()} kWh
   Annual CO₂ avoided: ${co2Tonnes.toFixed(1)} tonnes CO₂e
   20-year cumulative avoidance: ${co2_20yr.toFixed(0)} tonnes CO₂e

@@ -14,6 +14,7 @@ import {
 } from 'recharts'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
 import { CHART, CHART_TOOLTIP_STYLE } from '@/lib/chart-theme'
+import { RESIDENTIAL_TARIFF, CO2_GRID_FACTOR } from '@/data/rates'
 
 /* ── Constants ────────────────────────────────────────────────────── */
 
@@ -26,10 +27,7 @@ const SOLAR_YIELD: Record<Country, number> = {
   MY: 1400, SG: 1350, ID: 1500, TH: 1450, VN: 1400, PH: 1500,
 }
 
-// Electricity tariff (residential, local currency / kWh)
-const TARIFF: Record<Country, number> = {
-  MY: 0.571, SG: 0.325, ID: 1445, TH: 4.15, VN: 1920, PH: 11.63,
-}
+const TARIFF = RESIDENTIAL_TARIFF
 
 // Solar cost per kWp installed (local currency)
 const SOLAR_COST: Record<Country, number> = {
@@ -41,10 +39,7 @@ const BESS_COST: Record<Country, number> = {
   MY: 2800, SG: 1800, ID: 8500000, TH: 18000, VN: 12000000, PH: 35000,
 }
 
-// Grid emission factor kg CO₂/kWh
-const GRID_EF: Record<Country, number> = {
-  MY: 0.585, SG: 0.408, ID: 0.761, TH: 0.493, VN: 0.616, PH: 0.683,
-}
+const GRID_EF = CO2_GRID_FACTOR
 
 // EV consumption kWh/100km
 const EV_CONSUMPTION = 16

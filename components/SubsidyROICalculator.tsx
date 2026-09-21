@@ -13,12 +13,9 @@ import {
   Legend,
 } from 'recharts'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
+import { CO2_GRID_FACTOR } from '@/data/rates'
 
-/* ── Constants ─────────────────────────────────────────────────────── */
-
-const GRID_EMISSION_FACTOR: Record<Country, number> = {
-  MY: 0.585, SG: 0.408, ID: 0.761, TH: 0.493, VN: 0.616, PH: 0.683,
-}
+const GRID_EMISSION_FACTOR = CO2_GRID_FACTOR
 
 const CURRENCY: Record<Country, string> = {
   MY: 'RM', SG: 'S$', ID: 'Rp', TH: '฿', VN: '₫', PH: '₱',

@@ -7,6 +7,7 @@ import { NextSteps } from '@/components/ui/NextSteps'
 import { COUNTRY_OPTIONS as COUNTRIES, formatCurrency as fmt, formatCompact as fmtShort } from '@/lib/constants'
 import ShareResult from '@/components/ShareResult'
 import type { Country } from '@/types/bess'
+import { PETROL_PRICE_PER_LITRE, RESIDENTIAL_TARIFF, EV_INCENTIVE } from '@/data/rates'
 import {
   BarChart,
   Bar,
@@ -20,31 +21,8 @@ import {
 import ResponsiveContainer from '@/components/ResponsiveContainer'
 
 
-// Petrol price per litre (local currency, 2025/2026 averages)
-const PETROL_PRICE: Record<Country, number> = {
-  MY: 2.05,       // RM (RON95 subsidised)
-  SG: 2.85,       // SGD
-  ID: 13900,      // IDR (Pertalite)
-  TH: 36.5,       // THB (Gasohol 95)
-  VN: 24600,      // VND
-  PH: 62,         // PHP
-}
-
-// Residential electricity tariff (local currency per kWh)
-const ELECTRICITY_TARIFF: Record<Country, number> = {
-  MY: 0.474, SG: 0.315, ID: 1750, TH: 4.59, VN: 2135, PH: 12.30,
-}
-
-// Separable one-time EV cash incentive (local currency). As of 2026 the listed
-// prices already reflect each market's tax/duty/rebate environment, so these are
-// set to 0 to avoid double-counting: MY import-duty exemption expired Dec 2025;
-// SG's VES/EEAI rebate is already netted into the COE-inclusive price; ID's
-// CBU/PPN incentives expired Dec 2025; TH's EV3.5 subsidy is reflected in the
-// promotional price; VN exempts EVs from the registration fee (an ICE-side cost
-// not modelled here); PH offers no cash rebate (0% tariff is in the SRP).
-const EV_INCENTIVE: Record<Country, number> = {
-  MY: 0, SG: 0, ID: 0, TH: 0, VN: 0, PH: 0,
-}
+const PETROL_PRICE = PETROL_PRICE_PER_LITRE
+const ELECTRICITY_TARIFF = RESIDENTIAL_TARIFF
 
 // Annual maintenance cost estimates (local currency)
 const EV_ANNUAL_MAINTENANCE: Record<Country, number> = {

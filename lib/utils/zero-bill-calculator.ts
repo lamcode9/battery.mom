@@ -2,6 +2,7 @@ import { Country } from '@/types/bess'
 import { BESS } from '@/types/bess'
 import { Vehicle } from '@/types/vehicle'
 import { getElectricityRate } from '@/lib/utils'
+import { RESIDENTIAL_TARIFF, CO2_GRID_FACTOR } from '@/data/rates'
 
 // Solar yield per kW installed (average 2025) - kWh/kW/day
 export const SOLAR_YIELD_PER_KW: Record<Country, number> = {
@@ -78,27 +79,27 @@ export const EXPORT_RATE_MULTIPLIER: Record<Country, { full_export: number; net_
   MY: { full_export: 0, net_billing: 0 },      // No buyback program
 }
 
-// Electricity tariffs per country (Q3 2025 residential averages) - local currency per kWh
+// Canonical residential tariffs from data/rates.ts (last verified 21 Sep 2026)
 export const ELECTRICITY_TARIFFS: Record<Country, number> = {
-  MY: 0.474,   // RM per kWh
-  SG: 0.315,   // S$ per kWh
-  ID: 1750,    // Rp per kWh
-  TH: 4.59,    // THB per kWh
-  VN: 2135,    // VND per kWh
-  PH: 12.30,   // ₱ per kWh
+  MY: RESIDENTIAL_TARIFF.MY,
+  SG: RESIDENTIAL_TARIFF.SG,
+  ID: RESIDENTIAL_TARIFF.ID,
+  TH: RESIDENTIAL_TARIFF.TH,
+  VN: RESIDENTIAL_TARIFF.VN,
+  PH: RESIDENTIAL_TARIFF.PH,
 }
 
 // Re-export from shared constants for backward compatibility
 export { CURRENCY_BY_COUNTRY } from '@/lib/constants'
 
-// CO₂ emissions factor (kg CO₂ per kWh) - average grid mix per country
+// Canonical IEA-based grid factors from data/rates.ts
 export const CO2_EMISSIONS_FACTOR: Record<Country, number> = {
-  MY: 0.65,    // kg CO₂/kWh (coal-heavy grid)
-  SG: 0.45,    // kg CO₂/kWh (gas-heavy)
-  ID: 0.70,    // kg CO₂/kWh (coal-heavy)
-  TH: 0.55,    // kg CO₂/kWh (mixed)
-  VN: 0.60,    // kg CO₂/kWh (coal-heavy)
-  PH: 0.68,    // kg CO₂/kWh (coal-heavy)
+  MY: CO2_GRID_FACTOR.MY,
+  SG: CO2_GRID_FACTOR.SG,
+  ID: CO2_GRID_FACTOR.ID,
+  TH: CO2_GRID_FACTOR.TH,
+  VN: CO2_GRID_FACTOR.VN,
+  PH: CO2_GRID_FACTOR.PH,
 }
 
 // Constants

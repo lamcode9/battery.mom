@@ -7,6 +7,7 @@ import { NextSteps } from '@/components/ui/NextSteps'
 import { COUNTRY_OPTIONS as COUNTRIES, formatCurrency as fmt, formatCompact as fmtShort } from '@/lib/constants'
 import ShareResult from '@/components/ShareResult'
 import type { Country } from '@/types/bess'
+import { RESIDENTIAL_TARIFF } from '@/data/rates'
 import {
   BarChart,
   Bar,
@@ -31,10 +32,7 @@ const SOLAR_COST_PER_KW: Record<Country, number> = {
   MY: 3200, SG: 2500, ID: 14000000, TH: 32000, VN: 19000000, PH: 38000,
 }
 
-// Residential electricity tariff (local currency per kWh)
-const TARIFF: Record<Country, number> = {
-  MY: 0.474, SG: 0.315, ID: 1750, TH: 4.59, VN: 2135, PH: 12.30,
-}
+const TARIFF = RESIDENTIAL_TARIFF
 
 // Annual tariff inflation
 const TARIFF_INFLATION = 0.03

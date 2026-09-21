@@ -530,7 +530,7 @@
     "chargingTimeDc0To80Min": 28,
     "chargingCapabilities": "DC Fast Charge: Up to 100kW, AC: 7kW",
     "technologyFeatures": "Intelligent Cockpit, ADAS Level 2+, 15.4\" Touchscreen, V2L, OTA Updates",
-    "basePriceLocalCurrency": 105800,
+    "basePriceLocalCurrency": 103800,
     "optionPrices": [
       {
         "name": "Premium Audio System",
@@ -8017,7 +8017,7 @@
     "chargingTimeDc0To80Min": 25,
     "chargingCapabilities": "DC Fast Charge: Up to 250kW, AC: 11kW",
     "technologyFeatures": "Autopilot, Enhanced Autopilot, Sentry Mode, Over-the-Air Updates, 15.4\" Touchscreen, Ambient Lighting",
-    "basePriceLocalCurrency": 169000,
+    "basePriceLocalCurrency": 149000,
     "optionPrices": [
       {
         "name": "Full Self-Driving Capability",
@@ -8036,7 +8036,45 @@
   },
   {
     "name": "Tesla Model 3",
-    "modelTrim": "Long Range RWD",
+    "modelTrim": "Premium RWD",
+    "country": "MY",
+    "powerRatingKw": 194,
+    "torqueNm": 340,
+    "acceleration0To100Kmh": 6.1,
+    "efficiencyKwhPer100km": 13.5,
+    "rangeWltpKm": 513,
+    "rangeEpaKm": 438,
+    "rangeKm": 513,
+    "batteryCapacityKwh": 60,
+    "batteryWeightKg": 480,
+    "curbWeightKg": 1847,
+    "batteryWeightPercentage": 26,
+    "batteryManufacturer": "Panasonic",
+    "batteryTechnology": "NMC",
+    "batteryWarranty": "8 years / 160,000 km",
+    "chargingTimeDc0To80Min": 25,
+    "chargingCapabilities": "DC Fast Charge: Up to 250kW, AC: 11kW",
+    "technologyFeatures": "Autopilot, Enhanced Autopilot, Sentry Mode, Over-the-Air Updates, 15.4\" Touchscreen, Ambient Lighting",
+    "basePriceLocalCurrency": 171000,
+    "optionPrices": [
+      {
+        "name": "Full Self-Driving Capability",
+        "price": 32000
+      },
+      {
+        "name": "Premium Interior",
+        "price": 5000
+      }
+    ],
+    "isAvailable": true,
+    "grossVehicleWeightKg": 2047,
+    "topSpeedKmh": 225,
+    "hasBidirectional": false,
+    "otaUpdates": "Yes"
+  },
+  {
+    "name": "Tesla Model 3",
+    "modelTrim": "Premium Long Range RWD",
     "country": "MY",
     "powerRatingKw": 366,
     "torqueNm": 510,
@@ -8055,7 +8093,7 @@
     "chargingTimeDc0To80Min": 25,
     "chargingCapabilities": "DC Fast Charge: Up to 250kW, AC: 11kW",
     "technologyFeatures": "Autopilot, Full Self-Driving Capability, Heat Pump, Double-Glazed Glass, 15.4\" Touchscreen",
-    "basePriceLocalCurrency": 189000,
+    "basePriceLocalCurrency": 187000,
     "optionPrices": [
       {
         "name": "19\" Nova Wheels",
@@ -8089,7 +8127,7 @@
     "chargingTimeDc0To80Min": 25,
     "chargingCapabilities": "DC Fast Charge: Up to 250kW, AC: 11kW",
     "technologyFeatures": "Track Mode V3, Carbon Spoiler, Performance Brakes, Autopilot, Full Self-Driving Capability, 20\" Überturbine Wheels",
-    "basePriceLocalCurrency": 223000,
+    "basePriceLocalCurrency": 232000,
     "optionPrices": [
       {
         "name": "Track Package",
@@ -8123,7 +8161,7 @@
     "chargingTimeDc0To80Min": 25,
     "chargingCapabilities": "DC Fast Charge: Up to 250kW, AC: 11kW",
     "technologyFeatures": "Launch Series Badge, Full-Width Lightbar, Autopilot, Sentry Mode, 15\" Touchscreen, Vegan Suede Interior Option",
-    "basePriceLocalCurrency": 195450,
+    "basePriceLocalCurrency": 198000,
     "optionPrices": [
       {
         "name": "7-Seater Option",
@@ -8172,7 +8210,7 @@
         "price": 10000
       }
     ],
-    "isAvailable": true,
+    "isAvailable": false,
     "grossVehicleWeightKg": 2203,
     "topSpeedKmh": 217,
     "hasBidirectional": false,
@@ -9192,7 +9230,7 @@
         "price": 3000
       }
     ],
-    "isAvailable": true,
+    "isAvailable": false,
     "grossVehicleWeightKg": 1880,
     "topSpeedKmh": 160,
     "batteryCapacityKwh": 49.92,
@@ -9204,7 +9242,7 @@
   },
   {
     "name": "BYD Atto 3",
-    "modelTrim": "Extended",
+    "modelTrim": "Ultra",
     "country": "MY",
     "powerRatingKw": 150,
     "acceleration0To100Kmh": 7.3,
@@ -9219,7 +9257,7 @@
     "batteryTechnology": "LFP",
     "chargingTimeDc0To80Min": 30,
     "chargingCapabilities": "DC Fast Charge: Up to 88kW, AC: 7kW",
-    "basePriceLocalCurrency": 124800,
+    "basePriceLocalCurrency": 125800,
     "optionPrices": [
       {
         "name": "Sunroof",
@@ -11386,7 +11424,7 @@
     "batteryTechnology": "LFP",
     "chargingTimeDc0To80Min": 25,
     "chargingCapabilities": "DC Fast Charge: Up to 250kW, AC: 11kW",
-    "basePriceLocalCurrency": 195450,
+    "basePriceLocalCurrency": 198000,
     "optionPrices": [
       {
         "name": "7-Seater",

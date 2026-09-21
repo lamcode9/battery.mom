@@ -44,6 +44,7 @@ import SmartInsightsCards from '@/components/SmartInsightsCards'
 import MobileComparisonCards from '@/components/MobileComparisonCards'
 import { useComparisonURL } from '@/lib/hooks/useComparisonURL'
 import { AnimatedEntry } from '@/lib/hooks/useAnimations'
+import InfoTooltip from '@/components/InfoTooltip'
 
 type SortField = 'name' | 'rangeKm' | 'efficiencyKwhPer100km' | 'basePriceLocalCurrency' | 'powerRatingKw' | 'batteryWeightKg'
 type SortDirection = 'asc' | 'desc'
@@ -1603,7 +1604,10 @@ export default function ComparisonTable() {
             {/* 11. Vehicle Base Price */}
             <tr>
               <td className="px-2 py-2 text-xs font-medium text-ink-700 sticky left-0 bg-paper-100 z-10 max-w-[6rem] md:max-w-[8rem] lg:max-w-[10rem]">
-                <span className="break-words leading-tight">Vehicle Base Price</span>
+                <span className="inline-flex items-center gap-1">
+                  <span className="break-words leading-tight">Vehicle Base Price</span>
+                  <InfoTooltip content="Malaysia figures are OTR Peninsular list prices where sourced. Singapore Tesla Model 3/Y RWD and BYD Atto 3 Extended are COE-inclusive drive-away quotes; COE is included and moves with the quota. Other Singapore rows may still show a manufacturer ‘from’ price — we did not add an estimated COE on top. Confirm the cheque on SGCarMart before comparing." />
+                </span>
               </td>
               {sortedVehicles.map((vehicle) => {
                 const isBest = bestBasePrice !== null && vehicle.basePriceLocalCurrency === bestBasePrice

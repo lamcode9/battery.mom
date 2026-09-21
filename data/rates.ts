@@ -61,10 +61,10 @@ export const DATA_PROVENANCE: Record<string, ProvenanceEntry> = {
     updateFrequency: 'Quarterly',
     sources: [
       { name: 'Suruhanjaya Tenaga / TNB RP4 Domestic General', url: 'https://myenergystats.st.gov.my/documents/d/guest/jadual-tarif-tnb-terkini', retrievedDate: '2026-09-21', notes: '27.03+4.55+12.85 sen/kWh for ≤1500 kWh; AFA and Energy Efficiency Incentive are consumption-dependent and not baked into this unit rate' },
-      { name: 'Energy Market Authority (EMA) / SP Group, Singapore', url: 'https://www.ema.gov.sg/consumer-information/electricity/buying-electricity/buying-at-regulated-tariff', retrievedDate: '2026-09-21', notes: 'Q3 2026 regulated tariff 31.91 cents/kWh before GST (34.78 with 9% GST), 1 Jul–30 Sep 2026' },
+      { name: 'Energy Market Authority (EMA) / SP Group, Singapore', url: 'https://www.ema.gov.sg/consumer-information/electricity/buying-electricity/buying-at-regulated-tariff', retrievedDate: '2026-09-21', notes: 'Q3 2026 household bill rate is 34.78 cents/kWh with 9% GST; EMA published 31.91 cents before GST, 1 Jul–30 Sep 2026' },
       { name: 'Kementerian ESDM / PLN, Indonesia', url: 'https://www.cnbcindonesia.com/news/20260901103232-4-763915/daftar-resmi-tarif-listrik-per-kwh-pelanggan-pln-per-1-september-2026', retrievedDate: '2026-09-21', notes: 'R-1/TR 1300–2200 VA Rp1,444.70/kWh, unchanged through Q3 2026' },
-      { name: 'Metropolitan Electricity Authority (MEA), Thailand', url: 'https://www.mea.or.th', retrievedDate: '2026-09-21', notes: 'Sep 2026 energy-band recut; representative blended rate left pending because Ft for Sep–Dec 2026 was not confirmed' },
-      { name: 'EVN, Vietnam', url: 'https://en.evn.com.vn/d6/news/RETAIL-ELECTRICITY-TARIFF-9-28-252.aspx', retrievedDate: '2026-09-21', notes: 'Decision 1279/QD-BCT six-tier schedule still in force; site keeps a representative rate pending a KM call on tier-1 vs blended vs marginal' },
+      { name: 'MEA / ERC residential Rate 1.2 + Ft Sep–Dec 2026', url: 'https://www.nationthailand.com/news/general/40070183', retrievedDate: '2026-09-21', notes: 'Energy bands from Sep 2026: ฿3.00 (1–200), ฿4.1584 (201–400), ฿4.3583 (401+). Ft 0.1623 THB/kWh Sep–Dec 2026. Site uses a 300 kWh/month Rate 1.2 all-in bill (energy+Ft+฿24.62 service+7% VAT) = ฿3.88/kWh' },
+      { name: 'EVN Decision 1279/QD-BCT residential bands', url: 'https://en.evn.com.vn/d/en-US/news/RETAIL-ELECTRICITY-TARIFF-Decision-No-1279QD-BCT-dated-9-May-2025-of-Ministry-of-Industry-and-Trade-60-28-252', retrievedDate: '2026-09-21', notes: 'Official bands 1,984/2,050/2,380/2,998/3,350/3,460 VND/kWh excluding VAT. EVN: 101–200 kWh is the largest customer group. Site blend at 200 kWh = ₫2,199/kWh before VAT' },
       { name: 'Meralco, Philippines', url: 'https://company.meralco.com.ph/news-and-advisories/lower-rates-september-2026', retrievedDate: '2026-09-21', notes: 'Typical household overall rate ₱14.7424/kWh for September 2026' },
     ],
   },
@@ -167,6 +167,9 @@ export const DATA_PROVENANCE: Record<string, ProvenanceEntry> = {
     updateFrequency: 'Monthly (as new models launch)',
     sources: [
       { name: 'paultan.org citing Tesla Malaysia configurator (17 Jul 2026)', url: 'https://paultan.org/2026/07/17/tesla-malaysia-raises-prices-model-3-from-rm149k-model-y-from-rm198k-up-rm1400-to-rm3000/', retrievedDate: '2026-09-21' },
+      { name: 'Tesla Singapore / HardwareZone Model 3 COE-inclusive list (18 May 2026)', url: 'https://www.hardwarezone.com.sg/lifestyle/cars/tesla-model-3-rear-wheel-drive-110-cat-a-singapore-price', retrievedDate: '2026-09-21', notes: 'Drive-away including COE: RWD 110 S$179,999; Premium RWD 110 S$199,999; Premium LR RWD S$219,999; Performance AWD S$256,232. COE moves with the quota.' },
+      { name: 'SGCarMart Tesla Model Y authorised-dealer list via PaperValue (15 Aug 2026)', url: 'https://papervalue.sg/cars/tesla-model-y', retrievedDate: '2026-09-21', notes: 'Premium RWD 110 S$215,999 COE-inclusive. Other Model Y trims not rewritten without a matching sourced drive-away quote.' },
+      { name: 'SGCarMart BYD Atto 3 60.5 kWh (20 May 2026)', url: 'https://www.sgcarmart.com/new-cars/info/21508/byd-atto-3-electric', retrievedDate: '2026-09-21', notes: 'COE-inclusive S$181,888 for the 60.5 kWh model. Standard Range left as manufacturer-from and marked unavailable rather than guessing a COE add-on.' },
       { name: 'PRO-NET / Proton e.MAS 7 SKD price list (20 Jan 2026)', url: 'https://emas.proton.com/pro-net-introduces-the-new-2026-proton-e-mas-7/', retrievedDate: '2026-09-21' },
       { name: 'BYD Sime Motors / paultan.org 2026 Atto 3 Ultra/Premium', url: 'https://paultan.org/2026/06/19/byd-atto-3-facelift-buyers-guide-ultra-vs-premium-which-2026-atto-3-should-you-buy-in-malaysia/', retrievedDate: '2026-09-21' },
       { name: 'Manufacturer websites and regional distributor price lists (remainder of catalogue)', retrievedDate: '2025-12-01' },
@@ -204,11 +207,21 @@ export const DATA_PROVENANCE: Record<string, ProvenanceEntry> = {
 
 export const RESIDENTIAL_TARIFF: CountryMap<number> = {
   MY: 0.444,   // RM/kWh — TNB Domestic General ≤1500 kWh: 27.03 + 4.55 + 12.85 sen (RP4). Excludes AFA (+3.67 sen Sep 2026, waived ≤600 kWh) and Energy Efficiency Incentive.
-  SG: 0.3191,  // SGD/kWh — EMA/SP Q3 2026 regulated tariff, 31.91 cents before GST (34.78 with GST)
+  SG: 0.3478,  // SGD/kWh — EMA/SP Q3 2026 household bill rate with 9% GST (34.78¢). Before GST: 31.91¢, 1 Jul–30 Sep 2026.
   ID: 1445,    // IDR/kWh — PLN R-1/TR 1300–2200 VA, Q3 2026 (Rp1,444.70)
-  TH: 4.59,    // THB/kWh — previous representative MEA rate; Sep 2026 energy bands recut, left unchanged pending Ft/blend call
-  VN: 2135,    // VND/kWh — previous representative EVN rate; official tiers are 1,984–3,460 (Decision 1279/QD-BCT)
+  TH: 3.88,    // THB/kWh — Rate 1.2 home at 300 kWh/month, all-in (energy + Ft 0.1623 Sep–Dec 2026 + ฿24.62 service + 7% VAT)
+  VN: 2199,    // VND/kWh — EVN blend at 200 kWh/month (largest customer group is 101–200 kWh), Decision 1279/QD-BCT, excluding VAT
   PH: 14.74,   // PHP/kWh — Meralco typical household overall rate, Sep 2026 (₱14.7424)
+}
+
+/** What a typical reader pays, and the asterisk that belongs next to the number. */
+export const RESIDENTIAL_TARIFF_NOTE: CountryMap<string> = {
+  MY: 'TNB RP4 Domestic General ≤1500 kWh: 44.43 sen/kWh (27.03 + 4.55 + 12.85 sen). AFA (+3.67 sen/kWh in Sep 2026) is waived at ≤600 kWh; the Energy Efficiency Incentive is consumption-dependent and is not baked in.',
+  SG: 'SP/EMA Q3 2026 household bill rate 34.78¢/kWh including 9% GST (1 Jul–30 Sep 2026). EMA publishes 31.91¢ before GST.',
+  ID: 'PLN R-1/TR 1300–2200 VA Rp1,444.70/kWh, unchanged through Q3 2026.',
+  TH: 'Typical Rate 1.2 home at 300 kWh/month: ฿3.88/kWh all-in (energy + Ft 0.1623 for Sep–Dec 2026 + ฿24.62 service charge + 7% VAT). Official energy bands from Sep 2026: ฿3.00 (1–200), ฿4.1584 (201–400), ฿4.3583 (401+).',
+  VN: 'EVN says 101–200 kWh/month is the largest residential group. Blend at 200 kWh = ₫2,199/kWh before VAT (Decision 1279/QĐ-BCT). Official bands excluding VAT: ₫1,984 / 2,050 / 2,380 / 2,998 / 3,350 / 3,460. VAT is extra.',
+  PH: 'Meralco typical household overall rate ₱14.7424/kWh for September 2026.',
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -295,6 +308,17 @@ export const PETROL_PRICE_PER_LITRE: CountryMap<number> = {
   VN: 25630,   // VND — Petrolimex E10 RON 95-III Region 1, from 17 Sep 2026
   PH: 91.38,   // PHP — DOE Metro Manila common RON95 after the 15–21 Sep 2026 hike
 }
+
+export const PETROL_PRICE_NOTE: CountryMap<string> = {
+  MY: 'Default is BUDI95 RM1.99/L for eligible Malaysian citizens. 15,000 km/year at 7.5 L/100 km is about 94 L/month — inside the 300 L/month quota. Unsubsidised RON95 was RM4.37/L for 17–23 Sep 2026 (companies, non-citizens, and usage above the quota).',
+  SG: 'Major-brand 95-octane S$3.49/L as of 21 Sep 2026 (Caltex/Esso/Shell/Sinopec).',
+  ID: 'Pertalite Rp10,000/L, the typical ICE fuel, unchanged 21 Sep 2026. Pertamax Green 95 was Rp19,150/L the same day.',
+  TH: 'PTT Gasohol 95 ฿39.94/L from 05:00 on 21 Sep 2026.',
+  VN: 'Petrolimex E10 RON 95-III Region 1 ₫25,630/L from 15:00 on 17 Sep 2026.',
+  PH: 'DOE Metro Manila common RON95 ₱91.38/L for 15–21 Sep 2026.',
+}
+
+export const RATE_VERIFIED_ON = '21 September 2026'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // 8. SOLAR — YIELD & COST

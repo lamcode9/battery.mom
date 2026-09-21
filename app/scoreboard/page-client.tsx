@@ -21,6 +21,7 @@ import {
   Area,
 } from 'recharts'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
+import { RESIDENTIAL_TARIFF_NOTE, RATE_VERIFIED_ON } from '@/data/rates'
 
 // ── Types ──────────────────────────────────────────────────────
 
@@ -74,7 +75,7 @@ const COUNTRIES: CountryData[] = [
     code: 'TH', name: 'Thailand', flag: '🇹🇭', population: 72,
     evAdoptionRate: 19.4, totalEvs: 120301, chargingStations: 11622, chargersPerMillion: 161,
     solarCapacityGw: 6.8, bessPenetrationPct: 3.5, policyGrade: 'A', evSalesGrowth: 80,
-    topSellingEv: 'BYD Dolphin', electricityTariff: '฿4.59/kWh',
+    topSellingEv: 'BYD Dolphin', electricityTariff: '฿3.88/kWh',
     evIncentives: '฿70K-150K subsidy, excise tax cut to 2%',
     prev: { evAdoptionRate: 11.9, totalEvs: 66732, chargersPerMillion: 159, solarCapacityGw: 5.2, bessPenetrationPct: 3.0, evSalesGrowth: -9 },
     historical: {
@@ -85,13 +86,13 @@ const COUNTRIES: CountryData[] = [
       bessPenetrationPct: [0.5, 1.0, 1.8, 3.0, 3.5],
       evSalesGrowth: [180, 220, 95, -9, 80],
     },
-    gdpPerCapita: 7066, electricityCostUsd: 0.13, avgEvPriceUsd: 28000, avgAnnualIncomeUsd: 8200,
+    gdpPerCapita: 7066, electricityCostUsd: 0.12, avgEvPriceUsd: 28000, avgAnnualIncomeUsd: 8200,
   },
   {
     code: 'SG', name: 'Singapore', flag: '🇸🇬', population: 5.9,
     evAdoptionRate: 45.1, totalEvs: 23684, chargingStations: 10996, chargersPerMillion: 1864,
     solarCapacityGw: 1.5, bessPenetrationPct: 8.5, policyGrade: 'A-', evSalesGrowth: 64,
-    topSellingEv: 'BYD Sealion 7', electricityTariff: 'S$0.319/kWh',
+    topSellingEv: 'BYD Sealion 7', electricityTariff: 'S$0.348/kWh',
     evIncentives: '$45K ARF rebate, VES rebate up to $25K',
     prev: { evAdoptionRate: 33.6, totalEvs: 14450, chargersPerMillion: 915, solarCapacityGw: 1.1, bessPenetrationPct: 8.0, evSalesGrowth: 218 },
     historical: {
@@ -102,7 +103,7 @@ const COUNTRIES: CountryData[] = [
       bessPenetrationPct: [2.0, 3.5, 5.0, 8.0, 8.5],
       evSalesGrowth: [90, 160, 78, 218, 64],
     },
-    gdpPerCapita: 65233, electricityCostUsd: 0.25, avgEvPriceUsd: 62000, avgAnnualIncomeUsd: 58000,
+    gdpPerCapita: 65233, electricityCostUsd: 0.27, avgEvPriceUsd: 62000, avgAnnualIncomeUsd: 58000,
   },
   {
     code: 'MY', name: 'Malaysia', flag: '🇲🇾', population: 34,
@@ -125,7 +126,7 @@ const COUNTRIES: CountryData[] = [
     code: 'VN', name: 'Vietnam', flag: '🇻🇳', population: 100,
     evAdoptionRate: 39.0, totalEvs: 175099, chargingStations: 150000, chargersPerMillion: 1500,
     solarCapacityGw: 19.3, bessPenetrationPct: 1.2, policyGrade: 'B', evSalesGrowth: 99,
-    topSellingEv: 'VinFast VF 3', electricityTariff: '₫2,135/kWh',
+    topSellingEv: 'VinFast VF 3', electricityTariff: '₫2,199/kWh',
     evIncentives: '50% registration fee reduction, 0% luxury tax to 2027',
     prev: { evAdoptionRate: 20.0, totalEvs: 88000, chargersPerMillion: 1000, solarCapacityGw: 18.7, bessPenetrationPct: 1.0, evSalesGrowth: 55 },
     historical: {
@@ -136,14 +137,14 @@ const COUNTRIES: CountryData[] = [
       bessPenetrationPct: [0.1, 0.3, 0.5, 1.0, 1.2],
       evSalesGrowth: [120, 350, 95, 55, 99],
     },
-    gdpPerCapita: 4163, electricityCostUsd: 0.08, avgEvPriceUsd: 22000, avgAnnualIncomeUsd: 5400,
+    gdpPerCapita: 4163, electricityCostUsd: 0.09, avgEvPriceUsd: 22000, avgAnnualIncomeUsd: 5400,
   },
   {
     code: 'ID', name: 'Indonesia', flag: '🇮🇩', population: 278,
     evAdoptionRate: 12.9, totalEvs: 103900, chargingStations: 4655, chargersPerMillion: 17,
     solarCapacityGw: 1.5, bessPenetrationPct: 0.7, policyGrade: 'B', evSalesGrowth: 141,
     topSellingEv: 'BYD Atto 1', electricityTariff: 'Rp1,445/kWh',
-    evIncentives: 'Rp80M purchase subsidy, 0% luxury tax, reduced PKB',
+    evIncentives: '2025 PPN DTP ended Dec 2025; 2026 PPN DTP announced, not confirmed in force',
     prev: { evAdoptionRate: 5.0, totalEvs: 43100, chargersPerMillion: 12, solarCapacityGw: 0.9, bessPenetrationPct: 0.5, evSalesGrowth: 190 },
     historical: {
       evAdoptionRate: [0.05, 0.2, 0.9, 5.0, 12.9],
@@ -1131,7 +1132,7 @@ export default function ScoreboardPage() {
                       <div className="text-lg font-bold text-ink mt-0.5">${c.gdpPerCapita.toLocaleString()}</div>
                     </div>
                     <div className="bg-amber-50/60 rounded-lg p-3">
-                      <div className="text-[10px] font-medium text-amber-600 uppercase">Electricity cost</div>
+                      <div className="text-[10px] font-medium text-amber-600 uppercase">Electricity cost <InfoTooltip content={`${RESIDENTIAL_TARIFF_NOTE[c.code]} Last verified ${RATE_VERIFIED_ON}.`} /></div>
                       <div className="text-lg font-bold text-ink mt-0.5">${c.electricityCostUsd}/kWh</div>
                       <div className="text-[10px] text-ink-400">{c.electricityTariff}</div>
                     </div>
@@ -1154,7 +1155,12 @@ export default function ScoreboardPage() {
                 {/* Tariff & Incentives */}
                 <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-ink/5">
                   <div>
-                    <div className="text-xs font-semibold text-ink-500 uppercase tracking-wide mb-1">Key EV incentives</div>
+                    <div className="text-xs font-semibold text-ink-500 uppercase tracking-wide mb-1 inline-flex items-center gap-1">
+                      Key EV incentives
+                      {c.code === 'ID' && (
+                        <InfoTooltip content="PMK 12/2025 PPN DTP for qualifying BEVs ran through December 2025. Ministers announced a 2026 PPN DTP of 40–100% (NMC vs other chemistries) for mid-2026; as of 21 Sep 2026 no replacement gazette was confirmed in force. The old Rp80 million cash-subsidy talking point is not current." />
+                      )}
+                    </div>
                     <div className="text-sm text-ink-700">{c.evIncentives}</div>
                   </div>
                   <div>

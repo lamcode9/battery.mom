@@ -14,7 +14,12 @@ export default function ZeroBillMalaysiaContent() {
         <li><strong>Battery:</strong> 13.5 kWh usable capacity, LFP chemistry</li>
         <li><strong>Household load:</strong> 900 kWh/month (typical for a 2,000 sq ft home with 2 AC units)</li>
         <li><strong>Solar yield:</strong> 4.6 kWh/kWp/day (conservative average for Peninsular Malaysia)</li>
-        <li><strong>Electricity tariff:</strong> RM0.474/kWh (TNB progressive tariff, 601+ kWh band)</li>
+        <li>
+          <strong>Electricity tariff:</strong> RM0.474/kWh (TNB progressive tariff, 601+ kWh band).
+          <em className="block text-sm text-gray-500 mt-1 not-italic">
+            Dated snapshot from February 2025. The live calculators now use TNB RP4 Domestic General 44.43 sen/kWh (RM0.444) as of 21 September 2026; AFA and the Energy Efficiency Incentive are consumption-dependent and are not rewritten into this article.
+          </em>
+        </li>
       </ul>
 
       <h2>Daily energy flow</h2>

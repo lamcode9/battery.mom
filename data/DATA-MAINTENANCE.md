@@ -124,7 +124,10 @@ The PostgreSQL database mirrors `vehicles-data.json` and adds:
 2. Find the relevant constant (e.g., `RESIDENTIAL_TARIFF`)
 3. Update values for affected countries
 4. Update `lastVerified` date in `DATA_PROVENANCE` for that category
-5. All consuming components automatically pick up the new values
+5. Update `RESIDENTIAL_TARIFF_NOTE` / `PETROL_PRICE_NOTE` so the live UI asterisk matches the number
+6. All consuming components automatically pick up the new values
+
+Pick the figure a typical battery.mom reader actually pays or sees on a quote (GST-inclusive household bill, BUDI95 inside the quota, a documented kWh/month blend). Put the official band, ex-GST, or unsubsidised price in the matching `*_NOTE` string. Do not invent a Singapore COE add-on on top of a manufacturer “from” price.
 
 ### Example — Updating Malaysia electricity tariff:
 ```ts

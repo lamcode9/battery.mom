@@ -7,7 +7,7 @@ import { NextSteps } from '@/components/ui/NextSteps'
 import { COUNTRY_OPTIONS as COUNTRIES, formatCurrency as fmt, formatCompact as fmtShort } from '@/lib/constants'
 import ShareResult from '@/components/ShareResult'
 import type { Country } from '@/types/bess'
-import { RESIDENTIAL_TARIFF } from '@/data/rates'
+import { RESIDENTIAL_TARIFF, RESIDENTIAL_TARIFF_NOTE, RATE_VERIFIED_ON } from '@/data/rates'
 import {
   BarChart,
   Bar,
@@ -351,11 +351,11 @@ export default function SolarPaybackPage() {
 
         {/* Assumptions */}
         <div className="bg-paper-100 border border-ink/10 rounded-card p-6">
-          <h3 className="text-sm font-semibold text-ink mb-3">Key assumptions <InfoTooltip content="Default values from 2025 industry data for your country. Solar yield = average daily kWh produced per kW of panels. Self-consumption at 75% means you use 3/4 of what you generate (rest goes to grid)." /></h3>
+          <h3 className="text-sm font-semibold text-ink mb-3">Key assumptions <InfoTooltip content={`Default solar yield and installed cost are 2025 industry figures for your country. The tariff is the residential rate last verified ${RATE_VERIFIED_ON}. ${RESIDENTIAL_TARIFF_NOTE[country]} Solar yield = average daily kWh produced per kW of panels. Self-consumption at 75% means you use 3/4 of what you generate (rest goes to grid).`} /></h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-2 text-xs text-ink-500">
             <div>Solar yield: {SOLAR_YIELD[country]} kWh/kWp/day</div>
             <div>Panel cost: {fmt(SOLAR_COST_PER_KW[country], country)}/kWp installed</div>
-            <div>Tariff: {fmt(TARIFF[country], country, 3)}/kWh</div>
+            <div className="flex items-center gap-1">Tariff: {fmt(TARIFF[country], country, 4)}/kWh <InfoTooltip content={RESIDENTIAL_TARIFF_NOTE[country]} /></div>
             <div>Tariff inflation: {TARIFF_INFLATION * 100}%/year</div>
             <div>Panel degradation: {DEGRADATION * 100}%/year</div>
             <div>Self-consumption: ~75% (no battery)</div>
@@ -364,7 +364,7 @@ export default function SolarPaybackPage() {
             <div>Panel density: {KW_PER_M2} kWp/m²</div>
           </div>
           <p className="text-xs text-ink-400 mt-4">
-            Actual yield varies with orientation, shading, and weather. Adding battery storage increases self-consumption to 85-95% — try the <a href="/bess/home" className="text-brand-600 underline">Zero‑Bill Calculator</a> for that.
+            * {RESIDENTIAL_TARIFF_NOTE[country]} Actual yield varies with orientation, shading, and weather. Adding battery storage increases self-consumption to 85-95% — try the <a href="/bess/home" className="text-brand-600 underline">Zero‑Bill Calculator</a> for that. Rates last verified {RATE_VERIFIED_ON}.
           </p>
         </div>
       </section>

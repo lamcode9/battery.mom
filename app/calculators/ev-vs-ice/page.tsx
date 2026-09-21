@@ -7,7 +7,14 @@ import { NextSteps } from '@/components/ui/NextSteps'
 import { COUNTRY_OPTIONS as COUNTRIES, formatCurrency as fmt, formatCompact as fmtShort } from '@/lib/constants'
 import ShareResult from '@/components/ShareResult'
 import type { Country } from '@/types/bess'
-import { PETROL_PRICE_PER_LITRE, RESIDENTIAL_TARIFF, EV_INCENTIVE } from '@/data/rates'
+import {
+  PETROL_PRICE_PER_LITRE,
+  PETROL_PRICE_NOTE,
+  RESIDENTIAL_TARIFF,
+  RESIDENTIAL_TARIFF_NOTE,
+  EV_INCENTIVE,
+  RATE_VERIFIED_ON,
+} from '@/data/rates'
 import {
   BarChart,
   Bar,
@@ -82,10 +89,10 @@ export default function EVvsICEPage() {
   // Like-for-like compact SUVs (BYD Atto 3 vs Honda HR-V), current 2025/26
   // prices. Same vehicle class on both sides, so the purchase gap reflects a real
   // EV premium — not an SUV-vs-sedan mismatch. TH sells the HR-V only as a hybrid
-  // (labelled); SG prices include COE.
+  // (labelled); SG EV price is a sourced COE-inclusive drive-away.
   const presets: Record<Country, { evPrice: number; icePrice: number; evLabel: string; iceLabel: string }> = useMemo(() => ({
     MY: { evPrice: 125800, icePrice: 115900, evLabel: 'BYD Atto 3 (RM126K)', iceLabel: 'Honda HR-V (RM116K)' },
-    SG: { evPrice: 172000, icePrice: 151999, evLabel: 'BYD Atto 3 (S$172K)', iceLabel: 'Honda HR-V (S$152K)' },
+    SG: { evPrice: 181888, icePrice: 151999, evLabel: 'BYD Atto 3 (S$182K)', iceLabel: 'Honda HR-V (S$152K)' },
     ID: { evPrice: 390000000, icePrice: 388700000, evLabel: 'BYD Atto 3 (Rp390M)', iceLabel: 'Honda HR-V (Rp389M)' },
     TH: { evPrice: 729900, icePrice: 959000, evLabel: 'BYD Atto 3 (฿730K)', iceLabel: 'Honda HR-V e:HEV (฿959K)' },
     VN: { evPrice: 766000000, icePrice: 699000000, evLabel: 'BYD Atto 3 (₫766M)', iceLabel: 'Honda HR-V (₫699M)' },
@@ -395,20 +402,22 @@ export default function EVvsICEPage() {
 
         {/* Assumptions */}
         <div className="bg-paper-100 border border-ink/10 rounded-card p-6">
-          <h3 className="text-sm font-semibold text-ink mb-3">Key assumptions <InfoTooltip content="These are the default values used in the calculation. You can override the vehicle prices and driving distance above. Maintenance, insurance, and depreciation rates are regional averages — your actual numbers may vary." /></h3>
+          <h3 className="text-sm font-semibold text-ink mb-3">Key assumptions <InfoTooltip content="These are the default values used in the calculation. You can override the vehicle prices and driving distance above. Maintenance, insurance, and depreciation rates are simplified regional estimates — not a workshop invoice — and your actual numbers will vary." /></h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-2 text-xs text-ink-500">
-            <div>Petrol price: {fmt(PETROL_PRICE[country], country, 2)}/litre</div>
+            <div className="flex items-center gap-1">Petrol price: {fmt(PETROL_PRICE[country], country, 2)}/litre <InfoTooltip content={PETROL_PRICE_NOTE[country]} /></div>
             <div>ICE consumption: {ICE_FUEL_CONSUMPTION_L100KM} L/100km</div>
             <div>EV efficiency: {DEFAULT_EV_EFFICIENCY} kWh/100km</div>
-            <div>Home tariff: {fmt(ELECTRICITY_TARIFF[country], country, 3)}/kWh</div>
+            <div className="flex items-center gap-1">Home tariff: {fmt(ELECTRICITY_TARIFF[country], country, 4)}/kWh <InfoTooltip content={RESIDENTIAL_TARIFF_NOTE[country]} /></div>
             <div>Public charging: ~{fmt(ELECTRICITY_TARIFF[country] * 1.8, country, 3)}/kWh</div>
             <div>EV depreciation: {EV_DEPRECIATION_RATE * 100}%/yr</div>
             <div>ICE depreciation: {ICE_DEPRECIATION_RATE * 100}%/yr</div>
-            <div>EV maintenance: {fmt(EV_ANNUAL_MAINTENANCE[country], country)}/yr</div>
+            <div className="flex items-center gap-1">EV maintenance: {fmt(EV_ANNUAL_MAINTENANCE[country], country)}/yr <InfoTooltip content="Simplified regional estimate, not a workshop invoice. ICE is about 2.3–2.5× EV (Malaysia RM2,000 vs RM800 a year)." /></div>
             <div>ICE maintenance: {fmt(ICE_ANNUAL_MAINTENANCE[country], country)}/yr</div>
+            <div className="flex items-center gap-1">EV insurance: {fmt(EV_INSURANCE[country], country)}/yr <InfoTooltip content="Simplified regional estimate, not a broker quote. Same class of assumption as the maintenance figures on this page." /></div>
+            <div>ICE insurance: {fmt(ICE_INSURANCE[country], country)}/yr</div>
           </div>
           <p className="text-xs text-ink-400 mt-4">
-            Defaults pair like-for-like compact SUVs — BYD Atto 3 vs Honda HR-V — at current 2025/26 prices, so the purchase gap reflects a real EV premium rather than a vehicle-class mismatch. In Thailand the HR-V is sold only as a hybrid (a tougher-than-petrol benchmark); in Singapore both prices include COE. Listed prices already reflect each market&apos;s EV tax and rebate position. Maintenance, insurance, depreciation, road tax, and financing are simplified regional estimates — your actual numbers will vary, and you can override the vehicle prices above.
+            Defaults pair like-for-like compact SUVs — BYD Atto 3 vs Honda HR-V — so the purchase gap reflects a real EV premium rather than a vehicle-class mismatch. In Thailand the HR-V is sold only as a hybrid (a tougher-than-petrol benchmark). In Singapore the Atto 3 default is the SGCarMart COE-inclusive drive-away of S$181,888 (60.5 kWh, 20 May 2026); COE is included and moves with the quota. Listed prices already reflect each market&apos;s EV tax and rebate position. Maintenance, insurance, depreciation, road tax, and financing are simplified regional estimates — ICE maintenance is about 2.3–2.5× EV — not a workshop invoice. Rates last verified {RATE_VERIFIED_ON}. You can override the vehicle prices above.
           </p>
         </div>
       </section>

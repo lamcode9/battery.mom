@@ -7,7 +7,14 @@ import { COUNTRY_OPTIONS as COUNTRIES, formatCurrency as fmt, formatCompact as f
 import ShareResult from '@/components/ShareResult'
 import { useSearchParams } from 'next/navigation'
 import type { Country } from '@/types/bess'
-import { PETROL_PRICE_PER_LITRE, RESIDENTIAL_TARIFF, DC_FAST_CHARGING_RATE } from '@/data/rates'
+import {
+  PETROL_PRICE_PER_LITRE,
+  PETROL_PRICE_NOTE,
+  RESIDENTIAL_TARIFF,
+  RESIDENTIAL_TARIFF_NOTE,
+  DC_FAST_CHARGING_RATE,
+  RATE_VERIFIED_ON,
+} from '@/data/rates'
 import {
   BarChart,
   Bar,
@@ -313,7 +320,7 @@ export default function EvChargingCostPage() {
               ? 'bg-brand-50 border-brand-200'
               : 'bg-paper-100 border-ink/10'
           }`}>
-            <div className="text-xs font-semibold text-ink-500 uppercase tracking-wide mb-1">vs Petrol savings <InfoTooltip content="How much cheaper EV charging is compared to fuelling a similar petrol car. Based on a typical sedan consuming 7.5 litres per 100 km at current petrol prices." /></div>
+            <div className="text-xs font-semibold text-ink-500 uppercase tracking-wide mb-1">vs Petrol savings <InfoTooltip content={`How much cheaper EV charging is compared to fuelling a similar petrol car at 7.5 L/100 km. ${PETROL_PRICE_NOTE[country]}`} /></div>
             <div className="text-xl font-bold text-brand-700">{results.savingsPct}%</div>
             <div className="text-xs text-ink-500 mt-0.5">{fmtShort(results.savingsAnnual, country)}/year</div>
           </div>
@@ -374,7 +381,7 @@ export default function EvChargingCostPage() {
 
         {/* Rate table */}
         <div className="bg-paper-100 border border-ink/10 rounded-card p-6 mb-8">
-          <h3 className="text-sm font-semibold text-ink mb-4">Charging rates in {COUNTRIES.find(c => c.value === country)?.label} <InfoTooltip content="Home uses the residential tariff last verified 21 Sep 2026. AC Public is a Level 2 charger at shopping malls etc. DC Fast is a high-power highway charger. Efficiency column shows how much energy actually reaches the battery (rest is lost as heat)." /></h3>
+          <h3 className="text-sm font-semibold text-ink mb-4">Charging rates in {COUNTRIES.find(c => c.value === country)?.label} <InfoTooltip content={`Home uses the residential tariff last verified ${RATE_VERIFIED_ON}. ${RESIDENTIAL_TARIFF_NOTE[country]} AC Public is a Level 2 charger at shopping malls etc. DC Fast is a high-power highway charger. Efficiency column shows how much energy actually reaches the battery (rest is lost as heat).`} /></h3>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
@@ -390,7 +397,7 @@ export default function EvChargingCostPage() {
                   <td className="py-2 flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-brand-500" /> Home (AC)
                   </td>
-                  <td className="text-right py-2">{fmt(HOME_TARIFF[country], country, 2)}</td>
+                  <td className="text-right py-2">{fmt(HOME_TARIFF[country], country, HOME_TARIFF[country] < 1 ? 4 : 2)}</td>
                   <td className="text-right py-2">{HOME_EFFICIENCY * 100}%</td>
                   <td className="text-right py-2 font-medium">{fmtShort(results.homeCostAnnual, country)}</td>
                 </tr>
@@ -413,9 +420,10 @@ export default function EvChargingCostPage() {
               </tbody>
             </table>
           </div>
+          <p className="text-xs text-ink-400 mt-4">
+            * Home rate: {RESIDENTIAL_TARIFF_NOTE[country]} Petrol comparison: {PETROL_PRICE_NOTE[country]} Last verified {RATE_VERIFIED_ON}.
+          </p>
         </div>
-
-        {/* Tip */}
         <div className="bg-brand-50 border border-brand-200 rounded-card p-6">
           <h3 className="text-sm font-semibold text-brand-900 mb-2">Maximise your savings</h3>
           <ul className="text-sm text-brand-800 space-y-1.5">

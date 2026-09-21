@@ -141,7 +141,18 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
                 <div className="text-3xl font-bold text-ink mb-1">
                   {formatCurrency(vehicle.basePriceLocalCurrency)}
                 </div>
-                <div className="text-sm text-ink-500 flex items-center gap-1">Base price (before options) <InfoTooltip content="Manufacturer's starting price in local currency before optional extras, insurance, or registration fees. Does not include on-the-road costs." /></div>
+                <div className="text-sm text-ink-500 flex items-center gap-1">
+                  {vehicle.country === 'SG'
+                    ? 'Drive-away price'
+                    : 'Base price (before options)'}
+                  <InfoTooltip
+                    content={
+                      vehicle.country === 'SG'
+                        ? 'Tesla Model 3/Y RWD and BYD Atto 3 Extended are sourced COE-inclusive drive-away quotes. COE is included and moves with the quota. Other Singapore rows may still show a manufacturer “from” price — we did not add an estimated COE on top. Confirm the OTR cheque on SGCarMart.'
+                        : 'Manufacturer starting price in local currency before optional extras. Malaysia OTR figures are Peninsular list prices where sourced and exclude insurance unless noted.'
+                    }
+                  />
+                </div>
               </div>
             )}
           </div>

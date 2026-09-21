@@ -14,7 +14,7 @@ import {
 } from 'recharts'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
 import { CHART, CHART_TOOLTIP_STYLE } from '@/lib/chart-theme'
-import { RESIDENTIAL_TARIFF, CO2_GRID_FACTOR } from '@/data/rates'
+import { RESIDENTIAL_TARIFF, RESIDENTIAL_TARIFF_NOTE, CO2_GRID_FACTOR, RATE_VERIFIED_ON } from '@/data/rates'
 
 /* ── Constants ────────────────────────────────────────────────────── */
 
@@ -286,6 +286,9 @@ export default function ScenarioComparisonTool({ country }: Props) {
           </ResponsiveContainer>
         </div>
       </div>
+      <p className="text-xs text-ink-400 mt-4">
+        * Electricity tariff: {RESIDENTIAL_TARIFF_NOTE[country]} Last verified {RATE_VERIFIED_ON}.
+      </p>
     </div>
   )
 }

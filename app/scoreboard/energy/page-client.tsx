@@ -18,6 +18,7 @@ import {
   YAxis,
 } from 'recharts'
 import { GenerationYearDetail } from './generation-groups'
+import { GenerationFossilGrainDefs, generationStackFill, generationStackFilter, isFossilGrainKey } from './generation-grain'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
 import InfoTooltip from '@/components/InfoTooltip'
 import {
@@ -813,12 +814,13 @@ export default function EnergyDeploymentScoreboardPage() {
                   }}
                 >
                   <defs>
-                    {generationStackKeys.map(key => (
+                    {generationStackKeys.filter(key => !isFossilGrainKey(key)).map(key => (
                       <linearGradient key={key} id={`generation-${key}`} x1="0" x2="0" y1="0" y2="1">
                         <stop offset="5%" stopColor={GENERATION_STACK_SOURCE_META[key].color} stopOpacity={0.92} />
                         <stop offset="95%" stopColor={GENERATION_STACK_SOURCE_META[key].color} stopOpacity={0.68} />
                       </linearGradient>
                     ))}
+                    <GenerationFossilGrainDefs />
                   </defs>
                   <CartesianGrid stroke="#e5e7eb" strokeDasharray="3 6" vertical={false} />
                   <XAxis
@@ -850,8 +852,9 @@ export default function EnergyDeploymentScoreboardPage() {
                       stackId="generation"
                       stroke={GENERATION_STACK_SOURCE_META[key].color}
                       strokeWidth={1.6}
-                      fill={`url(#generation-${key})`}
-                      fillOpacity={1}
+                      fill={generationStackFill(key, GENERATION_STACK_SOURCE_META[key].color)}
+                      fillOpacity={isFossilGrainKey(key) ? 0.8 : 1}
+                      filter={generationStackFilter(key)}
                       isAnimationActive={false}
                       activeDot={{ r: 4, strokeWidth: 2, stroke: '#fff' }}
                     />

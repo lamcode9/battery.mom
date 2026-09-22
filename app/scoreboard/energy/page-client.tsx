@@ -18,6 +18,7 @@ import {
   YAxis,
 } from 'recharts'
 import { GenerationYearDetail } from './generation-groups'
+import { GenerationFossilGrainDefs, generationStackFill } from './generation-grain'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
 import InfoTooltip from '@/components/InfoTooltip'
 import {
@@ -819,6 +820,13 @@ export default function EnergyDeploymentScoreboardPage() {
                         <stop offset="95%" stopColor={GENERATION_STACK_SOURCE_META[key].color} stopOpacity={0.68} />
                       </linearGradient>
                     ))}
+                    <GenerationFossilGrainDefs
+                      colors={{
+                        coal: GENERATION_STACK_SOURCE_META.coal.color,
+                        naturalGas: GENERATION_STACK_SOURCE_META.naturalGas.color,
+                        oil: GENERATION_STACK_SOURCE_META.oil.color,
+                      }}
+                    />
                   </defs>
                   <CartesianGrid stroke="#e5e7eb" strokeDasharray="3 6" vertical={false} />
                   <XAxis
@@ -850,7 +858,7 @@ export default function EnergyDeploymentScoreboardPage() {
                       stackId="generation"
                       stroke={GENERATION_STACK_SOURCE_META[key].color}
                       strokeWidth={1.6}
-                      fill={`url(#generation-${key})`}
+                      fill={generationStackFill(key)}
                       fillOpacity={1}
                       isAnimationActive={false}
                       activeDot={{ r: 4, strokeWidth: 2, stroke: '#fff' }}

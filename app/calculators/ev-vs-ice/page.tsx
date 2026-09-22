@@ -23,7 +23,6 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  Cell,
 } from 'recharts'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
 
@@ -59,19 +58,16 @@ const ICE_FUEL_CONSUMPTION_L100KM = 7.5
 // Average EV efficiency (kWh/100km, blended home + public charging)
 const DEFAULT_EV_EFFICIENCY = 15
 
-const EV_BAR = '#0E9F6E'
-const ICE_BAR = '#A7AFA4'
-// Lighter outlined bars so resale reads as money back, not another cost.
-const EV_CREDIT_BAR = '#C8F4E0'
-const EV_CREDIT_STROKE = '#0B7F58'
-const ICE_CREDIT_BAR = '#E9E1CF'
-const ICE_CREDIT_STROKE = '#5E675C'
+const VALUE_LOST_LABEL = 'Value lost (purchase − resale)'
 
 type BreakdownRow = {
   name: string
   EV: number
   ICE: number
-  credit: boolean
+  evSticker?: number
+  iceSticker?: number
+  evResale?: number
+  iceResale?: number
 }
 
 type CategoryTickProps = {
@@ -82,11 +78,11 @@ type CategoryTickProps = {
 
 function BreakdownCategoryTick({ x = 0, y = 0, payload }: CategoryTickProps) {
   const value = payload?.value ?? ''
-  if (value === 'Resale (money back)') {
+  if (value === VALUE_LOST_LABEL) {
     return (
       <text x={x} y={y} textAnchor="end" fill="#666" fontSize={11}>
-        <tspan x={x} dy="-0.2em">Resale</tspan>
-        <tspan x={x} dy="1.15em">(money back)</tspan>
+        <tspan x={x} dy="-0.2em">Value lost</tspan>
+        <tspan x={x} dy="1.15em">(purchase − resale)</tspan>
       </text>
     )
   }
@@ -192,14 +188,25 @@ export default function EVvsICEPage() {
       ICE: Math.round(iceYearly[i]),
     }))
 
-    // Cost breakdown for the bar chart. Resale is money the owner gets back,
-    // plotted positive. evTCO and iceTCO already subtract it.
+    // One cost for the car: purchase minus what it sells for. Not a second
+    // purchase bar, and not a resale bar. evTCO / iceTCO already use this net.
+    const evSticker = evPrice - incentive
+    const iceSticker = icePrice
+    const evResale = Math.round(evResidual)
+    const iceResale = Math.round(iceResidual)
     const breakdownData: BreakdownRow[] = [
-      { name: 'Purchase', EV: evPrice - incentive, ICE: icePrice, credit: false },
-      { name: 'Energy / Fuel', EV: Math.round(evEnergyCostPerYear * yearsToCompare), ICE: Math.round(iceFuelCostPerYear * yearsToCompare), credit: false },
-      { name: 'Maintenance', EV: Math.round(EV_ANNUAL_MAINTENANCE[country] * yearsToCompare), ICE: Math.round(ICE_ANNUAL_MAINTENANCE[country] * yearsToCompare), credit: false },
-      { name: 'Insurance', EV: Math.round(EV_INSURANCE[country] * yearsToCompare), ICE: Math.round(ICE_INSURANCE[country] * yearsToCompare), credit: false },
-      { name: 'Resale (money back)', EV: Math.round(evResidual), ICE: Math.round(iceResidual), credit: true },
+      {
+        name: VALUE_LOST_LABEL,
+        EV: evSticker - evResale,
+        ICE: iceSticker - iceResale,
+        evSticker,
+        iceSticker,
+        evResale,
+        iceResale,
+      },
+      { name: 'Energy / Fuel', EV: Math.round(evEnergyCostPerYear * yearsToCompare), ICE: Math.round(iceFuelCostPerYear * yearsToCompare) },
+      { name: 'Maintenance', EV: Math.round(EV_ANNUAL_MAINTENANCE[country] * yearsToCompare), ICE: Math.round(ICE_ANNUAL_MAINTENANCE[country] * yearsToCompare) },
+      { name: 'Insurance', EV: Math.round(EV_INSURANCE[country] * yearsToCompare), ICE: Math.round(ICE_INSURANCE[country] * yearsToCompare) },
     ]
 
     return {
@@ -402,43 +409,30 @@ export default function EVvsICEPage() {
 
           {/* Cost breakdown */}
           <div className="bg-paper-100 border border-ink/10 rounded-card p-6">
-            <h3 className="text-sm font-semibold text-ink mb-4">Cost breakdown <InfoTooltip content="Breaks down total ownership costs into purchase (net of incentives), energy or fuel, maintenance, and insurance. Resale (money back) is how much the owner gets back at the end. This amount is already subtracted in the EV and ICE totals. Do not add it on top of purchase, energy, maintenance, and insurance." /></h3>
+            <h3 className="text-sm font-semibold text-ink mb-4">Cost breakdown <InfoTooltip content="Four costs: value lost (purchase price minus what the car sells for), energy or fuel, maintenance, and insurance. Hover value lost to see the sticker, the resale, and the difference. Resale is not its own bar." /></h3>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={results.breakdownData} layout="vertical">
                 <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
                 <XAxis type="number" tick={{ fontSize: 11 }} tickFormatter={(v) => fmtShort(v, country)} />
-                <YAxis type="category" dataKey="name" tick={BreakdownCategoryTick} width={108} />
+                <YAxis type="category" dataKey="name" tick={BreakdownCategoryTick} width={132} />
                 <Tooltip
                   formatter={(value: number, name: string, item: { payload?: BreakdownRow }) => {
-                    const text = fmt(value, country)
-                    return [item?.payload?.credit ? `${text} back` : text, name]
+                    const row = item?.payload
+                    if (row?.evSticker != null && row.evResale != null && row.iceSticker != null && row.iceResale != null) {
+                      const sticker = name === 'ICE' ? row.iceSticker : row.evSticker
+                      const resale = name === 'ICE' ? row.iceResale : row.evResale
+                      return [`${fmt(sticker, country)} sticker, ${fmt(resale, country)} resale, ${fmt(value, country)} lost`, name]
+                    }
+                    return [fmt(value, country), name]
                   }}
                 />
                 <Legend />
-                <Bar dataKey="EV" fill={EV_BAR} radius={[0, 4, 4, 0]}>
-                  {results.breakdownData.map((row) => (
-                    <Cell
-                      key={row.name}
-                      fill={row.credit ? EV_CREDIT_BAR : EV_BAR}
-                      stroke={row.credit ? EV_CREDIT_STROKE : 'none'}
-                      strokeWidth={row.credit ? 1.5 : 0}
-                    />
-                  ))}
-                </Bar>
-                <Bar dataKey="ICE" fill={ICE_BAR} radius={[0, 4, 4, 0]}>
-                  {results.breakdownData.map((row) => (
-                    <Cell
-                      key={row.name}
-                      fill={row.credit ? ICE_CREDIT_BAR : ICE_BAR}
-                      stroke={row.credit ? ICE_CREDIT_STROKE : 'none'}
-                      strokeWidth={row.credit ? 1.5 : 0}
-                    />
-                  ))}
-                </Bar>
+                <Bar dataKey="EV" fill="#0E9F6E" radius={[0, 4, 4, 0]} />
+                <Bar dataKey="ICE" fill="#A7AFA4" radius={[0, 4, 4, 0]} />
               </BarChart>
             </ResponsiveContainer>
             <p className="mt-3 text-xs text-ink-500 leading-relaxed">
-              Resale (money back) is already subtracted in the EV and ICE totals. Do not add it on top of purchase, energy, maintenance, and insurance.
+              Value lost is the purchase price minus what the car sells for. The total is this amount plus energy, maintenance, and insurance.
             </p>
           </div>
         </div>

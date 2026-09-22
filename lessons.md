@@ -121,8 +121,8 @@ Use this file for durable lessons that should shape future agent work in this re
   let three agents recolor 7 files without a single conflicting judgment. Also: grep the
   prose after recoloring — one InfoTooltip still said "(red)…(blue)".
 
-## 2026-09-22 — EV vs ICE resale bar is money back
-- On `/calculators/ev-vs-ice`, the cost-breakdown chart plots resale as a positive amount the owner gets back, labelled "Resale (money back)", with a lighter outlined bar. `evTCO` and `iceTCO` still subtract that residual. Do not plot it as a negative bar, and do not add it on top of purchase, energy, maintenance, and insurance.
+## 2026-09-22 — EV vs ICE breakdown uses value lost
+- On `/calculators/ev-vs-ice`, the cost-breakdown chart has one bar for the car: value lost = purchase minus resale. Do not plot resale as its own bar, positive or negative, and do not also plot the full purchase price. `evTCO` and `iceTCO` stay purchase + energy + maintenance + insurance − resale. Summary cards still show resale as a positive amount the owner gets back.
 
 ## 2026-09-21 — Malaysia no longer has a single Tariff A kWh rate
 - Peninsular domestic bills under RP4 (Jul 2025–Dec 2027) are generation + capacity + network (44.43 sen/kWh at ≤1500 kWh) plus monthly AFA and a consumption-dependent Energy Efficiency Incentive. AFA and the RM10 retail charge are waived at ≤600 kWh. Do not relabel the old “Tariff A block 1–200 kWh” figure as current. Publish the official energy+capacity+network unit rate and spell out AFA/EEI, or pick a documented consumption level and show the blend.

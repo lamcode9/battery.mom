@@ -32,8 +32,6 @@ function groupForKey(key: string): GenerationGroupId | null {
   return null
 }
 
-const CARD_GRID = 'grid grid-cols-3 gap-2 md:grid-cols-5'
-
 export function GenerationYearDetail({
   entries,
   formatTwh,
@@ -54,13 +52,13 @@ export function GenerationYearDetail({
   const hasHidden = entries.some(entry => !entry.active)
 
   return (
-    <div className="mt-5" data-generation-year>
+    <div className="mt-5 rounded-xl bg-paper-200/70 p-3" data-generation-year>
       {hasHidden && (
         <div className="mb-3 flex justify-end">
           <button
             type="button"
             onClick={onShowAll}
-            className="rounded-full bg-white px-2.5 py-1 text-[11px] font-semibold text-ink-600 shadow-card transition hover:text-brand-700"
+            className="rounded-full bg-white px-2.5 py-1 text-[11px] font-semibold text-ink-600 shadow-sm ring-1 ring-gray-200 transition hover:text-brand-700"
           >
             Show all
           </button>
@@ -71,18 +69,18 @@ export function GenerationYearDetail({
           <section key={group.id} aria-labelledby={`generation-group-${group.id}`}>
             <h3
               id={`generation-group-${group.id}`}
-              className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-ink-500"
+              className="mb-2 text-[11px] font-bold uppercase tracking-[0.16em] text-ink-500"
             >
               {group.label}
             </h3>
-            <ul className={CARD_GRID}>
+            <ul className="grid grid-cols-3 gap-2 md:grid-cols-5">
               {group.items.map(entry => (
                 <li key={entry.key} className="min-w-0">
                   <button
                     type="button"
                     aria-pressed={entry.active}
                     onClick={() => onToggle(entry.key)}
-                    className={`h-full w-full min-w-0 rounded-lg p-2.5 text-left transition sm:p-3 ${
+                    className={`h-full w-full rounded-lg p-3 text-left transition ${
                       entry.active
                         ? 'bg-white shadow-card'
                         : 'bg-white/45 opacity-50 hover:opacity-80'
@@ -90,12 +88,10 @@ export function GenerationYearDetail({
                   >
                     <span className="flex items-center gap-2">
                       <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ backgroundColor: entry.color }} />
-                      <span className="text-xs font-bold leading-tight text-ink-700">{entry.label}</span>
+                      <span className="text-xs font-bold text-ink-700">{entry.label}</span>
                     </span>
-                    <span className="mt-2 block text-xs font-black tabular-nums leading-tight text-ink sm:text-sm">
-                      {formatTwh(entry.value)}
-                    </span>
-                    <span className="mt-0.5 block text-[11px] font-medium tabular-nums text-ink-500">
+                    <span className="mt-2 block text-sm font-black text-ink">{formatTwh(entry.value)}</span>
+                    <span className="mt-0.5 block text-[11px] font-medium text-ink-500">
                       {(entry.share ?? 0).toFixed(1)}% share
                     </span>
                   </button>

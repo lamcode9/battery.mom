@@ -400,7 +400,7 @@ function ChartTooltip({
   const total = entries.reduce((sum, item) => sum + item.value, 0)
 
   return (
-    <div className="min-w-[220px] max-w-[min(260px,calc(100vw-2rem))] rounded-xl bg-white p-3 shadow-xl shadow-gray-900/10">
+    <div className="min-w-[220px] rounded-xl bg-white p-3 shadow-xl shadow-gray-900/10">
       <div className="flex items-baseline justify-between gap-4">
         <div className="text-sm font-black text-ink">{label}</div>
         {!signed && <div className="text-xs font-semibold text-ink-500">{formatTwh(total)}</div>}
@@ -410,11 +410,11 @@ function ChartTooltip({
           const source = meta[item.key]
           return (
             <div key={item.key} className="flex items-center justify-between gap-4 text-xs">
-              <span className="flex min-w-0 items-center gap-2 font-semibold text-ink-600">
-                <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ backgroundColor: source?.color ?? item.color }} />
-                <span className="truncate">{source?.label ?? item.key}</span>
+              <span className="flex items-center gap-2 font-semibold text-ink-600">
+                <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: source?.color ?? item.color }} />
+                {source?.label ?? item.key}
               </span>
-              <span className="shrink-0 font-bold tabular-nums text-ink">{signed ? formatSignedTwh(item.value) : formatTwh(item.value)}</span>
+              <span className="font-bold text-ink">{signed ? formatSignedTwh(item.value) : formatTwh(item.value)}</span>
             </div>
           )
         })}
@@ -761,7 +761,7 @@ export default function EnergyDeploymentScoreboardPage() {
           </div>
 
           {chartMode === 'electricity' && (
-            <div data-generation-surface>
+            <div className="scroll-mt-16" data-generation-surface>
             <div className="mb-5 rounded-xl bg-ink p-4 text-white">
               <div className="flex items-baseline justify-between gap-3">
                 <div className="text-[11px] font-bold uppercase tracking-[0.16em] text-brand-300">Selected year</div>
@@ -838,8 +838,6 @@ export default function EnergyDeploymentScoreboardPage() {
                   />
                   <Tooltip
                     cursor={{ stroke: '#111827', strokeWidth: 1, strokeDasharray: '4 4' }}
-                    wrapperStyle={{ zIndex: 20, outline: 'none' }}
-                    allowEscapeViewBox={{ x: false, y: false }}
                     content={(props) => <ChartTooltip {...props} meta={GENERATION_STACK_SOURCE_META} />}
                   />
                   <ReferenceLine x={selectedYear} stroke="#111827" strokeOpacity={0.28} strokeDasharray="4 4" />
@@ -854,6 +852,7 @@ export default function EnergyDeploymentScoreboardPage() {
                       strokeWidth={1.6}
                       fill={`url(#generation-${key})`}
                       fillOpacity={1}
+                      isAnimationActive={false}
                       activeDot={{ r: 4, strokeWidth: 2, stroke: '#fff' }}
                     />
                   ))}

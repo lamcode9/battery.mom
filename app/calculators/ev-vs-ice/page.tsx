@@ -389,7 +389,7 @@ export default function EVvsICEPage() {
               <BarChart data={results.breakdownData} layout="vertical">
                 <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
                 <XAxis type="number" tick={{ fontSize: 11 }} tickFormatter={(v) => fmtShort(v, country)} />
-                <YAxis type="category" dataKey="name" tick={{ fontSize: 11 }} width={90} />
+                <YAxis type="category" dataKey="name" tick={{ fontSize: 11 }} width={110} />
                 <Tooltip
                   formatter={(value: number, name: string, item: { payload?: BreakdownRow }) => {
                     const row = item?.payload

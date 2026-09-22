@@ -109,7 +109,7 @@ export default function EvAdoptionSea2024Content() {
         people. The grid itself is also a constraint: the Philippines has the highest electricity cost
         in ASEAN at ₱12.30/kWh residential, which narrows the fuel-cost savings advantage of EVs.
         <em className="block text-sm text-gray-500 mt-2">
-          ₱12.30/kWh is the 2024 year-in-review snapshot used in this article (published February 2025). The live scoreboard and calculators now use Meralco's typical household overall rate of ₱14.74/kWh as of September 2026.
+          ₱12.30/kWh is the 2024 year-in-review snapshot used in this article (published February 2025). The live scoreboard and calculators now use Meralco&apos;s typical household overall rate of ₱14.74/kWh as of September 2026.
         </em>
       </p>
 

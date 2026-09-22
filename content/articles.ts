@@ -14,7 +14,7 @@ export const ARTICLES: Article[] = [
     slug: 'lfp-vs-nmc-tropical-climates',
     title: 'What is LFP vs NMC? Why battery chemistry matters in tropical climates',
     description:
-      'What LFP and NMC are, and why Southeast Asia's heat changes which one you want in an EV or a home battery.',
+      "What LFP and NMC are, and why Southeast Asia's heat changes which one you want in an EV or a home battery.",
     category: 'Explainer',
     publishedAt: '2025-02-15',
     readingTime: 8,

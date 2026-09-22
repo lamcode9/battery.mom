@@ -169,9 +169,9 @@ export default function StateOfBatteryPowerPage() {
       <Section tone="ink" size="md">
         <Container width="default">
           <p className="font-display text-3xl font-light leading-snug text-paper sm:text-4xl">
-            <span className="text-brand-300">"</span>A solar panel is useless at night. A turbine is
+            <span className="text-brand-300">&quot;</span>A solar panel is useless at night. A turbine is
             useless when the air is still. Batteries are what turn an intermittent supply into power you
-            can count on. Until recently, there was very little of it.<span className="text-brand-300">"</span>
+            can count on. Until recently, there was very little of it.<span className="text-brand-300">&quot;</span>
           </p>
         </Container>
       </Section>

@@ -264,7 +264,7 @@ export function EnergyServants({ caption }: { caption: string }) {
         </div>
         <div className="mt-5 flex items-baseline gap-3">
           <span className="font-display text-5xl tabular-nums text-paper sm:text-6xl">{count}</span>
-          <span className="font-display text-base italic text-paper-300">people's worth of power, working for you right now</span>
+          <span className="font-display text-base italic text-paper-300">people&apos;s worth of power, working for you right now</span>
         </div>
         <figcaption className="mt-3 text-sm leading-relaxed text-paper-300/80">{caption}</figcaption>
       </figure>

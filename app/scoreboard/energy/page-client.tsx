@@ -9,6 +9,8 @@ import {
   BarChart,
   Cell,
   CartesianGrid,
+  ComposedChart,
+  Customized,
   Legend,
   Line,
   LineChart,
@@ -17,6 +19,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
+import { GenerationGroupRail, GenerationYearDetail, useGroupRailLabels } from './generation-groups'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
 import InfoTooltip from '@/components/InfoTooltip'
 import {
@@ -41,6 +44,7 @@ import {
   type RegionalMixKey,
   type RenewableSourceKey,
 } from '@/data/energy-deployment-scoreboard'
+import { generationGroupForKey, GENERATION_GROUP_LABEL, withGroupRails } from '@/lib/utils/generation-groups'
 
 type ChartMode = 'electricity' | 'renewables' | 'change'
 type GenerationStackKey = Exclude<ElectricitySourceKey, 'renewables'> | RenewableSourceKey
@@ -368,18 +372,22 @@ function InsightStat({
   )
 }
 
+const RAIL_TOOLTIP_KEYS = new Set(['fossilBoundary', 'renewableBoundary'])
+
 function ChartTooltip({
   active,
   payload,
   label,
   meta,
   signed = false,
+  groupForKey,
 }: {
   active?: boolean
   payload?: TooltipPayloadItem[]
   label?: string | number
   meta: Partial<Record<string, ChartSourceMeta>>
   signed?: boolean
+  groupForKey?: (key: string) => string | null
 }) {
   if (!active || !payload?.length) return null
 
@@ -393,27 +401,46 @@ function ChartTooltip({
         color: item.color,
       }
     })
-    .filter(item => Number.isFinite(item.value))
+    .filter(item => Number.isFinite(item.value) && !RAIL_TOOLTIP_KEYS.has(item.key))
     .reverse()
 
   const total = entries.reduce((sum, item) => sum + item.value, 0)
+  const rows: Array<{ kind: 'group'; label: string } | { kind: 'entry'; key: string; value: number; color?: string }> = []
+  let previousGroup: string | null = null
+  for (const item of entries) {
+    const group = groupForKey?.(item.key) ?? null
+    if (group && group !== previousGroup) {
+      const groupSize = entries.filter(entry => groupForKey?.(entry.key) === group).length
+      const sourceLabel = meta[item.key]?.label
+      if (!(groupSize === 1 && sourceLabel === group)) rows.push({ kind: 'group', label: group })
+      previousGroup = group
+    }
+    rows.push({ kind: 'entry', key: item.key, value: item.value, color: item.color })
+  }
 
   return (
-    <div className="min-w-[220px] rounded-xl bg-white p-3 shadow-xl shadow-gray-900/10">
+    <div className="min-w-[220px] max-w-[260px] rounded-xl bg-white p-3 shadow-xl shadow-gray-900/10">
       <div className="flex items-baseline justify-between gap-4">
         <div className="text-sm font-black text-ink">{label}</div>
         {!signed && <div className="text-xs font-semibold text-ink-500">{formatTwh(total)}</div>}
       </div>
-      <div className="mt-3 space-y-2">
-        {entries.map(item => {
-          const source = meta[item.key]
+      <div className="mt-3 space-y-1.5">
+        {rows.map(row => {
+          if (row.kind === 'group') {
+            return (
+              <div key={row.label} className="border-t border-ink/10 pt-1.5 text-[10px] font-semibold text-ink-400 first:border-t-0 first:pt-0">
+                {row.label}
+              </div>
+            )
+          }
+          const source = meta[row.key]
           return (
-            <div key={item.key} className="flex items-center justify-between gap-4 text-xs">
-              <span className="flex items-center gap-2 font-semibold text-ink-600">
-                <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: source?.color ?? item.color }} />
-                {source?.label ?? item.key}
+            <div key={row.key} className="flex items-center justify-between gap-4 text-xs">
+              <span className="flex min-w-0 items-center gap-2 font-semibold text-ink-600">
+                <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ backgroundColor: source?.color ?? row.color }} />
+                <span className="truncate">{source?.label ?? row.key}</span>
               </span>
-              <span className="font-bold text-ink">{signed ? formatSignedTwh(item.value) : formatTwh(item.value)}</span>
+              <span className="shrink-0 font-bold tabular-nums text-ink">{signed ? formatSignedTwh(row.value) : formatTwh(row.value)}</span>
             </div>
           )
         })}
@@ -531,6 +558,7 @@ export default function EnergyDeploymentScoreboardPage() {
   const [selectedChangeSource, setSelectedChangeSource] = useState(ELECTRICITY_GENERATION_CHANGE_2025[0].source)
   const [visibleElectricityKeys, setVisibleElectricityKeys] = useState<GenerationStackKey[]>(generationStackKeys)
   const [visibleRenewableKeys, setVisibleRenewableKeys] = useState<RenewableSourceKey[]>(renewableKeys)
+  const showGroupRailLabels = useGroupRailLabels()
 
   const latestGeneration = GLOBAL_ELECTRICITY_GENERATION[GLOBAL_ELECTRICITY_GENERATION.length - 1]
   const totalGeneration = electricityKeys.reduce((sum, key) => sum + latestGeneration[key], 0)
@@ -543,7 +571,6 @@ export default function EnergyDeploymentScoreboardPage() {
   const fossilShare = getMixTotal(mixKey, ['coal', 'oil', 'naturalGas'])
   const lowCarbonShare = getMixTotal(mixKey, ['renewables', 'nuclear'])
   const selectedGenerationTotal = electricityKeys.reduce((sum, key) => sum + selectedGeneration[key], 0)
-  const visibleGenerationTotal = visibleElectricityKeys.reduce((sum, key) => sum + selectedGenerationStack[key], 0)
   const selectedRenewableTotal = renewableKeys.reduce((sum, key) => sum + selectedRenewableGeneration[key], 0)
   const visibleRenewableTotal = visibleRenewableKeys.reduce((sum, key) => sum + selectedRenewableGeneration[key], 0)
   const selectedGenerationLeader = electricityKeys
@@ -562,15 +589,7 @@ export default function EnergyDeploymentScoreboardPage() {
       color: RENEWABLE_SOURCE_META[key].color,
     }))
     .sort((a, b) => b.value - a.value)[0]
-  const previousGenerationStack = GLOBAL_GENERATION_STACK.find(item => item.year === selectedYear - 1)
   const previousRenewableGeneration = GLOBAL_RENEWABLE_GENERATION.find(item => item.year === selectedYear - 1)
-  const electricityTrendRows = buildTrendRows(
-    generationStackKeys,
-    selectedGenerationStack,
-    previousGenerationStack,
-    GENERATION_STACK_SOURCE_META,
-    selectedGenerationTotal
-  )
   const renewableTrendRows = buildTrendRows(
     renewableKeys,
     selectedRenewableGeneration,
@@ -578,17 +597,10 @@ export default function EnergyDeploymentScoreboardPage() {
     RENEWABLE_SOURCE_META,
     selectedRenewableTotal
   )
-  const visibleElectricityTrendRows = electricityTrendRows.filter(row => visibleElectricityKeys.includes(row.key))
   const visibleRenewableTrendRows = renewableTrendRows.filter(row => visibleRenewableKeys.includes(row.key))
-  const selectedVisibleGenerationLeader = getLargestSource(visibleElectricityTrendRows) ?? electricityTrendRows[0]
   const selectedVisibleRenewableLeader = getLargestSource(visibleRenewableTrendRows) ?? renewableTrendRows[0]
-  const fastestElectricityGrowth = getFastestGrowingSource(visibleElectricityTrendRows)
-  const biggestElectricityMover = getBiggestMoverSource(visibleElectricityTrendRows)
   const fastestRenewableGrowth = getFastestGrowingSource(visibleRenewableTrendRows)
   const biggestRenewableMover = getBiggestMoverSource(visibleRenewableTrendRows)
-  const fossilGeneration = selectedGeneration.coal + selectedGeneration.naturalGas + selectedGeneration.oil
-  const fossilGenerationShare = getShare(fossilGeneration, selectedGenerationTotal)
-  const renewableGenerationShare = getShare(selectedGeneration.renewables, selectedGenerationTotal)
   const solarWindGeneration = selectedRenewableGeneration.solarPv + selectedRenewableGeneration.wind
   const solarWindShare = getShare(solarWindGeneration, selectedRenewableTotal)
   const hydroShare = getShare(selectedRenewableGeneration.hydro, selectedRenewableTotal)
@@ -641,6 +653,12 @@ export default function EnergyDeploymentScoreboardPage() {
     share: getShare(selectedRenewableGeneration[key], selectedRenewableTotal),
     active: visibleRenewableKeys.includes(key),
   }))
+  const generationRailData = useMemo(
+    () => withGroupRails(GLOBAL_GENERATION_STACK, visibleElectricityKeys),
+    [visibleElectricityKeys],
+  )
+  const showFossilBoundary = generationRailData.some(point => point.fossilBoundary != null)
+  const showRenewableBoundary = generationRailData.some(point => point.renewableBoundary != null)
 
   const batteryRegionChartData = useMemo(
     () => batteryRegion.points.map(point => ({
@@ -747,7 +765,9 @@ export default function EnergyDeploymentScoreboardPage() {
               <p className="mt-1 text-sm text-ink-500">
                 {chartMode === 'change'
                   ? 'Year-on-year change in generation by source, 2024 → 2025, in TWh. The bars show how much each source rose or fell.'
-                  : `Each year's ${chartMode === 'renewables' ? 'total renewable' : 'total electricity'} generation by source, in TWh. These are annual totals, not additions. Hover to inspect a year.`}
+                  : chartMode === 'renewables'
+                    ? "Each year's total renewable generation by source, in TWh. These are annual totals, not additions. Hover to inspect a year."
+                    : "Each year's total electricity generation by source, in TWh. These are annual totals, not additions. Hairlines mark fossil, renewable, and nuclear. Hover to inspect a year."}
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -757,6 +777,20 @@ export default function EnergyDeploymentScoreboardPage() {
             </div>
           </div>
 
+          {chartMode === 'electricity' && (
+            <div data-generation-surface>
+            <GenerationYearDetail
+              year={selectedYear}
+              entries={electricityLegendEntries}
+              total={selectedGenerationTotal}
+              formatTwh={formatTwh}
+              onToggle={key => toggleElectricityKey(key as GenerationStackKey)}
+              onShowAll={() => setVisibleElectricityKeys(generationStackKeys)}
+            />
+            </div>
+          )}
+
+          {chartMode !== 'electricity' && (
           <div className="mb-5 grid gap-3 lg:grid-cols-[340px_1fr]">
             <div className="rounded-xl bg-ink p-4 text-white">
               <div className="text-[11px] font-bold uppercase tracking-[0.16em] text-brand-300">
@@ -766,41 +800,6 @@ export default function EnergyDeploymentScoreboardPage() {
                 {chartMode === 'change' ? selectedChange.source : selectedYear}
               </div>
               <div className="mt-4 grid grid-cols-2 gap-2">
-                {chartMode === 'electricity' && (
-                  <>
-                    <InsightStat label="Visible stack" value={formatTwh(visibleGenerationTotal)} detail="selected sources" />
-                    <InsightStat
-                      label="Largest source"
-                      value={selectedVisibleGenerationLeader?.label ?? 'No source'}
-                      detail={`${(selectedVisibleGenerationLeader?.share ?? 0).toFixed(1)}% of total`}
-                      color={selectedVisibleGenerationLeader?.color}
-                    />
-                    <InsightStat
-                      label="Fastest growing"
-                      value={fastestElectricityGrowth?.label ?? 'Baseline year'}
-                      detail={fastestElectricityGrowth ? `${formatSignedPercent(fastestElectricityGrowth.changePct ?? 0)} YoY` : 'No prior year'}
-                      color={fastestElectricityGrowth?.color}
-                    />
-                    <InsightStat
-                      label="Biggest mover"
-                      value={biggestElectricityMover?.label ?? 'Baseline year'}
-                      detail={biggestElectricityMover?.change !== null && biggestElectricityMover?.change !== undefined ? formatSignedTwh(biggestElectricityMover.change) : 'No prior year'}
-                      color={biggestElectricityMover?.color}
-                    />
-                    <InsightStat
-                      label="Renewables"
-                      value={`${renewableGenerationShare.toFixed(1)}%`}
-                      detail={formatTwh(selectedGeneration.renewables)}
-                      color={ELECTRICITY_SOURCE_META.renewables.color}
-                    />
-                    <InsightStat
-                      label="Fossil share"
-                      value={`${fossilGenerationShare.toFixed(1)}%`}
-                      detail="coal + gas + oil"
-                      color={ELECTRICITY_SOURCE_META.coal.color}
-                    />
-                  </>
-                )}
                 {chartMode === 'renewables' && (
                   <>
                     <InsightStat label="Visible stack" value={formatTwh(visibleRenewableTotal)} detail="selected sources" />
@@ -874,15 +873,6 @@ export default function EnergyDeploymentScoreboardPage() {
               </div>
             </div>
 
-            {chartMode === 'electricity' && (
-              <SourceLegend
-                title="Generation sources · renewables expanded"
-                entries={electricityLegendEntries}
-                onToggle={(key) => toggleElectricityKey(key as GenerationStackKey)}
-                onShowAll={() => setVisibleElectricityKeys(generationStackKeys)}
-              />
-            )}
-
             {chartMode === 'renewables' && (
               <SourceLegend
                 title="Renewable sources"
@@ -901,12 +891,14 @@ export default function EnergyDeploymentScoreboardPage() {
               </div>
             )}
           </div>
+          )}
 
           {chartMode === 'electricity' && (
+            <div data-generation-chart>
             <ResponsiveContainer width="100%" height={380}>
-              <AreaChart
-                data={GLOBAL_GENERATION_STACK}
-                margin={{ top: 12, right: 18, left: 0, bottom: 4 }}
+              <ComposedChart
+                data={generationRailData}
+                margin={{ top: 14, right: showGroupRailLabels ? 96 : 18, left: 0, bottom: 4 }}
                 onMouseMove={(state) => {
                   const year = Number(state?.activePayload?.[0]?.payload?.year)
                   if (Number.isFinite(year)) setSelectedYear(year)
@@ -938,7 +930,18 @@ export default function EnergyDeploymentScoreboardPage() {
                 />
                 <Tooltip
                   cursor={{ stroke: '#111827', strokeWidth: 1, strokeDasharray: '4 4' }}
-                  content={(props) => <ChartTooltip {...props} meta={GENERATION_STACK_SOURCE_META} />}
+                  wrapperStyle={{ zIndex: 20, outline: 'none' }}
+                  allowEscapeViewBox={{ x: false, y: false }}
+                  content={(props) => (
+                    <ChartTooltip
+                      {...props}
+                      meta={GENERATION_STACK_SOURCE_META}
+                      groupForKey={key => {
+                        const group = generationGroupForKey(key)
+                        return group ? GENERATION_GROUP_LABEL[group] : null
+                      }}
+                    />
+                  )}
                 />
                 <ReferenceLine x={selectedYear} stroke="#111827" strokeOpacity={0.28} strokeDasharray="4 4" />
                 {visibleElectricityKeys.map(key => (
@@ -953,10 +956,75 @@ export default function EnergyDeploymentScoreboardPage() {
                     fill={`url(#generation-${key})`}
                     fillOpacity={1}
                     activeDot={{ r: 4, strokeWidth: 2, stroke: '#fff' }}
+                    isAnimationActive={false}
                   />
                 ))}
-              </AreaChart>
+                {showFossilBoundary && (
+                  <Line
+                    type="monotone"
+                    dataKey="fossilBoundary"
+                    stroke="#FBF7EE"
+                    strokeWidth={3}
+                    dot={false}
+                    activeDot={false}
+                    legendType="none"
+                    tooltipType="none"
+                    isAnimationActive={false}
+                    style={{ pointerEvents: 'none' }}
+                  />
+                )}
+                {showFossilBoundary && (
+                  <Line
+                    type="monotone"
+                    dataKey="fossilBoundary"
+                    stroke="#11150F"
+                    strokeOpacity={0.55}
+                    strokeWidth={1}
+                    dot={false}
+                    activeDot={false}
+                    legendType="none"
+                    tooltipType="none"
+                    isAnimationActive={false}
+                    style={{ pointerEvents: 'none' }}
+                  />
+                )}
+                {showRenewableBoundary && (
+                  <Line
+                    type="monotone"
+                    dataKey="renewableBoundary"
+                    stroke="#FBF7EE"
+                    strokeWidth={3}
+                    dot={false}
+                    activeDot={false}
+                    legendType="none"
+                    tooltipType="none"
+                    isAnimationActive={false}
+                    style={{ pointerEvents: 'none' }}
+                  />
+                )}
+                {showRenewableBoundary && (
+                  <Line
+                    type="monotone"
+                    dataKey="renewableBoundary"
+                    stroke="#11150F"
+                    strokeOpacity={0.55}
+                    strokeWidth={1}
+                    dot={false}
+                    activeDot={false}
+                    legendType="none"
+                    tooltipType="none"
+                    isAnimationActive={false}
+                    style={{ pointerEvents: 'none' }}
+                  />
+                )}
+                <Customized
+                  component={GenerationGroupRail}
+                  railData={generationRailData}
+                  showLabels={showGroupRailLabels}
+                />
+              </ComposedChart>
             </ResponsiveContainer>
+            </div>
           )}
 
           {chartMode === 'renewables' && (

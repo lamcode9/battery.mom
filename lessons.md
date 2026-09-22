@@ -27,6 +27,7 @@ Use this file for durable lessons that should shape future agent work in this re
 - Country-specific assumptions are not always interchangeable. Residential energy rates, EV charging rates, commercial tariffs, and grid-scale BESS assumptions can intentionally differ.
 - JSX whitespace gotcha: a literal space between a closing inline tag like `</strong>` and the following text can be dropped at render — seen reliably when the tag's content ends in a symbol such as `%` or `×` (e.g. `42.5%</strong> of` rendered `42.5%of`). Use an explicit `{' '}` to guarantee the space. Verify rendered text, not just source.
 - Charts must live in a client component (`'use client'`). Reuse the SSR-safe `components/ResponsiveContainer.tsx` wrapper (defers recharts until after mount) rather than recharts' own `ResponsiveContainer`, to avoid server/client SVG hydration mismatches.
+- Recharts `AreaChart` only draws `Area`. A `Line` child (for a stack boundary hairline) is dropped unless the chart is a `ComposedChart`. Keep boundary series out of the tooltip by `tooltipType="none"` plus an explicit dataKey filter, or the cumulative value lands in the total.
 
 ## Design Lessons
 

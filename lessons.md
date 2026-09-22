@@ -121,6 +121,9 @@ Use this file for durable lessons that should shape future agent work in this re
   let three agents recolor 7 files without a single conflicting judgment. Also: grep the
   prose after recoloring — one InfoTooltip still said "(red)…(blue)".
 
+## 2026-09-22 — EV vs ICE breakdown uses value lost
+- On `/calculators/ev-vs-ice`, keep the original cost-breakdown chrome: horizontal grouped bars, EV `#0E9F6E`, ICE `#A7AFA4`, original axis and tooltip style, original category order. The only semantic change: drop Purchase and Resale (negative / money-back) bars; one positive Value lost row = purchase − resale; then Energy / Fuel, Maintenance, Insurance. Do not rank by length, recolor ICE to near-black, or add a second encoding. Tooltip may show sticker and resale on the value-lost row. `evTCO` / `iceTCO` stay purchase + energy + maintenance + insurance − resale. Summary cards still show resale as a positive amount the owner gets back.
+
 ## 2026-09-21 — Malaysia no longer has a single Tariff A kWh rate
 - Peninsular domestic bills under RP4 (Jul 2025–Dec 2027) are generation + capacity + network (44.43 sen/kWh at ≤1500 kWh) plus monthly AFA and a consumption-dependent Energy Efficiency Incentive. AFA and the RM10 retail charge are waived at ≤600 kWh. Do not relabel the old “Tariff A block 1–200 kWh” figure as current. Publish the official energy+capacity+network unit rate and spell out AFA/EEI, or pick a documented consumption level and show the blend.
 - Vehicle catalogue prices for Malaysia change on MITI CBU rules and facelifts: Tesla Model Y Long Range AWD was dropped in Jul 2026; the 2026 Atto 3 renamed Standard/Extended to Ultra/Premium. Mark discontinued trims `isAvailable: false` rather than inventing replacement specs.

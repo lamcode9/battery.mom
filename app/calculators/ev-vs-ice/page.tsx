@@ -23,7 +23,6 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  Cell,
 } from 'recharts'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
 
@@ -58,6 +57,16 @@ const ICE_FUEL_CONSUMPTION_L100KM = 7.5
 
 // Average EV efficiency (kWh/100km, blended home + public charging)
 const DEFAULT_EV_EFFICIENCY = 15
+
+type BreakdownRow = {
+  name: string
+  EV: number
+  ICE: number
+  evSticker?: number
+  iceSticker?: number
+  evResale?: number
+  iceResale?: number
+}
 
 // ── Component ─────────────────────────────────────────────────────────
 
@@ -154,13 +163,25 @@ export default function EVvsICEPage() {
       ICE: Math.round(iceYearly[i]),
     }))
 
-    // Cost breakdown data (for the bar chart)
-    const breakdownData = [
-      { name: 'Purchase', EV: evPrice - incentive, ICE: icePrice },
+    // One cost for the car: purchase minus what it sells for. Not a second
+    // purchase bar, and not a resale bar. evTCO / iceTCO already use this net.
+    const evSticker = evPrice - incentive
+    const iceSticker = icePrice
+    const evResale = Math.round(evResidual)
+    const iceResale = Math.round(iceResidual)
+    const breakdownData: BreakdownRow[] = [
+      {
+        name: 'Value lost',
+        EV: evSticker - evResale,
+        ICE: iceSticker - iceResale,
+        evSticker,
+        iceSticker,
+        evResale,
+        iceResale,
+      },
       { name: 'Energy / Fuel', EV: Math.round(evEnergyCostPerYear * yearsToCompare), ICE: Math.round(iceFuelCostPerYear * yearsToCompare) },
       { name: 'Maintenance', EV: Math.round(EV_ANNUAL_MAINTENANCE[country] * yearsToCompare), ICE: Math.round(ICE_ANNUAL_MAINTENANCE[country] * yearsToCompare) },
       { name: 'Insurance', EV: Math.round(EV_INSURANCE[country] * yearsToCompare), ICE: Math.round(ICE_INSURANCE[country] * yearsToCompare) },
-      { name: 'Resale Value', EV: -Math.round(evResidual), ICE: -Math.round(iceResidual) },
     ]
 
     return {
@@ -363,13 +384,23 @@ export default function EVvsICEPage() {
 
           {/* Cost breakdown */}
           <div className="bg-paper-100 border border-ink/10 rounded-card p-6">
-            <h3 className="text-sm font-semibold text-ink mb-4">Cost breakdown <InfoTooltip content="Breaks down total ownership costs into 5 categories: (1) Purchase price net of incentives, (2) Energy/fuel over the full period, (3) Maintenance (oil changes, brake pads, etc.), (4) Insurance premiums, (5) Resale value (shown as negative, because it is money you get back)." /></h3>
+            <h3 className="text-sm font-semibold text-ink mb-4">Cost breakdown <InfoTooltip content="Breaks down total ownership costs into 4 categories: (1) Value lost (purchase price net of incentives minus resale), (2) Energy/fuel over the full period, (3) Maintenance (oil changes, brake pads, etc.), (4) Insurance premiums. Hover value lost for the sticker and resale." /></h3>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={results.breakdownData} layout="vertical">
                 <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
                 <XAxis type="number" tick={{ fontSize: 11 }} tickFormatter={(v) => fmtShort(v, country)} />
-                <YAxis type="category" dataKey="name" tick={{ fontSize: 11 }} width={90} />
-                <Tooltip formatter={(v: number) => fmt(v, country)} />
+                <YAxis type="category" dataKey="name" tick={{ fontSize: 11 }} width={110} />
+                <Tooltip
+                  formatter={(value: number, name: string, item: { payload?: BreakdownRow }) => {
+                    const row = item?.payload
+                    if (row?.evSticker != null && row.evResale != null && row.iceSticker != null && row.iceResale != null) {
+                      const sticker = name === 'ICE' ? row.iceSticker : row.evSticker
+                      const resale = name === 'ICE' ? row.iceResale : row.evResale
+                      return [`${fmt(sticker, country)} sticker, ${fmt(resale, country)} resale, ${fmt(value, country)} lost`, name]
+                    }
+                    return fmt(value, country)
+                  }}
+                />
                 <Legend />
                 <Bar dataKey="EV" fill="#0E9F6E" radius={[0, 4, 4, 0]} />
                 <Bar dataKey="ICE" fill="#A7AFA4" radius={[0, 4, 4, 0]} />

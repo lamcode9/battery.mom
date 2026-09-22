@@ -14,10 +14,10 @@ import { usePathname } from 'next/navigation'
  * the retired `/scoreboard` hub.
  */
 const links = [
-  { href: '/state-of-battery-power', label: 'Big Picture' },
-  { href: '/scoreboard/energy', label: 'Global Deployment' },
-  { href: '/scoreboard/ev', label: 'EV Adoption' },
-  { href: '/scoreboard/bess', label: 'Storage Adoption' },
+  { href: '/state-of-battery-power', label: 'Big picture' },
+  { href: '/scoreboard/energy', label: 'Global deployment' },
+  { href: '/scoreboard/ev', label: 'EV adoption' },
+  { href: '/scoreboard/bess', label: 'Storage adoption' },
 ]
 
 export function BigPictureNav({ className = '' }: { className?: string }) {

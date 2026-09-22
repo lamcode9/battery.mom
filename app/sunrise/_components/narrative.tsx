@@ -123,7 +123,7 @@ export function ActHeader({ act, id, tone = 'dark' }: { act: ActMeta; id: string
         className={`mt-4 max-w-2xl font-display text-sm italic ${c.hearth}`}
         style={{ opacity: hearth, transform: `translateY(${(1 - hearth) * 8}px)` }}
       >
-        <span className={c.hearthWord}>the hearth</span> — {act.hearth}
+        <span className={c.hearthWord}>the hearth,</span> {act.hearth}
       </p>
     </header>
   )
@@ -161,7 +161,7 @@ export function BigNumbers({ items }: { items: BigNumberItem[] }) {
             </div>
             <p className="mt-2 font-display text-base italic text-paper-300 sm:text-lg">
               {n.label}
-              {n.sub && <span className="text-paper-300/60"> — {n.sub}</span>}
+              {n.sub && <span className="text-paper-300/60">, {n.sub}</span>}
             </p>
           </div>
         </Reveal>
@@ -177,7 +177,7 @@ export function SeaInset({ children }: { children: ReactNode }) {
     <Reveal className={COL_FRAME}>
       <aside className="max-w-xl border-l-2 border-brand-400/70 pl-5 sm:pl-6">
         <p className="text-base leading-relaxed text-paper-300 sm:text-lg">
-          <span className="font-display italic text-brand-300">Closer to home — </span>
+          <span className="font-display italic text-brand-300">Closer to home. </span>
           {children}
         </p>
       </aside>
@@ -224,7 +224,7 @@ export function EmberHold({ caption }: { caption: string }) {
           <span aria-hidden className="absolute left-1/2 top-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ background: `rgba(255,214,140,${0.35 + glow * 0.65})` }} />
         </button>
         <figcaption className="mt-4 max-w-sm font-display text-sm italic text-paper-300/80">
-          {reduced ? caption : <>hold the ember — let go, and it dies. {caption}</>}
+          {reduced ? caption : <>Hold the ember. Let go, and it dies. {caption}</>}
         </figcaption>
       </figure>
     </Reveal>
@@ -264,7 +264,7 @@ export function EnergyServants({ caption }: { caption: string }) {
         </div>
         <div className="mt-5 flex items-baseline gap-3">
           <span className="font-display text-5xl tabular-nums text-paper sm:text-6xl">{count}</span>
-          <span className="font-display text-base italic text-paper-300">people’s worth of power, working for you right now</span>
+          <span className="font-display text-base italic text-paper-300">people's worth of power, working for you right now</span>
         </div>
         <figcaption className="mt-3 text-sm leading-relaxed text-paper-300/80">{caption}</figcaption>
       </figure>
@@ -298,7 +298,7 @@ export function CurvesHeldBroke({ note }: { note: string }) {
     },
     {
       label: 'LED lights',
-      detail: 'same pattern — factory-made, repeated',
+      detail: 'same pattern, factory-made and repeated',
       d: 'M28,48 C76,58 124,88 178,110',
       stroke: '#C8F0DC',
       width: 1.75,
@@ -325,7 +325,7 @@ export function CurvesHeldBroke({ note }: { note: string }) {
     },
     {
       label: 'Concorde',
-      detail: 'the “future of flight” → museum',
+      detail: 'the "future of flight", now a museum',
       // flat, then collapses to zero
       d: 'M28,48 L120,48 C140,48 155,70 178,112',
       stroke: '#F0A89E',
@@ -339,7 +339,7 @@ export function CurvesHeldBroke({ note }: { note: string }) {
       title: 'Cost kept falling',
       subtitle: 'Made in factories, over and over',
       series: held,
-      aria: 'Schematic: solar, batteries, and LEDs — costs falling as more were built',
+      aria: 'Schematic. Solar, batteries, and LEDs got cheaper as more were built',
     },
     {
       title: 'Promises that failed',
@@ -357,7 +357,7 @@ export function CurvesHeldBroke({ note }: { note: string }) {
             Same chart, two outcomes
           </p>
           <p className="mt-1 text-sm leading-relaxed text-paper-300/80 sm:text-base">
-            Vertical axis is cost — high at the top, cheap at the bottom. Horizontal is time, as more was built. Not to scale; the shape is the lesson.
+            Vertical axis is cost, high at the top, cheap at the bottom. Horizontal is time, as more was built. Not to scale; the shape is the lesson.
           </p>
         </div>
 
@@ -452,7 +452,7 @@ export function CurvesHeldBroke({ note }: { note: string }) {
                     />
                     <span>
                       <span className="font-medium text-paper">{s.label}</span>
-                      <span className="text-paper-300/75"> — {s.detail}</span>
+                      <span className="text-paper-300/75">, {s.detail}</span>
                     </span>
                   </li>
                 ))}
@@ -494,7 +494,7 @@ export function ReceiptsWall({ items, note }: { items: { date: string; event: st
 export function SpeculationWatermark() {
   return (
     <div className={COL_FRAME}>
-      <p className="font-display text-sm italic text-gold/80">— informed speculation · undated by design —</p>
+      <p className="font-display text-sm italic text-gold/80">Informed speculation, undated by design.</p>
     </div>
   )
 }

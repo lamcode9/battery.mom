@@ -7,7 +7,7 @@ interface SunriseThreadProps {
 }
 
 /**
- * One-line standing link that threads data pages back to The Long Sunrise
+ * One-line standing link that threads data pages back to The long sunrise
  * story. Footnote-voiced: italic serif, quiet until hovered.
  */
 export default function SunriseThread({ className = '', tone }: SunriseThreadProps) {
@@ -15,7 +15,7 @@ export default function SunriseThread({ className = '', tone }: SunriseThreadPro
   return (
     <p className={`font-display text-sm italic ${dark ? 'text-paper-300/60' : 'text-ink-400'} ${className}`}>
       <Link href="/sunrise" className={`transition ${dark ? 'hover:text-gold-light' : 'hover:text-gold'}`}>
-        Part of The Long Sunrise — the whole argument, from the first fire &rarr;
+        Part of The long sunrise, the whole argument, from the first fire &rarr;
       </Link>
     </p>
   )

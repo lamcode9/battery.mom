@@ -10,13 +10,13 @@ type FooterGroup = { heading: string; links: FooterLink[] }
 
 const footerGroups: FooterGroup[] = [
   {
-    heading: 'Big Picture',
+    heading: 'Big picture',
     links: [
-      { href: '/sunrise', label: 'The Long Sunrise' },
-      { href: '/state-of-battery-power', label: 'The Story' },
-      { href: '/scoreboard/energy', label: 'Global Deployment' },
-      { href: '/scoreboard/ev', label: 'EV Adoption' },
-      { href: '/scoreboard/bess', label: 'Storage Adoption' },
+      { href: '/sunrise', label: 'The long sunrise' },
+      { href: '/state-of-battery-power', label: 'The story' },
+      { href: '/scoreboard/energy', label: 'Global deployment' },
+      { href: '/scoreboard/ev', label: 'EV adoption' },
+      { href: '/scoreboard/bess', label: 'Storage adoption' },
     ],
   },
   {
@@ -24,18 +24,18 @@ const footerGroups: FooterGroup[] = [
     links: [
       { href: '/ev', label: 'Compare EVs' },
       { href: '/calculators/ev-vs-ice', label: 'EV vs Petrol' },
-      { href: '/calculators/ev-charging-cost', label: 'Charging Cost' },
+      { href: '/calculators/ev-charging-cost', label: 'Charging cost' },
     ],
   },
   {
-    heading: 'Battery & Solar',
+    heading: 'Battery and solar',
     links: [
-      { href: '/bess/home', label: 'Home Battery' },
-      { href: '/bess/shared-residential', label: 'Shared Residential' },
+      { href: '/bess/home', label: 'Home battery' },
+      { href: '/bess/shared-residential', label: 'Shared residential' },
       { href: '/bess/commercial', label: 'Commercial' },
-      { href: '/bess/grid', label: 'Grid & Industrial' },
-      { href: '/calculators/solar-payback', label: 'Solar Payback' },
-      { href: '/bess/case-studies', label: 'Case Studies' },
+      { href: '/bess/grid', label: 'Grid and industrial' },
+      { href: '/calculators/solar-payback', label: 'Solar payback' },
+      { href: '/bess/case-studies', label: 'Case studies' },
     ],
   },
   {
@@ -44,7 +44,7 @@ const footerGroups: FooterGroup[] = [
       { href: '/insights', label: 'Insights' },
       { href: '/about', label: 'About' },
       { href: '/contributors', label: 'Sources' },
-      { href: '/suggest-correction', label: 'Suggest a Correction' },
+      { href: '/suggest-correction', label: 'Suggest a correction' },
       { href: '/contact', label: 'Contact' },
       { href: '/feed.xml', label: 'RSS', external: true },
     ],
@@ -98,7 +98,7 @@ export default function Footer() {
 
           <div className="flex flex-col gap-2 border-t border-ink/5 pt-4 text-xs text-ink-400 md:flex-row md:items-center md:justify-between">
             <p>© {new Date().getFullYear()} {siteName}. All rights reserved.</p>
-            <p>Independent energy-transition data for humans making real-world decisions.</p>
+            <p>Independent data on batteries, solar, and EVs.</p>
           </div>
         </div>
       </div>

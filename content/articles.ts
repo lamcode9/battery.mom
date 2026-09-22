@@ -14,7 +14,7 @@ export const ARTICLES: Article[] = [
     slug: 'lfp-vs-nmc-tropical-climates',
     title: 'What is LFP vs NMC? Why battery chemistry matters in tropical climates',
     description:
-      'A plain-English guide to the two dominant lithium-ion chemistries — LFP and NMC — and why Southeast Asia\'s heat makes the choice especially important for EVs and home batteries.',
+      'What LFP and NMC are, and why Southeast Asia's heat changes which one you want in an EV or a home battery.',
     category: 'Explainer',
     publishedAt: '2025-02-15',
     readingTime: 8,
@@ -25,7 +25,7 @@ export const ARTICLES: Article[] = [
     slug: 'can-13kwh-battery-zero-bill-malaysia',
     title: 'Can a 13.5 kWh battery zero your electricity bill in Malaysia?',
     description:
-      'We run the numbers on a typical Malaysian household pairing rooftop solar with a 13.5 kWh home battery — covering self-consumption, net metering, payback period, and the edge cases that trip people up.',
+      'The numbers for a typical Malaysian household with rooftop solar and a 13.5 kWh home battery: self-consumption, net metering, payback, and the cases that miss a zero bill.',
     category: 'Deep Dive',
     publishedAt: '2025-02-12',
     readingTime: 10,
@@ -36,7 +36,7 @@ export const ARTICLES: Article[] = [
     slug: 'ev-adoption-southeast-asia-2024-review',
     title: 'EV adoption in Southeast Asia: 2024 year in review',
     description:
-      'A data-packed look at how EV sales, charging infrastructure, and policy evolved across SG, MY, TH, ID, VN, and PH in 2024 — plus what the trajectory looks like for 2025.',
+      'EV sales, chargers, and policy across SG, MY, TH, ID, VN, and PH in 2024, and what those figures implied for 2025.',
     category: 'Market Data',
     publishedAt: '2025-02-08',
     readingTime: 12,

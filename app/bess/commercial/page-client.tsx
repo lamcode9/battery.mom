@@ -683,9 +683,9 @@ export default function CommercialBESSClient() {
 
         {/* Revenue stacking explainer */}
         <div className="bg-paper-100 border border-ink/10 rounded-card p-6 mb-8">
-          <h3 className="text-lg font-semibold text-ink mb-2">Revenue stacking: why commercial BESS beats single-use <InfoTooltip content="Revenue stacking means using the same battery for multiple purposes (peak shaving + arbitrage + backup + grid services). Each additional use case adds incremental value without needing a bigger battery, improving the overall ROI by 30-60%." /></h3>
+          <h3 className="text-lg font-semibold text-ink mb-2">Why a commercial battery earns more than peak shaving <InfoTooltip content="Revenue stacking means using the same battery for multiple purposes (peak shaving + arbitrage + backup + grid services). Each additional use case adds incremental value without needing a bigger battery, improving the overall ROI by 30-60%." /></h3>
           <p className="text-sm text-ink-600 mb-6">
-            A commercial battery isn&apos;t just peak shaving. By stacking multiple revenue streams, the same battery can earn 30–60% more than peak shaving alone.
+            The same battery can earn 30–60% more than peak shaving alone when it also does arbitrage, backup, and grid services.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
@@ -778,7 +778,7 @@ export default function CommercialBESSClient() {
         {/* Diesel genset replacement calculator */}
         <div className="bg-paper-100 border border-ink/10 rounded-card p-6 mb-8">
           <h3 className="text-base font-bold text-ink mb-1 flex items-center gap-2">
-            ⛽ Diesel Generator Replacement
+            Diesel generator replacement
             <InfoTooltip content="Compare the 15-year total cost of ownership (TCO) between a diesel genset and a BESS for backup power. Includes fuel costs, maintenance, and degradation. Most commercial buildings in SEA pay 20-80% more for diesel backup over a 15-year period vs BESS." />
           </h3>
           <p className="text-sm text-ink-500 mb-5">See if replacing your diesel genset with battery backup saves money over 15 years.</p>
@@ -841,7 +841,7 @@ export default function CommercialBESSClient() {
             <div className="bg-red-50 rounded-card p-5">
               <div className="flex items-center gap-2 mb-3">
                 <span className="text-lg">⛽</span>
-                <h4 className="text-sm font-bold text-red-900">Diesel Generator</h4>
+                <h4 className="text-sm font-bold text-red-900">Diesel generator</h4>
               </div>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
@@ -878,7 +878,7 @@ export default function CommercialBESSClient() {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-ink-600">Fuel cost</span>
-                  <span className="font-medium text-brand-700">{fmt(0, country)} — zero fuel</span>
+                  <span className="font-medium text-brand-700">{fmt(0, country)}, zero fuel</span>
                 </div>
                 <div className="flex justify-between pt-2 border-t border-brand-200">
                   <span className="font-semibold text-brand-900">15-year TCO</span>
@@ -892,13 +892,13 @@ export default function CommercialBESSClient() {
           {dieselCalc.savings15yr > 0 && (
             <div className="bg-brand-100 rounded-lg px-4 py-3 mb-6 text-sm text-brand-900 font-medium text-center">
               BESS saves <span className="font-bold">{fmtShort(dieselCalc.savings15yr, country)}</span> over 15 years
-              {dieselCalc.breakEvenYear ? ` — break-even in Year ${dieselCalc.breakEvenYear}` : ''}
+              {dieselCalc.breakEvenYear ? `. Break-even in year ${dieselCalc.breakEvenYear}` : ''}
             </div>
           )}
 
           {/* TCO chart */}
           <div>
-            <h4 className="text-sm font-semibold text-ink-700 mb-3">15-Year Total Cost of Ownership</h4>
+            <h4 className="text-sm font-semibold text-ink-700 mb-3">15-year total cost of ownership</h4>
             <ResponsiveContainer width="100%" height={280}>
               <LineChart data={dieselCalc.yearlyComparison} margin={{ top: 5, right: 20, left: 20, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
@@ -916,11 +916,11 @@ export default function CommercialBESSClient() {
         {/* TOU Arbitrage Simulator */}
         <div className="bg-paper-100 border border-ink/10 rounded-card p-6 mb-8">
           <h3 className="text-base font-bold text-ink mb-1 flex items-center gap-2">
-            ⏱️ Time-of-Use Arbitrage
+            Time-of-use arbitrage
             <InfoTooltip content="TOU arbitrage means charging your battery during cheap off-peak hours and discharging during expensive peak hours. The bigger the rate spread between off-peak and peak, the greater the savings. Most SEA utilities have 2–3 rate tiers for commercial customers." />
           </h3>
           <p className="text-sm text-ink-500 mb-5">
-            Charge at off-peak rates, discharge at peak rates — using your {touCalc.bessKwh} kWh BESS from the calculation above.
+            Charge at off-peak rates, discharge at peak rates, using your {touCalc.bessKwh} kWh BESS from the calculation above.
           </p>
 
           {/* Rate band legend */}
@@ -938,7 +938,7 @@ export default function CommercialBESSClient() {
 
           {/* 24-hour rate chart with charge/discharge indicators */}
           <div className="mb-5">
-            <h4 className="text-sm font-semibold text-ink-700 mb-3">24-Hour Tariff Profile</h4>
+            <h4 className="text-sm font-semibold text-ink-700 mb-3">24-hour tariff profile</h4>
             <ResponsiveContainer width="100%" height={220}>
               <BarChart data={touCalc.hourlyProfile} margin={{ top: 5, right: 10, left: 20, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
@@ -961,7 +961,7 @@ export default function CommercialBESSClient() {
 
           {/* Action timeline (visual) */}
           <div className="mb-5">
-            <h4 className="text-sm font-semibold text-ink-700 mb-2">Battery Actions</h4>
+            <h4 className="text-sm font-semibold text-ink-700 mb-2">Battery actions</h4>
             <div className="flex h-8 rounded-lg overflow-hidden">
               {touCalc.hourlyProfile.map((entry, i) => (
                 <div
@@ -970,7 +970,7 @@ export default function CommercialBESSClient() {
                   style={{
                     backgroundColor: entry.action === 'Charge' ? '#bbf7d0' : entry.action === 'Discharge' ? '#fecaca' : '#f3f4f6',
                   }}
-                  title={`${entry.hour} — ${entry.action}`}
+                  title={`${entry.hour}, ${entry.action}`}
                 >
                   {i % 4 === 0 && (
                     <span className="text-[8px] font-medium text-ink-500">{entry.action === 'Charge' ? '⬇' : entry.action === 'Discharge' ? '⬆' : '–'}</span>
@@ -1058,7 +1058,7 @@ export default function CommercialBESSClient() {
           </button>
           <PDFExportButton
             containerRef={pdfRef}
-            options={{ filename: `battery-mom-commercial-bess-${useCase}.pdf`, title: 'battery.mom — Commercial BESS Calculator', subtitle: `${COUNTRIES.find(c => c.value === country)?.label} · ${USE_CASE_PRESETS[useCase].label} · ${peakDemandKw}kW peak` }}
+            options={{ filename: `battery-mom-commercial-bess-${useCase}.pdf`, title: 'battery.mom, commercial BESS calculator', subtitle: `${COUNTRIES.find(c => c.value === country)?.label} · ${USE_CASE_PRESETS[useCase].label} · ${peakDemandKw}kW peak` }}
             className="bg-paper-200 text-ink-700 hover:bg-paper-300"
           />
         </div>

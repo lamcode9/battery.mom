@@ -51,7 +51,7 @@ const RUNGS: readonly Rung[] = [
     id: 4,
     watts: { kind: 'single', exponent: 9 },
     title: 'A gigafactory',
-    body: 'One gigawatt: a large power station — or a battery plant turning out cells around the clock.',
+    body: 'One gigawatt: a large power station, or a battery plant turning out cells around the clock.',
     kValue: 0.3,
   },
   {
@@ -65,14 +65,14 @@ const RUNGS: readonly Rung[] = [
     id: 6,
     watts: { kind: 'single', exponent: 16 },
     title: 'Kardashev I',
-    body: "All the sunlight civilization could harness on Earth — roughly 500× today's use.",
+    body: "All the sunlight civilization could harness on Earth, roughly 500× today's use.",
     kValue: 1,
   },
   {
     id: 7,
     watts: { kind: 'single', coefficient: '3.8', exponent: 26 },
-    title: 'Kardashev II — the sun, whole',
-    body: 'About 20 trillion times today. A Dyson swarm is a thought experiment, not a forecast — but it is the ceiling physics offers.',
+    title: 'Kardashev II, the whole sun',
+    body: 'About 20 trillion times today. A Dyson swarm is a thought experiment, not a forecast. It is the ceiling physics offers.',
     tag: 'thought experiment',
     kValue: 2,
   },
@@ -271,7 +271,7 @@ export default function PowersOfTenLadder({ className }: { className?: string })
               className="absolute -top-1 -translate-x-1/2 whitespace-nowrap font-display text-[10px] italic text-brand-300 sm:text-xs"
               style={{ left: `${youAreHerePct}%` }}
             >
-              you are here — K 0.73
+              you are here, K 0.73
             </span>
           </div>
           <div className="relative h-1 rounded-pill border border-paper/20 bg-paper/10">

@@ -83,7 +83,7 @@ export default function SuggestCorrectionClient() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <h3 className="text-xl font-semibold text-gray-900 mb-2">Thank You!</h3>
+        <h3 className="text-xl font-semibold text-gray-900 mb-2">Correction received</h3>
         <p className="text-gray-600 mb-6">
           Your correction suggestion has been submitted. We&apos;ll review it within 24-48 hours and update our data if verified.
         </p>
@@ -92,13 +92,13 @@ export default function SuggestCorrectionClient() {
             href="/ev"
             className="inline-flex items-center px-5 py-2.5 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"
           >
-            Back to EV Comparison
+            Back to EV comparison
           </Link>
           <Link
             href="/"
             className="inline-flex items-center px-5 py-2.5 bg-white text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
           >
-            Back to Home
+            Back to home
           </Link>
         </div>
       </div>

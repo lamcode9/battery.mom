@@ -26,10 +26,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const product = bessData.find((item: any) => slugify(item.name) === slug)
 
   if (!product) {
-    return { title: 'Product Not Found — battery.mom' }
+    return { title: 'Product not found, battery.mom' }
   }
 
-  const title = `${product.name} — battery.mom`
+  const title = `${product.name}, battery.mom`
   const description = `${product.name} specs: ${product.capacityKwh} kWh capacity, ${product.roundTripEfficiency}% efficiency, ${product.warrantyYears}-year warranty. ${product.manufacturer} home battery storage system with pricing across Southeast Asia.`
 
   return {

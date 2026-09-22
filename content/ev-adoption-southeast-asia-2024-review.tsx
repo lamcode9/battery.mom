@@ -2,9 +2,8 @@ export default function EvAdoptionSea2024Content() {
   return (
     <article className="prose prose-gray max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-a:text-emerald-600">
       <p className="lead text-lg text-gray-600">
-        2024 was a breakout year for electric vehicles in Southeast Asia. BEV sales across the
-        region&apos;s six largest markets grew roughly 55% year-over-year, led by Thailand and
-        driven by Chinese automakers. Here&apos;s what the numbers say — and what they mean for 2025.
+        BEV sales across Southeast Asia&apos;s six largest markets grew roughly 55% year over year in 2024, led by Thailand and
+        by Chinese automakers. Here is what those numbers meant for 2025.
       </p>
 
       <h2>The headline numbers</h2>
@@ -27,12 +26,12 @@ export default function EvAdoptionSea2024Content() {
 
       <h2>Country by country</h2>
 
-      <h3>Thailand — the regional leader</h3>
+      <h3>Thailand, the regional leader</h3>
       <p>
-        Thailand cemented its position as Southeast Asia&apos;s EV capital in 2024. BEV registrations
+        Thailand led Southeast Asia&apos;s EV sales in 2024. BEV registrations
         reached approximately 68,000 units, bringing cumulative on-road EVs past 128,000. The
-        government&apos;s EV 3.5 subsidy programme — offering ฿70,000–150,000 per vehicle depending on
-        battery size — was the single biggest driver. BYD dominated with the Atto 3 and Dolphin, while
+        government&apos;s EV 3.5 subsidy programme, ฿70,000–150,000 per vehicle depending on
+        battery size, was the largest driver. BYD dominated with the Atto 3 and Dolphin, while
         Tesla gained ground after opening Bangkok service centres.
       </p>
       <p>
@@ -41,23 +40,23 @@ export default function EvAdoptionSea2024Content() {
         Economic Corridor.
       </p>
 
-      <h3>Singapore — highest density, smallest market</h3>
+      <h3>Singapore, highest density, smallest market</h3>
       <p>
         Singapore hit an 8.5% BEV share of new car registrations in 2024, up from ~6% in 2023. The
-        Certificate of Entitlement (COE) system means car prices are astronomical regardless, which
-        actually helps EVs — the price gap versus ICE is relatively smaller. The Vehicle Emissions
+        Certificate of Entitlement (COE) system means car prices are high either way, so
+        the gap versus petrol is a smaller share of the price. The Vehicle Emissions
         Scheme (VES) rebate of up to S$25,000 sweetens the deal.
       </p>
       <p>
         With 5,400 public charger points for a population of 5.9 million, Singapore has the best
         charging density in the region at 915 chargers per million people. The bottleneck is now
-        private parking — most Singaporeans live in HDB flats where installing home chargers requires
+        private parking. Most Singaporeans live in HDB flats, where installing a home charger requires
         building management approval.
       </p>
 
-      <h3>Malaysia — the surprise growth story</h3>
+      <h3>Malaysia, the fastest growth</h3>
       <p>
-        Malaysia was 2024&apos;s biggest EV surprise. BEV sales more than doubled (+120% YoY), driven by:
+        Malaysia&apos;s BEV sales more than doubled (+120% year over year), driven by:
       </p>
       <ul>
         <li>Zero import duty and excise tax on EVs (extended through 2027)</li>
@@ -71,14 +70,14 @@ export default function EvAdoptionSea2024Content() {
         MADANI incentives and net metering policies also encouraged solar-EV combos.
       </p>
 
-      <h3>Indonesia — volume potential, slow start</h3>
+      <h3>Indonesia, large market, slow start</h3>
       <p>
         Indonesia has the region&apos;s largest car market by volume but only a 1.4% BEV share. The
         Wuling Air ev dominated the affordable end, while Hyundai&apos;s Ioniq 5 (locally assembled in
         Cikarang) led the premium segment. The Rp80 million purchase subsidy was impactful but limited
         in allocations.
         <em className="block text-sm text-gray-500 mt-2">
-          The Rp80 million figure is the 2024 programme described in this year-in-review. It is not the live 2026 instrument — see the scoreboard for the PPN DTP status as of 21 September 2026.
+          The Rp80 million figure is the 2024 programme described in this year-in-review. It is not the live 2026 instrument. See the scoreboard for the PPN DTP status as of 21 September 2026.
         </em>
       </p>
       <p>
@@ -87,7 +86,7 @@ export default function EvAdoptionSea2024Content() {
         CATL, LG Energy Solution, and Hyundai all have Indonesian battery factories in development.
       </p>
 
-      <h3>Vietnam — the VinFast show</h3>
+      <h3>Vietnam, mostly VinFast</h3>
       <p>
         Vietnam&apos;s EV market is effectively a one-brand market. VinFast sold approximately 85% of all
         BEVs in the country, with the VF e34 and VF 5 as volume models. Total BEV penetration reached
@@ -95,23 +94,22 @@ export default function EvAdoptionSea2024Content() {
       </p>
       <p>
         The government&apos;s 50% registration fee reduction and luxury tax exemption through 2027
-        underpin demand. VinFast also operates 3,000+ charging stations — more than all other operators
-        combined — giving it a near-monopoly on infrastructure.
+        underpin demand. VinFast also operates 3,000+ charging stations, more than all other operators
+        combined, which leaves it with most of the infrastructure.
       </p>
 
-      <h3>Philippines — early days, big ambitions</h3>
+      <h3>Philippines, low share, fast growth</h3>
       <p>
-        The Philippines had the lowest BEV penetration at 0.6%, but sales growth of +110% YoY
-        shows momentum. The EVIDA Act (signed 2022, implementing rules released 2023) exempts EVs
+        The Philippines had the lowest BEV penetration at 0.6%. Sales still grew +110% year over year. The EVIDA Act (signed 2022, implementing rules released 2023) exempts EVs
         from tariffs and provides registration priority. BYD&apos;s Dolphin became the first sub-₱1M BEV,
         opening the market to a wider audience.
       </p>
       <p>
-        Charging infrastructure remains the biggest barrier — just 800 public points for 117 million
+        Charging infrastructure is the main barrier. There are 800 public points for 117 million
         people. The grid itself is also a constraint: the Philippines has the highest electricity cost
         in ASEAN at ₱12.30/kWh residential, which narrows the fuel-cost savings advantage of EVs.
         <em className="block text-sm text-gray-500 mt-2">
-          ₱12.30/kWh is the 2024 year-in-review snapshot used in this article (published February 2025). The live scoreboard and calculators now use Meralco’s typical household overall rate of ₱14.74/kWh as of September 2026.
+          ₱12.30/kWh is the 2024 year-in-review snapshot used in this article (published February 2025). The live scoreboard and calculators now use Meralco's typical household overall rate of ₱14.74/kWh as of September 2026.
         </em>
       </p>
 
@@ -120,14 +118,14 @@ export default function EvAdoptionSea2024Content() {
       <h3>1. Chinese brands are winning</h3>
       <p>
         BYD, Wuling (SGMW), MG (SAIC), and Great Wall collectively held over 50% of the BEV market
-        across Southeast Asia in 2024. Their price-performance ratio is unmatched — the BYD Dolphin
+        across Southeast Asia in 2024. The BYD Dolphin
         offers WLTP ranges above 400 km for prices that compete with mid-size ICE sedans.
       </p>
 
       <h3>2. Charging is a solved problem in cities, unsolved elsewhere</h3>
       <p>
         Bangkok, Singapore, and KL now have adequate fast-charging coverage. But intercity routes
-        and secondary cities remain underserved. Most EV owners still rely on home charging — which
+        and secondary cities remain underserved. Most EV owners still rely on home charging, which
         works for landed homes but creates barriers for apartment dwellers.
       </p>
 
@@ -150,7 +148,7 @@ export default function EvAdoptionSea2024Content() {
         </li>
         <li>
           <strong>Indonesia&apos;s subsidy renewal:</strong> The 2024 purchase subsidy programme is being
-          evaluated for extension — critical for maintaining momentum
+          evaluated for extension, which decides whether the 2024 sales pace holds
         </li>
         <li>
           <strong>V2H/V2G rollout:</strong> Vehicle-to-home and vehicle-to-grid technology is being
@@ -164,8 +162,7 @@ export default function EvAdoptionSea2024Content() {
 
       <h2>The bottom line</h2>
       <p>
-        Southeast Asia&apos;s EV transition is no longer &quot;coming&quot; — it&apos;s here, and it&apos;s
-        accelerating. The region added more EVs in 2024 than in all previous years combined. With
+        The region added more EVs in 2024 than in all previous years combined. With
         factories being built, incentives locked in, and Chinese manufacturers pricing aggressively,
         the question has shifted from &quot;will SEA go electric?&quot; to &quot;how fast?&quot;
       </p>

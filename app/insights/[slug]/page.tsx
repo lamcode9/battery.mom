@@ -33,7 +33,7 @@ export async function generateMetadata({
   const article = getArticleBySlug(slug)
   if (!article) return {}
   return {
-    title: `${article.title} — battery.mom`,
+    title: `${article.title}, battery.mom`,
     description: article.description,
     openGraph: {
       title: article.title,

@@ -2,11 +2,11 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'API Documentation — battery.mom',
+  title: 'API documentation, battery.mom',
   description: 'Access battery.mom data programmatically. REST API for EV and BESS data across Southeast Asia.',
   alternates: { canonical: '/api-docs' },
   openGraph: {
-    title: 'API Documentation — battery.mom',
+    title: 'API documentation, battery.mom',
     description: 'Programmatic access to EV and BESS data across Southeast Asia.',
     type: 'website',
   },
@@ -20,7 +20,7 @@ export default function ApiDocsPage() {
           <nav className="flex items-center gap-2 text-sm text-ink-500 mb-4">
             <Link href="/" className="hover:text-ink-700">Home</Link>
             <span>/</span>
-            <span className="text-ink">API Documentation</span>
+            <span className="text-ink">API documentation</span>
           </nav>
 
           <h1 className="font-display text-4xl md:text-5xl font-medium text-ink tracking-tight mb-4">
@@ -39,7 +39,7 @@ export default function ApiDocsPage() {
                 </svg>
               </div>
               <div>
-                <h3 className="font-semibold text-brand-900 mb-1">Rate Limits</h3>
+                <h3 className="font-semibold text-brand-900 mb-1">Rate limits</h3>
                 <p className="text-brand-800 text-sm">
                   100 requests per hour per IP address. Contact us for higher limits.
                 </p>
@@ -68,7 +68,7 @@ export default function ApiDocsPage() {
               Retrieve electric vehicle data. Filter by country, availability, and search terms.
             </p>
 
-            <h4 className="font-medium text-ink mb-2">Query Parameters</h4>
+            <h4 className="font-medium text-ink mb-2">Query parameters</h4>
             <div className="bg-paper-200 rounded p-4 mb-4">
               <table className="w-full text-sm">
                 <thead>
@@ -103,12 +103,12 @@ export default function ApiDocsPage() {
               </table>
             </div>
 
-            <h4 className="font-medium text-ink mb-2">Example Request</h4>
+            <h4 className="font-medium text-ink mb-2">Example request</h4>
             <div className="bg-ink text-paper-200 rounded p-4 mb-4 font-mono text-sm">
               {`curl "https://battery.mom/api/vehicles?country=SG&available=true&limit=10"`}
             </div>
 
-            <h4 className="font-medium text-ink mb-2">Example Response</h4>
+            <h4 className="font-medium text-ink mb-2">Example response</h4>
             <div className="bg-ink text-paper-200 rounded p-4 font-mono text-sm overflow-x-auto">
 {`[
   {
@@ -138,13 +138,13 @@ export default function ApiDocsPage() {
               Get detailed information for a specific vehicle by ID.
             </p>
 
-            <h4 className="font-medium text-ink mb-2">Example Request</h4>
+            <h4 className="font-medium text-ink mb-2">Example request</h4>
             <div className="bg-ink text-paper-200 rounded p-4 mb-4 font-mono text-sm">
               {`curl "https://battery.mom/api/vehicles/550e8400-e29b-41d4-a716-446655440000"`}
             </div>
           </div>
 
-          {/* Suggest Correction */}
+          {/* Suggest a correction */}
           <div className="bg-paper-100 border border-ink/10 rounded-lg p-6">
             <div className="flex items-center gap-3 mb-4">
               <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded">POST</span>
@@ -154,7 +154,7 @@ export default function ApiDocsPage() {
               Submit a correction for vehicle or BESS data. All submissions are reviewed before being applied.
             </p>
 
-            <h4 className="font-medium text-ink mb-2">Request Body</h4>
+            <h4 className="font-medium text-ink mb-2">Request body</h4>
             <div className="bg-paper-200 rounded p-4 mb-4">
               <table className="w-full text-sm">
                 <thead>
@@ -224,7 +224,7 @@ export default function ApiDocsPage() {
               </table>
             </div>
 
-            <h4 className="font-medium text-ink mb-2">Example Request</h4>
+            <h4 className="font-medium text-ink mb-2">Example request</h4>
             <div className="bg-ink text-paper-200 rounded p-4 font-mono text-sm overflow-x-auto">
 {`curl -X POST "https://battery.mom/api/suggest-correction" \\
   -H "Content-Type: application/json" \\
@@ -244,7 +244,7 @@ export default function ApiDocsPage() {
 
         {/* Data License */}
         <div className="mt-12 bg-blue-50 border border-blue-200 rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-blue-900 mb-3">Data License & Attribution</h3>
+          <h3 className="text-lg font-semibold text-blue-900 mb-3">Data license and attribution</h3>
           <p className="text-blue-800 mb-4">
             Our data is compiled from publicly available sources and manufacturer specifications.
             When using battery.mom data in your applications, please attribute us appropriately.

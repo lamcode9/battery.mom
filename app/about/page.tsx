@@ -19,37 +19,37 @@ export default function AboutPage() {
 
         {/* Intro */}
         <p className="text-xl md:text-2xl leading-relaxed text-ink-800 mb-10 font-medium">
-          We&apos;re obsessed with one simple idea: <strong className="text-ev-primary font-bold">batteries are the new oil</strong>.
+          The line this site is built on: <strong className="text-ev-primary font-bold">batteries are the new oil</strong>.
         </p>
 
         {/* Body */}
         <div className="space-y-6 text-ink-700 leading-relaxed text-lg">
           <p>
-            In the next decade, lithium-ion (and the chemistries that come after it) will reshape transportation, homes, and entire electric grids. Electric vehicles are just the beginning. The real revolution happens when every home, business, and community can store its own energy — turning intermittent solar and wind into reliable, 24/7 power.
+            Lithium-ion batteries, and the chemistries after them, are changing cars, houses, and grids. An EV is one use. A home, a shop, or a town that stores solar and wind can use that power after dark.
           </p>
 
           <p>
-            That revolution is already happening faster than most people realise — but good, up-to-date information in one place is still surprisingly hard to find.
+            The hardware is already being installed. Current prices, tariffs, and adoption figures are still scattered.
           </p>
 
           <p className="text-xl font-semibold text-ink">
-            battery.mom exists to solve exactly that.
+            battery.mom puts those figures in one place.
           </p>
 
           <p>
-            We collect, verify, and publish the clearest possible numbers — real costs, real payback periods, real adoption rates, real policy changes — with a special focus on Southeast Asia and the rest of the planet.
+            We check costs, payback periods, adoption rates, and policy changes against primary sources, with the detail on Southeast Asia.
           </p>
 
           <p>
-            Our only job is to give homeowners, businesses, installers, and policymakers the data they actually need to make faster, better decisions.
+            Homeowners, businesses, installers, and policymakers can use the same numbers.
           </p>
 
           <p className="text-lg font-semibold text-ink border-l-4 border-ev-primary pl-4 py-2 bg-paper-200 rounded-r">
-            No sponsorships. No affiliate links. No ads. Ever.
+            No sponsorships. No affiliate links. No ads.
           </p>
 
           <p>
-            Just clean, updated data every month so the transition can move as quickly as possible.
+            The datasets are updated monthly.
           </p>
         </div>
 

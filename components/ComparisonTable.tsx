@@ -1109,7 +1109,7 @@ export default function ComparisonTable() {
     <div className="mt-8 mb-12 bg-paper-100 rounded-lg shadow-lg overflow-hidden">
       <div className="px-4 pt-4 pb-2 text-black">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <h2 className="text-xl font-bold">Side-by-Side Comparison</h2>
+          <h2 className="text-xl font-bold">Side-by-side comparison</h2>
           <div className="flex flex-wrap gap-2 items-center">
             <ShareComparisonCard vehicles={sortedVehicles} />
             <button
@@ -1147,7 +1147,7 @@ export default function ComparisonTable() {
 
       <div className="px-6 pt-2 pb-2 space-y-4">
         <h3 className="font-semibold text-ink-800">
-          Data Snapshot
+          Data snapshot
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <MetricChart title="Battery Capacity (kWh)" data={batteryCapacityChartData} suffix=" kWh">
@@ -1195,7 +1195,7 @@ export default function ComparisonTable() {
       {sortedVehicles.length >= 2 && (
         <AnimatedEntry animation="scale-up" delay={0}>
           <div className="px-6 pt-4 pb-2">
-            <h3 className="font-semibold text-ink-800 mb-2">Score Radar</h3>
+            <h3 className="font-semibold text-ink-800 mb-2">Score radar</h3>
             <div className="flex justify-center">
               <EVRadarChart vehicles={sortedVehicles} />
             </div>
@@ -1246,11 +1246,11 @@ export default function ComparisonTable() {
       {/* ── Desktop: Detailed Comparison Table (hidden on mobile) ── */}
       <div className="hidden md:block pt-3 pb-6 px-6 border-b border-ink/5 space-y-4">
         <h3 className="font-semibold text-ink-800 flex items-center gap-2">
-          Detailed Comparison
+          Detailed comparison
         </h3>
         {sortedVehicles.length > 2 && (
           <p className="text-xs text-ink-500 md:hidden">
-            💡 Scroll horizontally to see all vehicles
+            Scroll horizontally to see all vehicles
           </p>
         )}
       <div className="overflow-x-auto -mx-6 px-6">
@@ -1606,7 +1606,7 @@ export default function ComparisonTable() {
               <td className="px-2 py-2 text-xs font-medium text-ink-700 sticky left-0 bg-paper-100 z-10 max-w-[6rem] md:max-w-[8rem] lg:max-w-[10rem]">
                 <span className="inline-flex items-center gap-1">
                   <span className="break-words leading-tight">Vehicle Base Price</span>
-                  <InfoTooltip content="Malaysia figures are OTR Peninsular list prices where sourced. Singapore Tesla Model 3/Y RWD and BYD Atto 3 Extended are COE-inclusive drive-away quotes; COE is included and moves with the quota. Other Singapore rows may still show a manufacturer ‘from’ price — we did not add an estimated COE on top. Confirm the cheque on SGCarMart before comparing." />
+                  <InfoTooltip content="Malaysia figures are OTR Peninsular list prices where sourced. Singapore Tesla Model 3/Y RWD and BYD Atto 3 Extended are COE-inclusive drive-away quotes; COE is included and moves with the quota. Other Singapore rows may still show a manufacturer 'from' price. We did not add an estimated COE on top. Confirm the cheque on SGCarMart before comparing." />
                 </span>
               </td>
               {sortedVehicles.map((vehicle) => {
@@ -1832,7 +1832,7 @@ export default function ComparisonTable() {
             {/* 22. Technology Features */}
             <tr>
               <td className="px-2 py-2 text-xs font-medium text-ink-700 sticky left-0 bg-paper-100 z-10 max-w-[6rem] md:max-w-[8rem] lg:max-w-[10rem]">
-                <span className="break-words leading-tight">Technology Features</span>
+                <span className="break-words leading-tight">Technology features</span>
               </td>
               {sortedVehicles.map((vehicle) => (
                 <td key={vehicle.id} className="px-3 py-2 text-center text-xs text-ink-600">
@@ -1922,7 +1922,7 @@ function TimeToChargeInfoBox() {
               <div>
                 <div className="font-medium text-ink mb-1.5">Public fast charging:</div>
                 <div className="text-ink-600 mb-2">
-                  Assume 100 kW DC — the most common fast charger in urban SEA 2025–26. Almost all real sessions are 20→80 %. Future plans for 200–350 kW hubs expanding fast.
+                  Assume 100 kW DC, the most common fast charger in urban SEA in 2025 and 2026. Almost all real sessions are 20→80 %. Future plans for 200–350 kW hubs expanding fast.
                 </div>
                 <div className="bg-paper-200 p-2 rounded font-mono text-[10px] text-ink-700">
                   Minutes = (Battery Capacity × 0.8) ÷ Max DC Rate (kW) × 60

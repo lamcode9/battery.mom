@@ -28,26 +28,26 @@ export const KIND_LABEL: Record<Kind, string> = {
 export const DESTINATIONS = {
   story: {
     href: '/state-of-battery-power',
-    label: 'The Story',
-    blurb: 'How batteries, solar, and EVs took off — the macro picture in one read.',
+    label: 'The story',
+    blurb: 'How batteries, solar, and EVs scaled, in one read.',
     kind: 'read',
   },
   energyBoard: {
     href: '/scoreboard/energy',
-    label: 'Global Deployment',
+    label: 'Global deployment',
     blurb: 'Live battery build-out worldwide, in GW and GWh, updated from public data.',
     kind: 'track',
   },
   evBoard: {
     href: '/scoreboard/ev',
-    label: 'EV Adoption',
+    label: 'EV adoption',
     blurb: 'How fast each Southeast Asian country is switching to electric.',
     kind: 'track',
   },
   bessBoard: {
     href: '/scoreboard/bess',
-    label: 'Storage Adoption',
-    blurb: 'Where stationary storage is scaling first — home, commercial, and grid.',
+    label: 'Storage adoption',
+    blurb: 'Where stationary storage is scaling first: home, commercial, and grid.',
     kind: 'track',
   },
   evCompare: {
@@ -64,25 +64,25 @@ export const DESTINATIONS = {
   },
   charging: {
     href: '/calculators/ev-charging-cost',
-    label: 'Charging Cost',
+    label: 'Charging cost',
     blurb: 'What it really costs to charge, at home or in public, on local rates.',
     kind: 'decide',
   },
   solarPayback: {
     href: '/calculators/solar-payback',
-    label: 'Solar Payback',
+    label: 'Solar payback',
     blurb: 'How long rooftop solar takes to pay for itself at your tariff and yield.',
     kind: 'decide',
   },
   bessHome: {
     href: '/bess/home',
-    label: 'Home Battery',
-    blurb: 'Size solar and storage to cut — or zero out — your home electricity bill.',
+    label: 'Home battery',
+    blurb: 'Size solar and storage to cut your home electricity bill, including to zero.',
     kind: 'decide',
   },
   bessShared: {
     href: '/bess/shared-residential',
-    label: 'Shared Residential',
+    label: 'Shared residential',
     blurb: 'One battery across a condo or apartment block: per-unit savings and ROI.',
     kind: 'decide',
   },
@@ -94,13 +94,13 @@ export const DESTINATIONS = {
   },
   bessGrid: {
     href: '/bess/grid',
-    label: 'Grid & Industrial',
+    label: 'Grid and industrial',
     blurb: 'LCOS economics and policy for utility-scale storage across the region.',
     kind: 'decide',
   },
   caseStudies: {
     href: '/bess/case-studies',
-    label: 'Case Studies',
+    label: 'Case studies',
     blurb: 'Real homes and businesses: what they paid, what they saved, what they learned.',
     kind: 'read',
   },
@@ -112,7 +112,7 @@ export const DESTINATIONS = {
   },
   bessHub: {
     href: '/bess',
-    label: 'Battery & Solar',
+    label: 'Battery and solar',
     blurb: 'Size storage at every scale, from a single rooftop to a national grid.',
     kind: 'decide',
   },

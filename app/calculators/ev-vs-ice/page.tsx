@@ -182,14 +182,14 @@ export default function EVvsICEPage() {
         {/* Header */}
         <div className="max-w-2xl mb-10">
           <h1 className="font-display text-4xl md:text-5xl font-medium text-ink tracking-tight">
-            EV vs ICE — Total Cost of Ownership <InfoTooltip content="TCO (Total Cost of Ownership) adds up every cost of owning a car — purchase price, fuel/energy, maintenance, insurance, and subtracts resale value. It answers: 'What does this car really cost me over X years?'" />
+            EV vs ICE, total cost of ownership <InfoTooltip content="TCO (Total Cost of Ownership) adds up purchase price, fuel or energy, maintenance, and insurance, then subtracts resale value. It answers: 'What does this car really cost me over X years?'" />
           </h1>
           <p className="mt-3 text-lg text-ink-600 leading-relaxed">
-            Compare {yearsToCompare}-year costs: purchase price, energy, maintenance, insurance, and resale — using real local rates.
+            Compare {yearsToCompare}-year costs: purchase price, energy, maintenance, insurance, and resale, using local rates.
           </p>
           <div className="mt-4">
             <ShareResult
-              title={`EV vs ICE — ${yearsToCompare}-Year TCO (${COUNTRIES.find(c => c.value === country)?.label})`}
+              title={`EV vs ICE, ${yearsToCompare}-year TCO (${COUNTRIES.find(c => c.value === country)?.label})`}
               results={[
                 { label: `${yearsToCompare}yr winner`, value: winner === 'EV' ? 'Electric Vehicle' : 'Petrol Vehicle' },
                 { label: 'EV TCO', value: fmtShort(results.evTCO, country) },
@@ -363,7 +363,7 @@ export default function EVvsICEPage() {
 
           {/* Cost breakdown */}
           <div className="bg-paper-100 border border-ink/10 rounded-card p-6">
-            <h3 className="text-sm font-semibold text-ink mb-4">Cost breakdown <InfoTooltip content="Breaks down total ownership costs into 5 categories: (1) Purchase price net of incentives, (2) Energy/fuel over the full period, (3) Maintenance (oil changes, brake pads, etc.), (4) Insurance premiums, (5) Resale value (shown as negative — it's money you get back)." /></h3>
+            <h3 className="text-sm font-semibold text-ink mb-4">Cost breakdown <InfoTooltip content="Breaks down total ownership costs into 5 categories: (1) Purchase price net of incentives, (2) Energy/fuel over the full period, (3) Maintenance (oil changes, brake pads, etc.), (4) Insurance premiums, (5) Resale value (shown as negative, because it is money you get back)." /></h3>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={results.breakdownData} layout="vertical">
                 <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
@@ -380,7 +380,7 @@ export default function EVvsICEPage() {
 
         {/* CO₂ comparison */}
         <div className="bg-paper-200 border border-ink/10 rounded-card p-6 mb-8">
-          <h3 className="text-sm font-semibold text-ink mb-3">CO₂ emissions comparison (annual) <InfoTooltip content="EV emissions come from the electricity grid (0.55 kg CO₂ per kWh — a Southeast Asian average including coal, gas, and renewables). ICE emissions use 2.31 kg CO₂ per litre of petrol (covers both tailpipe and refinery). EVs typically emit 50-70% less CO₂ even on a fossil-heavy grid." /></h3>
+          <h3 className="text-sm font-semibold text-ink mb-3">CO₂ emissions comparison (annual) <InfoTooltip content="EV emissions come from the electricity grid (0.55 kg CO₂ per kWh, a Southeast Asian average including coal, gas, and renewables). ICE emissions use 2.31 kg CO₂ per litre of petrol (covers both tailpipe and refinery). EVs typically emit 50-70% less CO₂ even on a fossil-heavy grid." /></h3>
           <div className="grid grid-cols-2 gap-6">
             <div>
               <div className="text-xs text-ink-500 uppercase tracking-wide mb-1">EV</div>
@@ -402,7 +402,7 @@ export default function EVvsICEPage() {
 
         {/* Assumptions */}
         <div className="bg-paper-100 border border-ink/10 rounded-card p-6">
-          <h3 className="text-sm font-semibold text-ink mb-3">Key assumptions <InfoTooltip content="These are the default values used in the calculation. You can override the vehicle prices and driving distance above. Maintenance, insurance, and depreciation rates are simplified regional estimates — not a workshop invoice — and your actual numbers will vary." /></h3>
+          <h3 className="text-sm font-semibold text-ink mb-3">Key assumptions <InfoTooltip content="These are the default values used in the calculation. You can override the vehicle prices and driving distance above. Maintenance, insurance, and depreciation rates are simplified regional estimates. They are not a workshop invoice, and your numbers will vary." /></h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-2 text-xs text-ink-500">
             <div className="flex items-center gap-1">Petrol price: {fmt(PETROL_PRICE[country], country, 2)}/litre <InfoTooltip content={PETROL_PRICE_NOTE[country]} /></div>
             <div>ICE consumption: {ICE_FUEL_CONSUMPTION_L100KM} L/100km</div>
@@ -417,7 +417,7 @@ export default function EVvsICEPage() {
             <div>ICE insurance: {fmt(ICE_INSURANCE[country], country)}/yr</div>
           </div>
           <p className="text-xs text-ink-400 mt-4">
-            Defaults pair like-for-like compact SUVs — BYD Atto 3 vs Honda HR-V — so the purchase gap reflects a real EV premium rather than a vehicle-class mismatch. In Thailand the HR-V is sold only as a hybrid (a tougher-than-petrol benchmark). In Singapore the Atto 3 default is the PaperValue/SGCarMart COE-inclusive drive-away of S$191,388 (Evo 60.48 kWh, 12 Sep 2026); COE is included and moves with the quota. Listed prices already reflect each market&apos;s EV tax and rebate position. Maintenance, insurance, depreciation, road tax, and financing are simplified regional estimates — ICE maintenance is about 2.3–2.5× EV — not a workshop invoice. Rates last verified {RATE_VERIFIED_ON}. You can override the vehicle prices above.
+            Defaults pair like-for-like compact SUVs, the BYD Atto 3 and the Honda HR-V, so the purchase gap is an EV premium rather than a vehicle-class mismatch. In Thailand the HR-V is sold only as a hybrid (a tougher-than-petrol benchmark). In Singapore the Atto 3 default is the PaperValue/SGCarMart COE-inclusive drive-away of S$191,388 (Evo 60.48 kWh, 12 Sep 2026); COE is included and moves with the quota. Listed prices already reflect each market&apos;s EV tax and rebate position. Maintenance, insurance, depreciation, road tax, and financing are simplified regional estimates. ICE maintenance is about 2.3–2.5× EV. These are not a workshop invoice. Rates last verified {RATE_VERIFIED_ON}. You can override the vehicle prices above.
           </p>
         </div>
       </section>

@@ -540,7 +540,7 @@ export default function StatsGrid({ vehicle, selectedOptions, onToggleOption }: 
 
       {/* Efficiency & Range */}
       <div className="space-y-4">
-        <h3 className="text-sm font-medium text-ink uppercase tracking-wide pb-2 border-b border-ink/10">Efficiency & Range</h3>
+        <h3 className="text-sm font-medium text-ink uppercase tracking-wide pb-2 border-b border-ink/10">Efficiency and range</h3>
         <div className="bg-paper-200/50 rounded-lg p-4 space-y-4">
           <div className="pb-3 border-b border-ink/5 last:border-0 last:pb-0">
             <div className="text-xs text-ink-500 mb-1.5">Efficiency</div>

@@ -3,9 +3,9 @@ import Link from 'next/link'
 import { NextSteps } from '@/components/ui/NextSteps'
 
 export const metadata: Metadata = {
-  title: 'BESS Case Studies — battery.mom',
+  title: 'BESS case studies, battery.mom',
   description:
-    'Real-world battery energy storage case studies from homes and businesses across Southeast Asia — costs, savings, and lessons learned.',
+    'Battery installations from homes and businesses across Southeast Asia, with costs, savings, and what the owners learned.',
   alternates: { canonical: '/bess/case-studies' },
 }
 
@@ -52,7 +52,7 @@ const CASE_STUDIES: CaseStudy[] = [
       'Exported only 3 kWh/day to grid under NEM 3.0',
     ],
     quote: {
-      text: 'We were sceptical about the battery adding value on top of solar. But the numbers speak for themselves — we basically eliminated our night-time electricity cost.',
+      text: 'We were sceptical about the battery adding value on top of solar. The night-time electricity cost is basically gone.',
       author: 'Ahmad R.',
       role: 'Homeowner, Shah Alam',
     },
@@ -182,7 +182,7 @@ export default function CaseStudiesPage() {
             <span className="text-sm text-ink-500">Case Studies</span>
           </div>
           <h1 className="font-display text-4xl md:text-5xl font-medium text-ink tracking-tight">
-            Real-World Case Studies
+            Real-world case studies
           </h1>
           <p className="mt-4 text-lg text-ink-600 leading-relaxed">
             How homes, offices, and factories across Southeast Asia are using battery storage to cut costs and gain energy independence.
@@ -268,7 +268,7 @@ export default function CaseStudiesPage() {
 
                   {/* Highlights */}
                   <div className="mb-5">
-                    <h3 className="text-sm font-semibold text-ink-700 mb-2">Key Results</h3>
+                    <h3 className="text-sm font-semibold text-ink-700 mb-2">Key results</h3>
                     <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-1.5">
                       {study.highlights.map((h, i) => (
                         <li key={i} className="flex items-start gap-2 text-sm text-ink-600">
@@ -303,7 +303,7 @@ export default function CaseStudiesPage() {
         <div className="mt-12 bg-paper-200 border border-ink/10 rounded-card p-8 text-center">
           <h2 className="text-xl font-bold text-ink mb-2">Have a BESS installation story?</h2>
           <p className="text-ink-600 mb-4">
-            We feature real installations from across Southeast Asia. Share your experience — costs, savings, and lessons learned.
+            These installations are from across Southeast Asia. Share the cost, the savings, and what you would change.
           </p>
           <Link
             href="/contact"

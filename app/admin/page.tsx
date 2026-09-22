@@ -3,7 +3,7 @@ import AdminDashboardClient from './page-client'
 import { prisma } from '@/lib/prisma'
 
 export const metadata: Metadata = {
-  title: 'Admin Dashboard — battery.mom',
+  title: 'Admin dashboard, battery.mom',
   description: 'Internal data review dashboard.',
   robots: { index: false, follow: false },
 }

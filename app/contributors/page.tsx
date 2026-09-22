@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Contributors — battery.mom',
+  title: 'Contributors, battery.mom',
   description: 'The data sources, tools, and acknowledgements behind battery.mom.',
   alternates: { canonical: '/contributors' },
 }
@@ -31,12 +31,12 @@ const DATA_SOURCES: DataSource[] = [
   },
   {
     name: 'MAA (Malaysia)',
-    description: 'Malaysian Automotive Association — vehicle sales and registration data',
+    description: 'Malaysian Automotive Association, vehicle sales and registration data',
     url: 'https://www.maa.org.my',
   },
   {
     name: 'Gaikindo (Indonesia)',
-    description: 'Association of Indonesia Automotive Industries — sales data',
+    description: 'Association of Indonesia Automotive Industries, sales data',
     url: 'https://www.gaikindo.or.id',
   },
   {
@@ -46,12 +46,12 @@ const DATA_SOURCES: DataSource[] = [
   },
   {
     name: 'IEA Global Energy Review',
-    description: 'International Energy Agency — current global EV sales and policy context',
+    description: 'International Energy Agency, current global EV sales and policy context',
     url: 'https://www.iea.org/reports/global-energy-review-2026/technology-electric-vehicles',
   },
   {
     name: 'IRENA',
-    description: 'International Renewable Energy Agency — BESS cost and deployment data',
+    description: 'International Renewable Energy Agency, BESS cost and deployment data',
     url: 'https://www.irena.org',
   },
   {
@@ -137,15 +137,14 @@ export default function ContributorsPage() {
         <div className="bg-paper-200 border border-ink/10 rounded-card p-8 text-center">
           <h2 className="text-xl font-bold text-ink mb-2">Want to contribute?</h2>
           <p className="text-ink-600 mb-4 max-w-lg mx-auto">
-            Whether you have data, expertise, or just a correction — we welcome contributions.
-            This project is better because of the community around it.
+            Send a correction, a dataset, or a note on a source.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             <Link
               href="/suggest-correction"
               className="px-5 py-2 bg-brand-600 text-white rounded-lg font-medium hover:bg-brand-700 transition-colors text-sm"
             >
-              Suggest Correction
+              Suggest a correction
             </Link>
             <Link
               href="/contact"

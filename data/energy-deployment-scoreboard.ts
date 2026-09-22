@@ -209,7 +209,7 @@ export const BATTERY_PACK_PRICES: BatteryPackPricePoint[] = [
   { year: 2021, pricePerKwh: 132 },
   { year: 2022, pricePerKwh: 151, note: 'First annual rise on record, driven by a lithium and raw-material price spike.' },
   { year: 2023, pricePerKwh: 139 },
-  { year: 2024, pricePerKwh: 115, note: 'Largest annual drop since 2017; average EV packs fell to $97/kWh — below $100 for the first time.' },
+  { year: 2024, pricePerKwh: 115, note: 'Largest annual drop since 2017; average EV packs fell to $97/kWh, below $100 for the first time.' },
   { year: 2025, pricePerKwh: 108, note: 'New record low; EV packs stayed below $100/kWh for a second year running.' },
 ]
 

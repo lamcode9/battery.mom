@@ -20,7 +20,7 @@ const newsreader = Newsreader({
 // Hard-coded strings - reuse everywhere
 const siteName = "battery.mom"
 const tagline = "Clear data for the energy transition."
-const description = "Independent, monthly-updated data on solar, battery storage, and electric vehicles — costs, payback times, and adoption rates across Southeast Asia and the world."
+const description = "Monthly data on solar, battery storage, and electric vehicles. Costs, payback times, and adoption rates for Southeast Asia and the world."
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -29,7 +29,7 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: `${siteName} — ${tagline}`,
+  title: `${siteName}. ${tagline}`,
   description: description,
   keywords: ['electric vehicles', 'EV comparison', 'battery storage', 'solar', 'Southeast Asia', 'Singapore', 'Malaysia', 'Tesla', 'BYD', 'EV specs', 'electric car', 'energy transition'],
   authors: [{ name: siteName }],
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: `${siteName} — ${tagline}`,
+    title: `${siteName}. ${tagline}`,
     description: description,
     type: 'website',
     locale: 'en_US',
@@ -50,13 +50,13 @@ export const metadata: Metadata = {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: `${siteName} — ${tagline}`,
+        alt: `${siteName}. ${tagline}`,
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: `${siteName} — ${tagline}`,
+    title: `${siteName}. ${tagline}`,
     description: description,
     creator: '@batterymom',
   },
@@ -86,7 +86,7 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="alternate" type="application/rss+xml" title="battery.mom — Insights" href="/feed.xml" />
+        <link rel="alternate" type="application/rss+xml" title="battery.mom, insights" href="/feed.xml" />
       </head>
       <body className={`${inter.className} ${newsreader.variable}`} suppressHydrationWarning>
         <Providers>

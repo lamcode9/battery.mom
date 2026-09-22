@@ -86,15 +86,15 @@ export default function TenantROIPitch({
 
   const copyCard = async () => {
     const text = [
-      `🏠 Green Home Investment — ${country}`,
+      `Green home investment, ${country}`,
       ``,
       `Your unit costs ${fmtShort(effectiveCost, country)} more`,
       `but saves ${fmt(effectiveSavings, country)}/month (${results.savingsAsPct.toFixed(0)}% of your bill)`,
       ``,
-      `💰 Pays for itself in ${results.effectivePayback.toFixed(1)} years`,
-      `📊 20-year ROI: ${fmtShort(results.roi20Year, country)}`,
+      `Pays for itself in ${results.effectivePayback.toFixed(1)} years`,
+      `20-year ROI is ${fmtShort(results.roi20Year, country)}`,
       `⚡ ${blackoutHours}h blackout protection`,
-      `🌱 ${results.co2PerUnit.toFixed(1)}t CO₂ saved/year`,
+      `${results.co2PerUnit.toFixed(1)} t CO₂ saved a year`,
       ``,
       `Powered by battery.mom`,
     ].join('\n')
@@ -110,7 +110,7 @@ export default function TenantROIPitch({
     <div className="bg-paper-100 border border-ink/10 rounded-card p-6 mb-8">
       <h2 className="text-lg font-semibold text-ink mb-1">
         Tenant ROI Pitch Card{' '}
-        <InfoTooltip content="Generate a shareable one-liner for condo buyers: 'Your unit costs X% more but saves Y/month — pays for itself in Z years.' Useful for property developer marketing materials and agent talking points." />
+        <InfoTooltip content="Generate a shareable one-liner for condo buyers: 'Your unit costs X% more but saves Y a month and pays for itself in Z years.' Useful for property developer marketing materials and agent talking points." />
       </h2>
       <p className="text-sm text-ink-500 mb-5">
         Show condo buyers exactly what the green premium gets them.
@@ -150,7 +150,7 @@ export default function TenantROIPitch({
         {/* Headline */}
         <div className="text-center mb-5">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-brand-600 text-white rounded-full text-xs font-semibold mb-3">
-            🏠 Green Home Investment
+            Green home investment
           </div>
           <h3 className="text-xl md:text-2xl font-bold text-ink leading-tight">
             Your unit costs{' '}

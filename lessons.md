@@ -13,6 +13,7 @@ Use this file for durable lessons that should shape future agent work in this re
 ## Product Lessons
 
 - Battery.mom is a trust product. Do not make vague or promotional claims when a specific number, assumption, or source note would serve users better.
+- User-facing copy follows the unslop pass: sentence-case headings, no em dashes in prose (use a period or a comma), no decorative emoji in headings or bullets, straight quotes. Do not change numbers, sources, or footnotes when editing voice. A lone em dash in a table cell is the missing-value mark, not a sentence dash.
 - The audience spans homeowners, installers, businesses, and policymakers across Singapore, Malaysia, Indonesia, Thailand, Vietnam, and the Philippines. Keep copy plain enough for non-specialists but precise enough for professionals.
 - Data-first UI beats decoration. Charts, tables, comparison cards, and clear assumptions are more valuable than ornamental hero sections.
 - Placeholder or future-facing pages should still look intentional, with useful context, realistic timing, and links to live tools.

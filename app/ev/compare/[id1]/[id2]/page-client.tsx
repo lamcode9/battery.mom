@@ -255,7 +255,7 @@ export default function VehicleComparisonClient({ vehicle1, vehicle2 }: VehicleC
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
           {/* Range Comparison */}
           <div className="bg-paper-100 border border-ink/10 rounded-card p-6">
-            <h3 className="text-sm font-semibold text-ink mb-4">Range Comparison</h3>
+            <h3 className="text-sm font-semibold text-ink mb-4">Range comparison</h3>
             <ResponsiveContainer width="100%" height={200}>
               <BarChart data={rangeComparison}>
                 <CartesianGrid strokeDasharray="3 3" stroke={CHART.grid} />
@@ -268,9 +268,9 @@ export default function VehicleComparisonClient({ vehicle1, vehicle2 }: VehicleC
             </ResponsiveContainer>
           </div>
 
-          {/* Efficiency Comparison */}
+          {/* Efficiency comparison */}
           <div className="bg-paper-100 border border-ink/10 rounded-card p-6">
-            <h3 className="text-sm font-semibold text-ink mb-4">Efficiency Comparison <InfoTooltip content="Energy consumed per 100 km (kWh/100km). Lower is better — it means the car travels further on the same energy. Typical range: 13-22 kWh/100km depending on vehicle size, weight, and aerodynamics." /></h3>
+            <h3 className="text-sm font-semibold text-ink mb-4">Efficiency comparison <InfoTooltip content="Energy consumed per 100 km (kWh/100km). Lower is better. The car travels further on the same energy. Typical range: 13-22 kWh/100km depending on vehicle size, weight, and aerodynamics." /></h3>
             <ResponsiveContainer width="100%" height={200}>
               <BarChart data={efficiencyComparison}>
                 <CartesianGrid strokeDasharray="3 3" stroke={CHART.grid} />
@@ -285,7 +285,7 @@ export default function VehicleComparisonClient({ vehicle1, vehicle2 }: VehicleC
 
           {/* Price Comparison */}
           <div className="bg-paper-100 border border-ink/10 rounded-card p-6">
-            <h3 className="text-sm font-semibold text-ink mb-4">Price Comparison</h3>
+            <h3 className="text-sm font-semibold text-ink mb-4">Price comparison</h3>
             <ResponsiveContainer width="100%" height={200}>
               <BarChart data={priceComparison}>
                 <CartesianGrid strokeDasharray="3 3" stroke={CHART.grid} />

@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { ARTICLES } from '@/content/articles'
 
 export const metadata: Metadata = {
-  title: 'Insights — battery.mom',
+  title: 'Insights, battery.mom',
   description:
     'Data-driven analysis, explainers, and market snapshots on EVs, battery storage, and solar across Southeast Asia.',
 }
@@ -38,7 +38,7 @@ export default function InsightsPage() {
             Insights
           </h1>
           <p className="mt-4 text-lg text-ink-600 leading-relaxed">
-            Data-driven analysis, explainers, and market snapshots — no hype, just the numbers and context you need.
+            Explainers and market notes on EVs, batteries, and solar in Southeast Asia. The numbers, and the context around them.
           </p>
         </div>
 

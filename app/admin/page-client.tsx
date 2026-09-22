@@ -71,7 +71,7 @@ export default function AdminDashboardClient({ stats }: { stats: AdminStats }) {
       <section className="container mx-auto px-4 pt-12 pb-16 max-w-7xl">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Admin Dashboard</h1>
+          <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Admin dashboard</h1>
           <p className="mt-2 text-gray-500">Data review, corrections queue, and audit trail.</p>
         </div>
 
@@ -110,7 +110,7 @@ export default function AdminDashboardClient({ stats }: { stats: AdminStats }) {
 
             {/* Country Breakdown */}
             <div className="bg-white border border-gray-200 rounded-xl p-6">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">Vehicles by Country</h2>
+              <h2 className="text-lg font-semibold text-gray-900 mb-4">Vehicles by country</h2>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
                 {stats.countryCounts
                   .sort((a, b) => b.count - a.count)
@@ -125,7 +125,7 @@ export default function AdminDashboardClient({ stats }: { stats: AdminStats }) {
 
             {/* Data Freshness */}
             <div className="bg-white border border-gray-200 rounded-xl p-6">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">Data Freshness</h2>
+              <h2 className="text-lg font-semibold text-gray-900 mb-4">Data freshness</h2>
               <div className="mb-4">
                 <div className="flex h-4 rounded-full overflow-hidden bg-gray-100">
                   <div className="bg-emerald-500 transition-all" style={{ width: `${freshPct}%` }} />

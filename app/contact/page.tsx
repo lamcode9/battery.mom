@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Contact — battery.mom',
-  description: 'Get in touch with battery.mom — corrections, feedback, data requests, or partnership inquiries.',
+  title: 'Contact, battery.mom',
+  description: 'Write to battery.mom about a correction, a data request, or feedback.',
   alternates: { canonical: '/contact' },
 }
 

@@ -35,7 +35,7 @@ import {
 } from '@/content/sunrise/script'
 
 /**
- * The Long Sunrise — one continuous scroll from true black to the site's
+ * The long sunrise — one continuous scroll from true black to the site's
  * paper daylight, played as a film (docs/one-cinematic-work-storyboard.html):
  * the fixed <SunriseSky> canvas is the score, and <SceneStage> plays each
  * act's loop full-bleed behind the words, cutting on the act anchors. The
@@ -164,10 +164,10 @@ export default function SunriseClient() {
           className="sunrise-hero-in mt-6 font-display text-6xl font-medium leading-[0.98] tracking-tight text-paper sm:text-8xl md:text-[7.5rem]"
           style={{ animationDelay: '0.6s' }}
         >
-          The Long Sunrise
+          The long sunrise
         </h1>
         <p className="sunrise-hero-in mt-8 max-w-xl text-base leading-relaxed text-paper-300 sm:text-lg" style={{ animationDelay: '1.3s' }}>
-          From the first fire to cheap solar — half a million years, and the century that changes it.
+          From the first fire to cheap solar. Half a million years, and the century that changes it.
           Every number sourced. Every prediction dated.
         </p>
         <div className="sunrise-hero-in mt-16 flex flex-col items-center gap-3 text-paper-300/50" style={{ animationDelay: '2.2s' }} aria-hidden>

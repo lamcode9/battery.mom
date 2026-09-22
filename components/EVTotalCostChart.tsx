@@ -88,7 +88,7 @@ export default function EVTotalCostChart({ vehicles, country }: Props) {
       <div className="flex items-start justify-between mb-4">
         <div>
           <h3 className="text-sm font-bold text-ink flex items-center gap-2">
-            💰 5-Year Total Cost of Ownership
+            5-year total cost of ownership
           </h3>
           <p className="text-[10px] text-ink-500 mt-1">
             Purchase price + electricity + maintenance + insurance − estimated resale value after 5 years.

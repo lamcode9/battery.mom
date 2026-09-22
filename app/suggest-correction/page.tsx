@@ -2,11 +2,11 @@ import { Metadata } from 'next'
 import SuggestCorrectionClient from './page-client'
 
 export const metadata: Metadata = {
-  title: 'Suggest a Correction — battery.mom',
+  title: 'Suggest a correction, battery.mom',
   description: 'Help improve our EV and BESS data accuracy. Submit corrections for vehicle specs, pricing, or battery information.',
   alternates: { canonical: '/suggest-correction' },
   openGraph: {
-    title: 'Suggest a Correction — battery.mom',
+    title: 'Suggest a correction, battery.mom',
     description: 'Help improve our EV and BESS data accuracy by submitting corrections.',
     type: 'website',
   },

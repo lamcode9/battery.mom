@@ -20,7 +20,7 @@ export async function GET() {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>battery.mom — Insights</title>
+    <title>battery.mom, insights</title>
     <link>${siteUrl}/insights</link>
     <description>Data-driven analysis, explainers, and market snapshots on EVs, battery storage, and solar across Southeast Asia.</description>
     <language>en</language>

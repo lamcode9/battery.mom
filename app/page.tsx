@@ -196,11 +196,11 @@ export default function Home() {
             <span className="font-display text-sm italic text-paper-300/80">The feature · a scrolling film · ~12 minutes</span>
           </div>
           <h2 className="mt-5 max-w-3xl font-display text-4xl font-medium leading-[1.05] tracking-tight sm:text-6xl">
-            The Long Sunrise
+            The long sunrise
           </h2>
           <p className="mt-5 max-w-xl text-base leading-7 text-paper-300 md:text-lg">
-            Half a million years of energy — and the century that changes it. From the first tended fire to
-            terawatt solar, grid batteries, orbital compute, and the work still between us and morning.
+            Half a million years of energy, and the century that changes it. From the first tended fire to
+            terawatt solar, grid batteries, orbital compute, and the work still left.
           </p>
           <Link
             href="/sunrise"
@@ -222,7 +222,7 @@ export default function Home() {
             </h2>
             <p className="mt-5 max-w-xl text-base leading-7 text-paper-300">
               battery.mom follows the shift from fossil-heavy electricity toward solar, storage, and electrified transport.
-              The useful view is not just product specs. It is deployment, adoption, market readiness, and the power mix around it.
+              The useful view is deployment, adoption, market readiness, and the power mix around the hardware.
             </p>
 
             <div className="mt-8 grid grid-cols-2 gap-3">

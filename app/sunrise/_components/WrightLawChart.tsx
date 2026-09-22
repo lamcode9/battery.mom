@@ -53,16 +53,16 @@ const SOLAR_LEARNING_RATE = '~20.2% per doubling'
 const BATTERY_LEARNING_RATE = '~18–19% per doubling'
 
 const REBOUND_ANNOTATION =
-  'early 2026: module prices rebounded ~+30% as China consolidated capacity — learning curves bend, but they don’t break on one policy shock.'
+  'early 2026: module prices rebounded about 30% as China consolidated capacity. Learning curves bend. They do not break on one policy shock.'
 
-const FLOOR_LABEL = 'materials floor — cells can’t be cheaper than what they’re made of'
+const FLOOR_LABEL = 'materials floor. Cells cannot be cheaper than what they are made of'
 
 const MATERIALS_FLOOR = { low: 35, high: 40 }
 
 const ERA_LINES: ReadonlyArray<{ from: number; to: number; line: string }> = [
   { from: 1977, to: 1989, line: 'Solar was for satellites and calculators.' },
   { from: 1990, to: 2004, line: 'A rooftop system cost as much as the roof.' },
-  { from: 2005, to: 2014, line: 'Subsidies did the heavy lifting — and it worked.' },
+  { from: 2005, to: 2014, line: 'Subsidies did the heavy lifting, and it worked.' },
   { from: 2015, to: 2021, line: 'Cheapest electricity ever built, in the sunny half of the world.' },
   { from: 2022, to: 2026, line: "The constraint isn't the panel anymore. It's everything around it." },
 ]

@@ -4,14 +4,14 @@ import PageTitleCard from '@/components/PageTitleCard'
 import SunriseThread from '@/components/SunriseThread'
 
 export const metadata: Metadata = {
-  title: 'Battery Storage (BESS) — battery.mom',
+  title: 'Battery storage (BESS), battery.mom',
   description:
     'Explore battery energy storage systems for homes, shared residential, commercial, and grid-scale applications across Southeast Asia.',
 }
 
 const BESS_SECTIONS = [
   {
-    title: 'Single Home',
+    title: 'Single home',
     description:
       'Size a solar + battery system for your home. Calculate if you can zero your electricity bill with real local tariffs and real products.',
     href: '/bess/home',
@@ -25,7 +25,7 @@ const BESS_SECTIONS = [
   {
     title: 'Shared Residential',
     description:
-      'Model a shared solar + battery system for condos and apartments — per-unit savings, payback analysis, and developer ROI.',
+      'Model a shared solar and battery system for condos and apartments. Per-unit savings, payback, and developer ROI.',
     href: '/bess/shared-residential',
     status: 'live' as const,
     icon: (
@@ -47,7 +47,7 @@ const BESS_SECTIONS = [
     ),
   },
   {
-    title: 'Grid & Industrial',
+    title: 'Grid and industrial',
     description:
       'Utility-scale BESS data, LCOE/LCOS calculators, deployment maps, and policy trackers across Southeast Asia.',
     href: '/bess/grid',
@@ -67,8 +67,8 @@ export default function BESSPage() {
         <div className="max-w-2xl mb-12">
           <PageTitleCard
             eyebrow="Battery storage · from rooftop to grid"
-            title="Battery Energy Storage"
-            sub="From a single rooftop to a national grid — explore the data and calculators for every scale of battery storage."
+            title="Battery energy storage"
+            sub="Calculators and data for battery storage, from one rooftop to a national grid."
           />
           <SunriseThread className="mt-5" />
         </div>

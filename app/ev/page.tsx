@@ -11,14 +11,14 @@ import { SearchBoxSkeleton, ComparisonTableSkeleton } from '@/components/Loading
 import { NextSteps } from '@/components/ui/NextSteps'
 
 export const metadata: Metadata = {
-  title: 'Compare Electric Vehicles — battery.mom',
+  title: 'Compare electric vehicles, battery.mom',
   description:
-    'Search and compare every electric vehicle available in Southeast Asia — specs, range, efficiency, battery tech, local pricing, and side-by-side charts for Singapore, Malaysia, Indonesia, Thailand, Vietnam, and Philippines.',
+    'Search and compare every electric vehicle available in Southeast Asia. Specs, range, efficiency, battery chemistry, local price, and side-by-side charts for Singapore, Malaysia, Indonesia, Thailand, Vietnam, and the Philippines.',
   alternates: { canonical: '/ev' },
   openGraph: {
-    title: 'Compare Electric Vehicles — battery.mom',
+    title: 'Compare electric vehicles, battery.mom',
     description:
-      'Side-by-side EV comparison with real local pricing across Southeast Asia.',
+      'Side-by-side EV comparison with local prices across Southeast Asia.',
     type: 'website',
   },
 }
@@ -30,7 +30,7 @@ export default function EVPage() {
       <main className="min-h-screen bg-paper pt-12 md:pt-14">
         <section className="container mx-auto px-4 pt-12 pb-8 max-w-7xl">
           <h2 className="text-2xl font-semibold text-ink mb-8 text-left">
-            Search and Compare Electric Vehicles
+            Search and compare electric vehicles
           </h2>
 
           {/* Hero Intro Section */}

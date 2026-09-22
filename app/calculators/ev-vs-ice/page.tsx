@@ -59,6 +59,44 @@ const ICE_FUEL_CONSUMPTION_L100KM = 7.5
 // Average EV efficiency (kWh/100km, blended home + public charging)
 const DEFAULT_EV_EFFICIENCY = 15
 
+const EV_BAR = '#0E9F6E'
+const ICE_BAR = '#A7AFA4'
+// Lighter outlined bars so resale reads as money back, not another cost.
+const EV_CREDIT_BAR = '#C8F4E0'
+const EV_CREDIT_STROKE = '#0B7F58'
+const ICE_CREDIT_BAR = '#E9E1CF'
+const ICE_CREDIT_STROKE = '#5E675C'
+
+type BreakdownRow = {
+  name: string
+  EV: number
+  ICE: number
+  credit: boolean
+}
+
+type CategoryTickProps = {
+  x?: number
+  y?: number
+  payload?: { value?: string }
+}
+
+function BreakdownCategoryTick({ x = 0, y = 0, payload }: CategoryTickProps) {
+  const value = payload?.value ?? ''
+  if (value === 'Resale (money back)') {
+    return (
+      <text x={x} y={y} textAnchor="end" fill="#666" fontSize={11}>
+        <tspan x={x} dy="-0.2em">Resale</tspan>
+        <tspan x={x} dy="1.15em">(money back)</tspan>
+      </text>
+    )
+  }
+  return (
+    <text x={x} y={y} textAnchor="end" fill="#666" fontSize={11}>
+      <tspan x={x} dy="0.71em">{value}</tspan>
+    </text>
+  )
+}
+
 // ── Component ─────────────────────────────────────────────────────────
 
 export default function EVvsICEPage() {
@@ -154,13 +192,14 @@ export default function EVvsICEPage() {
       ICE: Math.round(iceYearly[i]),
     }))
 
-    // Cost breakdown data (for the bar chart)
-    const breakdownData = [
-      { name: 'Purchase', EV: evPrice - incentive, ICE: icePrice },
-      { name: 'Energy / Fuel', EV: Math.round(evEnergyCostPerYear * yearsToCompare), ICE: Math.round(iceFuelCostPerYear * yearsToCompare) },
-      { name: 'Maintenance', EV: Math.round(EV_ANNUAL_MAINTENANCE[country] * yearsToCompare), ICE: Math.round(ICE_ANNUAL_MAINTENANCE[country] * yearsToCompare) },
-      { name: 'Insurance', EV: Math.round(EV_INSURANCE[country] * yearsToCompare), ICE: Math.round(ICE_INSURANCE[country] * yearsToCompare) },
-      { name: 'Resale Value', EV: -Math.round(evResidual), ICE: -Math.round(iceResidual) },
+    // Cost breakdown for the bar chart. Resale is money the owner gets back,
+    // plotted positive. evTCO and iceTCO already subtract it.
+    const breakdownData: BreakdownRow[] = [
+      { name: 'Purchase', EV: evPrice - incentive, ICE: icePrice, credit: false },
+      { name: 'Energy / Fuel', EV: Math.round(evEnergyCostPerYear * yearsToCompare), ICE: Math.round(iceFuelCostPerYear * yearsToCompare), credit: false },
+      { name: 'Maintenance', EV: Math.round(EV_ANNUAL_MAINTENANCE[country] * yearsToCompare), ICE: Math.round(ICE_ANNUAL_MAINTENANCE[country] * yearsToCompare), credit: false },
+      { name: 'Insurance', EV: Math.round(EV_INSURANCE[country] * yearsToCompare), ICE: Math.round(ICE_INSURANCE[country] * yearsToCompare), credit: false },
+      { name: 'Resale (money back)', EV: Math.round(evResidual), ICE: Math.round(iceResidual), credit: true },
     ]
 
     return {
@@ -363,18 +402,44 @@ export default function EVvsICEPage() {
 
           {/* Cost breakdown */}
           <div className="bg-paper-100 border border-ink/10 rounded-card p-6">
-            <h3 className="text-sm font-semibold text-ink mb-4">Cost breakdown <InfoTooltip content="Breaks down total ownership costs into 5 categories: (1) Purchase price net of incentives, (2) Energy/fuel over the full period, (3) Maintenance (oil changes, brake pads, etc.), (4) Insurance premiums, (5) Resale value (shown as negative, because it is money you get back)." /></h3>
+            <h3 className="text-sm font-semibold text-ink mb-4">Cost breakdown <InfoTooltip content="Breaks down total ownership costs into purchase (net of incentives), energy or fuel, maintenance, and insurance. Resale (money back) is how much the owner gets back at the end. This amount is already subtracted in the EV and ICE totals. Do not add it on top of purchase, energy, maintenance, and insurance." /></h3>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={results.breakdownData} layout="vertical">
                 <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
                 <XAxis type="number" tick={{ fontSize: 11 }} tickFormatter={(v) => fmtShort(v, country)} />
-                <YAxis type="category" dataKey="name" tick={{ fontSize: 11 }} width={90} />
-                <Tooltip formatter={(v: number) => fmt(v, country)} />
+                <YAxis type="category" dataKey="name" tick={BreakdownCategoryTick} width={108} />
+                <Tooltip
+                  formatter={(value: number, name: string, item: { payload?: BreakdownRow }) => {
+                    const text = fmt(value, country)
+                    return [item?.payload?.credit ? `${text} back` : text, name]
+                  }}
+                />
                 <Legend />
-                <Bar dataKey="EV" fill="#0E9F6E" radius={[0, 4, 4, 0]} />
-                <Bar dataKey="ICE" fill="#A7AFA4" radius={[0, 4, 4, 0]} />
+                <Bar dataKey="EV" fill={EV_BAR} radius={[0, 4, 4, 0]}>
+                  {results.breakdownData.map((row) => (
+                    <Cell
+                      key={row.name}
+                      fill={row.credit ? EV_CREDIT_BAR : EV_BAR}
+                      stroke={row.credit ? EV_CREDIT_STROKE : 'none'}
+                      strokeWidth={row.credit ? 1.5 : 0}
+                    />
+                  ))}
+                </Bar>
+                <Bar dataKey="ICE" fill={ICE_BAR} radius={[0, 4, 4, 0]}>
+                  {results.breakdownData.map((row) => (
+                    <Cell
+                      key={row.name}
+                      fill={row.credit ? ICE_CREDIT_BAR : ICE_BAR}
+                      stroke={row.credit ? ICE_CREDIT_STROKE : 'none'}
+                      strokeWidth={row.credit ? 1.5 : 0}
+                    />
+                  ))}
+                </Bar>
               </BarChart>
             </ResponsiveContainer>
+            <p className="mt-3 text-xs text-ink-500 leading-relaxed">
+              Resale (money back) is already subtracted in the EV and ICE totals. Do not add it on top of purchase, energy, maintenance, and insurance.
+            </p>
           </div>
         </div>
 

@@ -31,7 +31,6 @@ import {
   CartesianGrid,
   XAxis,
   YAxis,
-  Tooltip,
   Legend,
   PieChart,
   Pie,
@@ -41,6 +40,7 @@ import {
   ZAxis,
 } from 'recharts'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
+import { ChartHoverTooltip, ChartTooltipPanel } from '@/components/ChartTooltip'
 
 type Mode = 'retrofit' | 'new'
 
@@ -153,7 +153,7 @@ const SnapshotCharts = memo(function SnapshotCharts({
             <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
             <XAxis dataKey="name" tick={{ fontSize: 11 }} />
             <YAxis tick={{ fontSize: 11 }} />
-            <Tooltip formatter={(v: number) => formatWithSymbol(v, country, 0)} />
+            <ChartHoverTooltip formatter={(v: number) => formatWithSymbol(v, country, 0)} />
             <Bar dataKey="value" radius={[6, 6, 0, 0]} fill="#10b981" />
           </BarChart>
         </ResponsiveContainer>
@@ -182,7 +182,7 @@ const SnapshotCharts = memo(function SnapshotCharts({
                 <Cell key={idx} fill={idx === 0 ? '#059669' : '#e5e7eb'} />
               ))}
             </Pie>
-            <Tooltip formatter={(v: number) => `${v}%`} />
+            <ChartHoverTooltip formatter={(v: number) => `${v}%`} />
             <Legend verticalAlign="bottom" height={24} />
           </PieChart>
         </ResponsiveContainer>
@@ -201,7 +201,7 @@ const SnapshotCharts = memo(function SnapshotCharts({
             <CartesianGrid stroke="#f3f4f6" strokeDasharray="3 3" />
             <XAxis dataKey="year" tick={{ fontSize: 11 }} />
             <YAxis tick={{ fontSize: 11 }} domain={[0, 100]} />
-            <Tooltip formatter={(v: number) => `${v.toFixed(0)}% recovered`} />
+            <ChartHoverTooltip formatter={(v: number) => `${v.toFixed(0)}% recovered`} />
             <Line type="monotone" dataKey="recovered" stroke="#10b981" strokeWidth={2} dot={{ r: 3 }} />
           </LineChart>
         </ResponsiveContainer>
@@ -220,7 +220,7 @@ const SnapshotCharts = memo(function SnapshotCharts({
             <CartesianGrid stroke="#f3f4f6" strokeDasharray="3 3" />
             <XAxis dataKey="name" tick={{ fontSize: 11 }} />
             <YAxis tick={{ fontSize: 11 }} />
-            <Tooltip formatter={(v: number) => `${v.toFixed(1)} t`} />
+            <ChartHoverTooltip formatter={(v: number) => `${v.toFixed(1)} t`} />
             <Bar dataKey="value" radius={[6, 6, 0, 0]} fill="#0ea5e9" />
           </BarChart>
         </ResponsiveContainer>
@@ -358,29 +358,30 @@ const BatteryScatter = memo(function BatteryScatter({
             stroke="#d1d5db"
           />
 
-          <Tooltip
+          <ChartHoverTooltip
             cursor={{ strokeDasharray: '4 4' }}
-            content={(props: any) => {
-              const { active, payload } = props || {}
+            content={({ active, payload }) => {
               if (!active || !payload?.length) return null
-              const item = payload[0].payload
+              const item = payload[0].payload as {
+                name: string
+                manufacturer: string
+                paybackYears: number
+                cycles: number
+                costPerKwhCycle: number
+                price: number
+              }
               const isBest = bestPick && item.name === bestPick.name
               return (
-                <div className={`bg-paper-100 border rounded-lg p-3 shadow-lg text-xs space-y-1 ${isBest ? 'border-brand-400 ring-1 ring-brand-200' : 'border-ink/10'}`}>
-                  <div className="font-semibold text-ink flex items-center gap-1">
-                    {isBest && <span className="text-brand-600">★</span>}
-                    {item.name}
-                  </div>
-                  <div className="text-ink-500 text-[10px]">{item.manufacturer}</div>
-                  <div className="text-ink-700">Payback: <strong>{item.paybackYears.toFixed(1)} years</strong></div>
-                  <div className="text-ink-700">Warranty: <strong>{item.cycles.toLocaleString()} cycles</strong></div>
-                  <div className="text-ink-700">
-                    Cost/kWh-cycle: <strong>{formatWithSymbol(item.costPerKwhCycle, country, 2)}</strong>
-                  </div>
-                  <div className="text-ink-700">
-                    Price: <strong>{formatWithSymbol(item.price, country, 0)}</strong>
-                  </div>
-                </div>
+                <ChartTooltipPanel
+                  label={isBest ? `★ ${item.name}` : item.name}
+                  items={[
+                    { name: 'Manufacturer', value: item.manufacturer },
+                    { name: 'Payback', value: `${item.paybackYears.toFixed(1)} years` },
+                    { name: 'Warranty', value: `${item.cycles.toLocaleString()} cycles` },
+                    { name: 'Cost/kWh-cycle', value: formatWithSymbol(item.costPerKwhCycle, country, 2) },
+                    { name: 'Price', value: formatWithSymbol(item.price, country, 0) },
+                  ]}
+                />
               )
             }}
           />

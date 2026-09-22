@@ -7,7 +7,6 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
   Legend,
   RadarChart,
   PolarGrid,
@@ -16,6 +15,7 @@ import {
   Radar,
 } from 'recharts'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
+import { ChartHoverTooltip } from '@/components/ChartTooltip'
 
 type CountryCode = 'SG' | 'MY' | 'TH' | 'ID' | 'VN' | 'PH'
 
@@ -116,9 +116,8 @@ export default function EmbedScoreboard() {
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                   <XAxis type="number" tick={{ fontSize: 11 }} />
                   <YAxis dataKey="flag" type="category" width={30} tick={{ fontSize: 14 }} />
-                  <Tooltip
+                  <ChartHoverTooltip
                     formatter={(value: number) => [`${value}%`, 'EV/xEV Share']}
-                    contentStyle={{ fontSize: 12 }}
                   />
                   <Bar dataKey="evAdoptionRate" fill="#10b981" radius={[0, 4, 4, 0]} />
                 </BarChart>
@@ -139,6 +138,7 @@ export default function EmbedScoreboard() {
                   <Radar name="Charger Density" dataKey="Charger Density" stroke="#6366f1" fill="#6366f1" fillOpacity={0.1} />
                   <Radar name="Solar Capacity" dataKey="Solar Capacity" stroke="#f59e0b" fill="#f59e0b" fillOpacity={0.1} />
                   <Legend wrapperStyle={{ fontSize: 11 }} />
+                  <ChartHoverTooltip />
                 </RadarChart>
               </ResponsiveContainer>
             </div>

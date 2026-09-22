@@ -38,12 +38,3 @@ export const CHART_SERIES = [
   CHART.negative,
   CHART.comparisonLight,
 ] as const
-
-/** Recharts <Tooltip contentStyle> for paper surfaces. */
-export const CHART_TOOLTIP_STYLE = {
-  backgroundColor: '#FFFDF8',
-  border: '1px solid rgba(17, 21, 15, 0.12)',
-  borderRadius: 8,
-  color: '#11150F',
-  fontSize: 13,
-} as const

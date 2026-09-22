@@ -13,12 +13,12 @@ import {
   Line,
   LineChart,
   ReferenceLine,
-  Tooltip,
   XAxis,
   YAxis,
 } from 'recharts'
 import { GenerationYearDetail } from './generation-groups'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
+import { ChartHoverTooltip, AnchoredChartTooltip } from '@/components/ChartTooltip'
 import InfoTooltip from '@/components/InfoTooltip'
 import {
   BATTERY_ENERGY_MILESTONES,
@@ -119,14 +119,6 @@ type TrendRow<Key extends string> = {
   share: number
   change: number | null
   changePct: number | null
-}
-
-type TooltipPayloadItem = {
-  dataKey?: string | number
-  name?: string | number
-  value?: number | string | Array<number | string>
-  color?: string
-  payload?: Record<string, unknown>
 }
 
 function formatCompact(value: number, decimals = 0): string {
@@ -369,60 +361,6 @@ function InsightStat({
   )
 }
 
-function ChartTooltip({
-  active,
-  payload,
-  label,
-  meta,
-  signed = false,
-}: {
-  active?: boolean
-  payload?: TooltipPayloadItem[]
-  label?: string | number
-  meta: Partial<Record<string, ChartSourceMeta>>
-  signed?: boolean
-}) {
-  if (!active || !payload?.length) return null
-
-  const entries = payload
-    .filter(item => item.value !== undefined && item.dataKey !== undefined)
-    .map(item => {
-      const rawValue = Array.isArray(item.value) ? item.value[0] : item.value
-      return {
-        key: String(item.dataKey),
-        value: Number(rawValue),
-        color: item.color,
-      }
-    })
-    .filter(item => Number.isFinite(item.value))
-    .reverse()
-
-  const total = entries.reduce((sum, item) => sum + item.value, 0)
-
-  return (
-    <div className="min-w-[220px] rounded-xl bg-white p-3 shadow-xl shadow-gray-900/10">
-      <div className="flex items-baseline justify-between gap-4">
-        <div className="text-sm font-black text-ink">{label}</div>
-        {!signed && <div className="text-xs font-semibold text-ink-500">{formatTwh(total)}</div>}
-      </div>
-      <div className="mt-3 space-y-2">
-        {entries.map(item => {
-          const source = meta[item.key]
-          return (
-            <div key={item.key} className="flex items-center justify-between gap-4 text-xs">
-              <span className="flex items-center gap-2 font-semibold text-ink-600">
-                <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: source?.color ?? item.color }} />
-                {source?.label ?? item.key}
-              </span>
-              <span className="font-bold text-ink">{signed ? formatSignedTwh(item.value) : formatTwh(item.value)}</span>
-            </div>
-          )
-        })}
-      </div>
-    </div>
-  )
-}
-
 function ChangeLegend({
   selectedSource,
   onSelect,
@@ -470,19 +408,32 @@ function StackedShareBar({
     { key: 'nuclear' as const, value: mix.nuclear, color: ELECTRICITY_SOURCE_META.nuclear.color, label: 'Nuclear' },
     { key: 'renewables' as const, value: mix.renewables, color: ELECTRICITY_SOURCE_META.renewables.color, label: 'Renewables' },
   ]
+  const [hover, setHover] = useState<{ label: string; value: number; color: string; rect: DOMRect } | null>(null)
 
   return (
     <div>
-      <div className="flex h-5 overflow-hidden rounded-full bg-paper-200">
+      <div className="flex h-5 overflow-hidden rounded-full bg-paper-200" role="img" aria-label="Regional electricity mix">
         {segments.map(segment => (
-          <div
+          <button
             key={segment.key}
-            className="h-full"
+            type="button"
+            className="h-full p-0"
             style={{ width: `${segment.value}%`, backgroundColor: segment.color }}
-            title={`${segment.label}: ${segment.value}%`}
+            aria-label={`${segment.label}: ${segment.value}%`}
+            onMouseEnter={e => setHover({ label: segment.label, value: segment.value, color: segment.color, rect: e.currentTarget.getBoundingClientRect() })}
+            onMouseLeave={() => setHover(null)}
+            onFocus={e => setHover({ label: segment.label, value: segment.value, color: segment.color, rect: e.currentTarget.getBoundingClientRect() })}
+            onBlur={() => setHover(null)}
           />
         ))}
       </div>
+      {hover && (
+        <AnchoredChartTooltip
+          anchor={hover.rect}
+          label={hover.label}
+          items={[{ name: 'Share', value: `${hover.value}%`, color: hover.color }]}
+        />
+      )}
       <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-5">
         {segments.map(segment => (
           <div key={segment.key} className="rounded-lg bg-paper-200 p-3">
@@ -802,7 +753,7 @@ export default function EnergyDeploymentScoreboardPage() {
               </div>
             </div>
 
-            <div data-generation-chart>
+            <div data-generation-chart role="img" aria-label="World electricity generation by source, 2015 to 2025">
               <ResponsiveContainer width="100%" height={380}>
                 <AreaChart
                   data={GLOBAL_GENERATION_STACK}
@@ -836,9 +787,12 @@ export default function EnergyDeploymentScoreboardPage() {
                     axisLine={false}
                     width={76}
                   />
-                  <Tooltip
+                  <ChartHoverTooltip
                     cursor={{ stroke: '#111827', strokeWidth: 1, strokeDasharray: '4 4' }}
-                    content={(props) => <ChartTooltip {...props} meta={GENERATION_STACK_SOURCE_META} />}
+                    reverse
+                    showTotal
+                    formatter={(value: number) => formatTwh(value)}
+                    totalFormatter={formatTwh}
                   />
                   <ReferenceLine x={selectedYear} stroke="#111827" strokeOpacity={0.28} strokeDasharray="4 4" />
                   {visibleElectricityKeys.map(key => (
@@ -1005,9 +959,12 @@ export default function EnergyDeploymentScoreboardPage() {
                   axisLine={false}
                   width={76}
                 />
-                <Tooltip
+                <ChartHoverTooltip
                   cursor={{ stroke: '#111827', strokeWidth: 1, strokeDasharray: '4 4' }}
-                  content={(props) => <ChartTooltip {...props} meta={RENEWABLE_SOURCE_META} />}
+                  reverse
+                  showTotal
+                  formatter={(value: number) => formatTwh(value)}
+                  totalFormatter={formatTwh}
                 />
                 <ReferenceLine x={selectedYear} stroke="#111827" strokeOpacity={0.28} strokeDasharray="4 4" />
                 {visibleRenewableKeys.map(key => (
@@ -1056,7 +1013,7 @@ export default function EnergyDeploymentScoreboardPage() {
                   axisLine={false}
                   width={82}
                 />
-                <Tooltip content={(props) => <ChartTooltip {...props} meta={{}} signed />} />
+                <ChartHoverTooltip formatter={(value: number) => formatSignedTwh(value)} />
                 <ReferenceLine y={0} stroke="#9ca3af" />
                 <Bar dataKey="changeTwh" name="2025 change" radius={[6, 6, 0, 0]}>
                   {ELECTRICITY_GENERATION_CHANGE_2025.map(item => (
@@ -1129,7 +1086,7 @@ export default function EnergyDeploymentScoreboardPage() {
                   <CartesianGrid stroke="#f3f4f6" strokeDasharray="3 3" vertical={false} />
                   <XAxis dataKey="year" tick={{ fontSize: 11 }} />
                   <YAxis tick={{ fontSize: 11 }} tickFormatter={(value: number) => `$${value}`} width={48} domain={[0, 200]} />
-                  <Tooltip formatter={(value: number | string) => [`$${value}/kWh`, 'Pack price']} />
+                  <ChartHoverTooltip formatter={(value: number) => [`$${value}/kWh`, 'Pack price']} />
                   <Line type="monotone" dataKey="pricePerKwh" stroke="#1f8a55" strokeWidth={2.5} dot={{ r: 3, fill: '#1f8a55' }} activeDot={{ r: 5 }} />
                 </LineChart>
               </ResponsiveContainer>
@@ -1206,7 +1163,7 @@ export default function EnergyDeploymentScoreboardPage() {
                 <CartesianGrid stroke="#f3f4f6" strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="year" tick={{ fontSize: 11 }} />
                 <YAxis tick={{ fontSize: 11 }} tickFormatter={(value: number) => `${value} GW`} width={58} />
-                <Tooltip formatter={(value: number | string, name: string) => [formatGw(Number(value)), name === 'utilityScaleGw' ? 'Utility-scale' : 'Behind the meter']} />
+                <ChartHoverTooltip formatter={(value: number, name: string) => [formatGw(value), name === 'utilityScaleGw' ? 'Utility-scale' : 'Behind the meter']} />
                 <Legend wrapperStyle={{ fontSize: 12 }} />
                 <Bar dataKey="utilityScaleGw" name="Utility-scale" stackId="battery" fill="#10b981" radius={[0, 0, 6, 6]} />
                 <Bar dataKey="behindMeterGw" name="Behind the meter" stackId="battery" fill="#38bdf8" radius={[6, 6, 0, 0]} />
@@ -1239,7 +1196,7 @@ export default function EnergyDeploymentScoreboardPage() {
                   <CartesianGrid stroke="#f3f4f6" strokeDasharray="3 3" vertical={false} />
                   <XAxis dataKey="year" tick={{ fontSize: 11 }} />
                   <YAxis tick={{ fontSize: 11 }} tickFormatter={(value: number) => `${value} GWh`} width={68} />
-                  <Tooltip formatter={(value: number | string) => [formatGwh(Number(value)), 'Annual additions']} />
+                  <ChartHoverTooltip formatter={(value: number) => [formatGwh(value), 'Annual additions']} />
                   <Bar dataKey="annualAdditionsGwh" fill="#10b981" radius={[6, 6, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
@@ -1290,7 +1247,7 @@ export default function EnergyDeploymentScoreboardPage() {
                   <CartesianGrid stroke="#f3f4f6" strokeDasharray="3 3" vertical={false} />
                   <XAxis dataKey="year" tick={{ fontSize: 11 }} />
                   <YAxis tick={{ fontSize: 11 }} tickFormatter={(value: number) => `${value}M`} width={44} />
-                  <Tooltip formatter={(value: number | string) => [`${value} million`, 'Electric cars sold']} />
+                  <ChartHoverTooltip formatter={(value: number) => [`${value} million`, 'Electric cars sold']} />
                   <Bar dataKey="salesMillions" fill="#1f8a55" radius={[6, 6, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
@@ -1372,7 +1329,7 @@ export default function EnergyDeploymentScoreboardPage() {
                   <CartesianGrid stroke="#f3f4f6" strokeDasharray="3 3" vertical={false} />
                   <XAxis dataKey="source" tick={{ fontSize: 11 }} />
                   <YAxis tick={{ fontSize: 11 }} tickFormatter={(value: number) => `${value} GW`} width={58} />
-                <Tooltip formatter={(value: number | string) => [formatGw(Number(value)), 'Capacity additions']} />
+                <ChartHoverTooltip formatter={(value: number) => [formatGw(value), 'Capacity additions']} />
                 <Bar dataKey="additionsGw" radius={[6, 6, 0, 0]}>
                   {RENEWABLE_CAPACITY_ADDITIONS_2025.map(item => (
                       <Cell key={item.source} fill={item.color} />
@@ -1481,7 +1438,7 @@ export default function EnergyDeploymentScoreboardPage() {
                 <CartesianGrid stroke="#f3f4f6" strokeDasharray="3 3" horizontal={false} />
                 <XAxis type="number" tick={{ fontSize: 11 }} tickFormatter={(value: number) => `${value} GW`} />
                 <YAxis dataKey="market" type="category" tick={{ fontSize: 11 }} width={108} />
-                <Tooltip formatter={(value: number | string, name: string) => [formatGw(Number(value)), name === 'solarPvGw' ? 'Solar PV' : 'Wind']} />
+                <ChartHoverTooltip formatter={(value: number, name: string) => [formatGw(value), name === 'solarPvGw' ? 'Solar PV' : 'Wind']} />
                 <Legend wrapperStyle={{ fontSize: 12 }} />
                 <Bar dataKey="solarPvGw" name="Solar PV" stackId="market" fill={RENEWABLE_SOURCE_META.solarPv.color} radius={[0, 0, 0, 0]} />
                 <Bar dataKey="windGw" name="Wind" stackId="market" fill={RENEWABLE_SOURCE_META.wind.color} radius={[0, 6, 6, 0]} />

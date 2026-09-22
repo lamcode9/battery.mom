@@ -9,10 +9,10 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
   Legend,
 } from 'recharts'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
+import { ChartHoverTooltip } from '@/components/ChartTooltip'
 import { CO2_GRID_FACTOR } from '@/data/rates'
 
 const GRID_EMISSION_FACTOR = CO2_GRID_FACTOR
@@ -235,7 +235,7 @@ export default function SubsidyROICalculator({ country }: Props) {
           <XAxis dataKey="year" tick={{ fontSize: 10 }} />
           <YAxis yAxisId="co2" tick={{ fontSize: 10 }} tickFormatter={(v) => `${v} t`} />
           <YAxis yAxisId="savings" orientation="right" tick={{ fontSize: 10 }} tickFormatter={(v) => fmtShort(v, country)} />
-          <Tooltip
+          <ChartHoverTooltip
             formatter={(v: number, name: string) =>
               name === 'co2' ? [`${v.toLocaleString()} t`, 'CO₂ avoided'] : [fmtShort(v, country), 'Grid savings']
             }

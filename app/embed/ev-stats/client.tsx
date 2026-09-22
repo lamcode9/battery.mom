@@ -7,9 +7,9 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
 } from 'recharts'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
+import { ChartHoverTooltip } from '@/components/ChartTooltip'
 
 interface Stats {
   totalVehicles: number
@@ -82,12 +82,12 @@ export default function EmbedEvStatsClient({ stats }: { stats: Stats }) {
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
               <XAxis type="number" tick={{ fontSize: 11 }} unit=" km" />
               <YAxis dataKey="name" type="category" width={110} tick={{ fontSize: 10 }} />
-              <Tooltip
+              <ChartHoverTooltip
                 formatter={(value: number) => [`${value} km`, 'Range']}
-                labelFormatter={(label: string, payload) =>
-                  payload?.[0]?.payload?.fullName || label
-                }
-                contentStyle={{ fontSize: 12 }}
+                labelFormatter={(label, payload) => {
+                  const fullName = payload?.[0]?.payload?.fullName
+                  return typeof fullName === 'string' ? fullName : label
+                }}
               />
               <Bar dataKey="range" fill="#10b981" radius={[0, 4, 4, 0]} />
             </BarChart>
@@ -107,12 +107,12 @@ export default function EmbedEvStatsClient({ stats }: { stats: Stats }) {
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
               <XAxis type="number" tick={{ fontSize: 11 }} unit=" kWh" />
               <YAxis dataKey="name" type="category" width={110} tick={{ fontSize: 10 }} />
-              <Tooltip
+              <ChartHoverTooltip
                 formatter={(value: number) => [`${value} kWh/100km`, 'Efficiency']}
-                labelFormatter={(label: string, payload) =>
-                  payload?.[0]?.payload?.fullName || label
-                }
-                contentStyle={{ fontSize: 12 }}
+                labelFormatter={(label, payload) => {
+                  const fullName = payload?.[0]?.payload?.fullName
+                  return typeof fullName === 'string' ? fullName : label
+                }}
               />
               <Bar dataKey="efficiency" fill="#6366f1" radius={[0, 4, 4, 0]} />
             </BarChart>

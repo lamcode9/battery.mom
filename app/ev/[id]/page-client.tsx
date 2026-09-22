@@ -15,14 +15,14 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
   Legend,
   Cell,
   PieChart,
   Pie,
 } from 'recharts'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
-import { CHART, CHART_TOOLTIP_STYLE } from '@/lib/chart-theme'
+import { ChartHoverTooltip } from '@/components/ChartTooltip'
+import { CHART } from '@/lib/chart-theme'
 
 interface VehicleDetailClientProps {
   vehicle: Vehicle
@@ -270,7 +270,7 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
                 <CartesianGrid strokeDasharray="3 3" stroke={CHART.grid} />
                 <XAxis dataKey="speed" tick={{ fontSize: CHART.axisFontSize, fill: CHART.axis }} />
                 <YAxis tick={{ fontSize: CHART.axisFontSize, fill: CHART.axis }} unit=" km" />
-                <Tooltip contentStyle={CHART_TOOLTIP_STYLE} />
+                <ChartHoverTooltip />
                 <Bar dataKey="range" fill={CHART.primary} radius={[3, 3, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
@@ -295,7 +295,7 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
-                <Tooltip contentStyle={CHART_TOOLTIP_STYLE} formatter={(value) => [`${value} kWh/100km`, '']} />
+                <ChartHoverTooltip formatter={(value) => [`${value} kWh/100km`, '']} />
                 <Legend wrapperStyle={{ fontSize: 11 }} />
               </PieChart>
             </ResponsiveContainer>
@@ -312,7 +312,7 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
               <XAxis dataKey="year" tick={{ fontSize: CHART.axisFontSize, fill: CHART.axis }} unit=" years" />
               <YAxis yAxisId="left" tick={{ fontSize: CHART.axisFontSize, fill: CHART.axis }} unit="%" domain={[60, 100]} />
               <YAxis yAxisId="right" orientation="right" tick={{ fontSize: CHART.axisFontSize, fill: CHART.axis }} unit=" km" />
-              <Tooltip contentStyle={CHART_TOOLTIP_STYLE} />
+              <ChartHoverTooltip />
               <Legend wrapperStyle={{ fontSize: 11 }} />
               <Line yAxisId="left" type="monotone" dataKey="capacity" stroke={CHART.negative} strokeWidth={2} name="Battery capacity" />
               <Line yAxisId="right" type="monotone" dataKey="range" stroke={CHART.primary} strokeWidth={2} name="Range" />
@@ -341,8 +341,7 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
                 <CartesianGrid strokeDasharray="3 3" stroke={CHART.grid} />
                 <XAxis dataKey="date" tick={{ fontSize: CHART.axisFontSize, fill: CHART.axis }} />
                 <YAxis tick={{ fontSize: CHART.axisFontSize, fill: CHART.axis }} />
-                <Tooltip
-                  contentStyle={CHART_TOOLTIP_STYLE}
+                <ChartHoverTooltip
                   formatter={(value: number) => [formatCurrency(value), 'Base Price']}
                 />
                 <Line type="monotone" dataKey="basePrice" stroke={CHART.primary} strokeWidth={2} dot={{ r: 3 }} name="Base Price" />

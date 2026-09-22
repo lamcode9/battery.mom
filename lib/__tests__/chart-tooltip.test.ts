@@ -1,9 +1,16 @@
 import { describe, it, expect } from 'vitest'
+import { ChartHoverTooltip } from '@/components/ChartTooltip'
 import {
   buildChartTooltipItems,
   defaultTooltipNumber,
   numericTooltipValue,
 } from '@/lib/utils/chart-tooltip'
+
+describe('ChartHoverTooltip', () => {
+  it('uses the Recharts Tooltip displayName so charts mount the hover card', () => {
+    expect(ChartHoverTooltip.displayName).toBe('Tooltip')
+  })
+})
 
 describe('numericTooltipValue', () => {
   it('reads finite numbers and numeric strings', () => {

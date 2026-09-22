@@ -178,6 +178,9 @@ type ChartHoverTooltipProps = Omit<RechartsTooltipProps, 'content' | 'formatter'
 /**
  * Drop-in replacement for Recharts `<Tooltip />`.
  * Same hover card as the state-of-battery-power charts: paper panel, one tooltip, no clip.
+ *
+ * Recharts only mounts a chart child whose `displayName` is `Tooltip` (`findChildByType`).
+ * Keep this name or the hover card never appears.
  */
 export function ChartHoverTooltip({
   unit,
@@ -217,6 +220,7 @@ export function ChartHoverTooltip({
     />
   )
 }
+ChartHoverTooltip.displayName = 'Tooltip'
 
 /** Portal a chart tooltip next to a hovered/focused hit target (heatmaps, share bars). */
 export function AnchoredChartTooltip({

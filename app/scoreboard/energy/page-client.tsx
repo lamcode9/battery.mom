@@ -479,6 +479,13 @@ export default function EnergyDeploymentScoreboardPage() {
   const [chartMode, setChartMode] = useState<ChartMode>('electricity')
   const [mixKey, setMixKey] = useState<RegionalMixKey>('world')
   const [batteryRegionKey, setBatteryRegionKey] = useState<BatteryStorageRegionKey>('global')
+  const [batteryShareHover, setBatteryShareHover] = useState<{
+    label: string
+    gw: string
+    share: string
+    color: string
+    rect: DOMRect
+  } | null>(null)
   const [selectedYear, setSelectedYear] = useState(2025)
   const [selectedChangeSource, setSelectedChangeSource] = useState(ELECTRICITY_GENERATION_CHANGE_2025[0].source)
   const [visibleElectricityKeys, setVisibleElectricityKeys] = useState<GenerationStackKey[]>(generationStackKeys)
@@ -1366,7 +1373,26 @@ export default function EnergyDeploymentScoreboardPage() {
                     type="button"
                     key={region.key}
                     onClick={() => setBatteryRegionKey(region.key)}
-                    title={`${region.label}: ${formatGw(region.additions2025Gw)} (${region.share2025Pct.toFixed(1)}%)`}
+                    onMouseEnter={e =>
+                      setBatteryShareHover({
+                        label: region.label,
+                        gw: formatGw(region.additions2025Gw),
+                        share: `${region.share2025Pct.toFixed(1)}%`,
+                        color: region.color,
+                        rect: e.currentTarget.getBoundingClientRect(),
+                      })
+                    }
+                    onMouseLeave={() => setBatteryShareHover(null)}
+                    onFocus={e =>
+                      setBatteryShareHover({
+                        label: region.label,
+                        gw: formatGw(region.additions2025Gw),
+                        share: `${region.share2025Pct.toFixed(1)}%`,
+                        color: region.color,
+                        rect: e.currentTarget.getBoundingClientRect(),
+                      })
+                    }
+                    onBlur={() => setBatteryShareHover(null)}
                     className={`relative h-full border-r border-white/80 text-left transition-opacity hover:opacity-85 focus:outline-none focus:ring-2 focus:ring-brand-400 focus:ring-offset-2 ${
                       batteryRegionKey === region.key ? 'ring-2 ring-gray-950 ring-offset-2' : ''
                     }`}
@@ -1381,6 +1407,16 @@ export default function EnergyDeploymentScoreboardPage() {
                   </button>
                 ))}
               </div>
+              {batteryShareHover && (
+                <AnchoredChartTooltip
+                  anchor={batteryShareHover.rect}
+                  label={batteryShareHover.label}
+                  items={[
+                    { name: 'Additions', value: batteryShareHover.gw, color: batteryShareHover.color },
+                    { name: 'Share of 2025', value: batteryShareHover.share },
+                  ]}
+                />
+              )}
 
               <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
                 {batteryContributionRows.map(region => (

@@ -69,6 +69,27 @@ export function ChartTooltipSection({
   )
 }
 
+const VIEWPORT_PAD = 8
+
+/** Shift a hover card back into the viewport after Recharts positions it. */
+function useClampToViewport<T extends HTMLElement>() {
+  const ref = useRef<T>(null)
+  useLayoutEffect(() => {
+    const el = ref.current
+    if (!el) return
+    el.style.transform = ''
+    const box = el.getBoundingClientRect()
+    let dx = 0
+    let dy = 0
+    if (box.right > window.innerWidth - VIEWPORT_PAD) dx = window.innerWidth - VIEWPORT_PAD - box.right
+    if (box.left + dx < VIEWPORT_PAD) dx = VIEWPORT_PAD - box.left
+    if (box.bottom > window.innerHeight - VIEWPORT_PAD) dy = window.innerHeight - VIEWPORT_PAD - box.bottom
+    if (box.top + dy < VIEWPORT_PAD) dy = VIEWPORT_PAD - box.top
+    if (dx || dy) el.style.transform = `translate(${dx}px, ${dy}px)`
+  })
+  return ref
+}
+
 export function ChartTooltipPanel({
   label,
   items,
@@ -82,12 +103,13 @@ export function ChartTooltipPanel({
   children?: ReactNode
   className?: string
 }) {
+  const ref = useClampToViewport<HTMLDivElement>()
   if ((!items || items.length === 0) && !children) return null
 
   const hasHeading = (label != null && label !== '') || total != null
 
   return (
-    <div role="tooltip" className={cn(PANEL_CLASS, className)}>
+    <div ref={ref} role="tooltip" className={cn(PANEL_CLASS, className)}>
       {hasHeading ? (
         <div className="mb-1.5 flex items-baseline justify-between gap-3">
           {label != null && label !== '' ? (

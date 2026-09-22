@@ -15,7 +15,7 @@ const WIDGETS = [
   {
     id: 'ev-stats',
     title: 'EV Database Stats',
-    description: 'Live stats from our EV database — vehicle counts by country, top models by range and efficiency.',
+    description: 'Live stats from the EV database. Vehicle counts by country, and top models by range and efficiency.',
     path: '/embed/ev-stats',
     defaultWidth: 600,
     defaultHeight: 520,
@@ -44,7 +44,7 @@ export default function EmbedPageClient() {
   const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://battery.mom'
   const embedUrl = `${baseUrl}${widget.path}`
 
-  const embedCode = `<iframe src="${embedUrl}" width="${width}" height="${height}" style="border:none;border-radius:12px;overflow:hidden;" loading="lazy" title="${widget.title} — battery.mom"></iframe>`
+  const embedCode = `<iframe src="${embedUrl}" width="${width}" height="${height}" style="border:none;border-radius:12px;overflow:hidden;" loading="lazy" title="${widget.title}, battery.mom"></iframe>`
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(embedCode)
@@ -143,7 +143,7 @@ export default function EmbedPageClient() {
 
             <div>
               <h2 className="text-sm font-semibold text-ink-700 uppercase tracking-wider mb-3">
-                Embed Code
+                Embed code
               </h2>
               <div className="relative">
                 <pre className="bg-ink text-brand-400 text-xs p-4 rounded-card overflow-x-auto font-mono leading-relaxed whitespace-pre-wrap break-all">
@@ -163,7 +163,7 @@ export default function EmbedPageClient() {
             </div>
 
             <div className="bg-brand-50 rounded-card p-4 border border-brand-200">
-              <h3 className="text-sm font-semibold text-brand-800 mb-2">Usage Guidelines</h3>
+              <h3 className="text-sm font-semibold text-brand-800 mb-2">Usage guidelines</h3>
               <ul className="text-xs text-brand-700 space-y-1.5">
                 <li>✓ Free for personal and commercial use</li>
                 <li>✓ No API key or signup required</li>

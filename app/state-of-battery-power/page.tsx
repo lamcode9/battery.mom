@@ -43,9 +43,9 @@ const ogImage =
   `&stat2Value=${encodeURIComponent('885 GWh')}` +
   `&stat2Label=${encodeURIComponent('storage on the grid, 2025')}`
 
-const title = 'Where Battery Power Stands — The State of the Energy Transition'
+const title = 'Where battery power stands. The state of the energy transition'
 const description =
-  'Solar and wind became the cheapest power ever built. The new race is storage. A data-driven look at where battery-power adoption stands — from a 10× rise in solar to a 23× jump in grid batteries.'
+  'Solar and wind became the cheapest power on record. Storage is now the constraint. Solar generation rose 10×, and grid batteries rose 23×.'
 
 export const metadata: Metadata = {
   title,
@@ -83,7 +83,7 @@ export default function StateOfBatteryPowerPage() {
           </h1>
           <p className="mt-7 max-w-2xl text-lg leading-relaxed text-paper-300/90 sm:text-xl">
             Solar and wind became the cheapest electricity humanity has ever built. The question stopped
-            being whether we can <em className="font-display italic">generate</em> clean power — and became
+            being whether we can <em className="font-display italic">generate</em> clean power, and became
             whether we can <em className="font-display italic">store</em> it. This is where that race
             stands today.
           </p>
@@ -115,13 +115,13 @@ export default function StateOfBatteryPowerPage() {
       <Section tone="paper" size="md">
         <Container width="prose">
           <p className="font-display text-2xl leading-snug text-ink sm:text-3xl">
-            For a century, electricity meant burning something — coal, gas, oil. The last decade quietly
-            broke that rule.
+            For a century, electricity meant burning coal, gas, or oil. The last decade
+            changed that.
           </p>
           <p className="mt-6 text-lg leading-relaxed text-ink-600">
             What follows is the story in numbers: how clean generation overtook the growth of fossil power,
-            why batteries became the keystone of the whole system, and how fast they are now being built.
-            Every figure here comes from public IEA, IRENA, and BloombergNEF data — sourced at the bottom.
+            why batteries are what make that power usable, and how fast they are now being built.
+            Every figure here comes from public IEA, IRENA, and BloombergNEF data, sourced at the bottom.
           </p>
         </Container>
       </Section>
@@ -131,20 +131,20 @@ export default function StateOfBatteryPowerPage() {
         <Container width="wide">
           <div className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
             <div className="reveal">
-              <Eyebrow>01 — Generation</Eyebrow>
+              <Eyebrow>01. Generation</Eyebrow>
               <h2 className="mt-4 font-display text-3xl font-medium leading-tight tracking-tight text-ink sm:text-4xl">
                 The grid tipped toward clean power.
               </h2>
               <p className="mt-5 text-lg leading-relaxed text-ink-600">
                 In 2015, the world&apos;s solar farms generated 245 TWh of electricity. In 2025 they
-                generated 2,653 — a <strong className="text-ink">{solarMultiple}×</strong> rise in a decade.
+                generated 2,653, a <strong className="text-ink">{solarMultiple}×</strong> rise in a decade.
                 Wind more than tripled. Add nuclear, and{' '}
                 <strong className="text-ink">{snap.lowCarbonSharePct}%</strong>{' '}of the planet&apos;s
                 electricity is now low-carbon.
               </p>
               <p className="mt-4 text-lg leading-relaxed text-ink-600">
                 The line that matters most: in 2025, the <em>growth</em> in clean generation outpaced the
-                growth in fossil generation for the first time — coal and oil output actually fell.
+                growth in fossil generation for the first time. Coal and oil output fell.
               </p>
             </div>
             <Card className="p-5 sm:p-6">
@@ -169,9 +169,9 @@ export default function StateOfBatteryPowerPage() {
       <Section tone="ink" size="md">
         <Container width="default">
           <p className="font-display text-3xl font-light leading-snug text-paper sm:text-4xl">
-            <span className="text-brand-300">“</span>A solar panel is useless at night. A turbine is
+            <span className="text-brand-300">&quot;</span>A solar panel is useless at night. A turbine is
             useless when the air is still. Batteries are what turn an intermittent supply into power you
-            can count on — and until recently, we barely had any.<span className="text-brand-300">”</span>
+            can count on. Until recently, there was very little of it.<span className="text-brand-300">&quot;</span>
           </p>
         </Container>
       </Section>
@@ -195,19 +195,19 @@ export default function StateOfBatteryPowerPage() {
               <p className="mt-3 text-[11px] text-ink-400">Source: IEA Global Energy Review 2026.</p>
             </Card>
             <div className="order-1 reveal lg:order-2">
-              <Eyebrow>02 — Storage</Eyebrow>
+              <Eyebrow>02. Storage</Eyebrow>
               <h2 className="mt-4 font-display text-3xl font-medium leading-tight tracking-tight text-ink sm:text-4xl">
-                Then storage went vertical.
+                Then annual additions jumped.
               </h2>
               <p className="mt-5 text-lg leading-relaxed text-ink-600">
                 Cheap clean power created a new problem: it arrives when the weather cooperates, not when
-                you flip a switch. The fix is storage — and the build-out just went exponential. Annual
+                you flip a switch. The fix is storage, and annual additions jumped. Annual
                 utility-scale battery additions climbed from {battery2020} GW in 2020 to {battery2025} GW in
                 2025, a <strong className="text-ink">{batteryMultiple}× jump</strong>.
               </p>
               <p className="mt-4 text-lg leading-relaxed text-ink-600">
                 In 2025 alone the world added {snap.batteryPowerAdditionsGw} GW of battery power and{' '}
-                {snap.batteryEnergyAdditionsGwh} GWh of capacity — {snap.lfpDeploymentSharePct}% of it
+                {snap.batteryEnergyAdditionsGwh} GWh of capacity. {snap.lfpDeploymentSharePct}% of it was
                 lithium iron phosphate (LFP), the cheaper, longer-lived chemistry that finally made grid
                 storage pencil out.
               </p>
@@ -225,18 +225,18 @@ export default function StateOfBatteryPowerPage() {
         <Container width="wide">
           <div className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
             <div className="reveal">
-              <Eyebrow>03 — Geography</Eyebrow>
+              <Eyebrow>03. Geography</Eyebrow>
               <h2 className="mt-4 font-display text-3xl font-medium leading-tight tracking-tight text-ink sm:text-4xl">
                 One country is building most of it.
               </h2>
               <p className="mt-5 text-lg leading-relaxed text-ink-600">
                 The boom is not evenly shared. China alone added{' '}
-                <strong className="text-ink">{chinaUtil2025} GW</strong> of utility-scale storage in 2025 —
-                about <strong className="text-ink">{chinaSharePct}%</strong>{' '}of the global total — pairing
+                <strong className="text-ink">{chinaUtil2025} GW</strong> of utility-scale storage in 2025,
+                about <strong className="text-ink">{chinaSharePct}%</strong>{' '}of the global total, pairing
                 it with the world&apos;s largest solar build-out. The United States is a distant second.
               </p>
               <p className="mt-4 text-lg leading-relaxed text-ink-600">
-                The technology is global. The deployment, for now, is concentrated — which is exactly why
+                The technology is global. The deployment, for now, is concentrated, which is why
                 where <em>your</em> region stands is worth watching closely.
               </p>
             </div>
@@ -253,7 +253,7 @@ export default function StateOfBatteryPowerPage() {
       {/* ── Scene 5: Where we are, 2025 ──────────────────────── */}
       <Section tone="ink" size="md">
         <Container width="wide">
-          <Eyebrow className="text-brand-300">04 — The snapshot</Eyebrow>
+          <Eyebrow className="text-brand-300">04. The snapshot</Eyebrow>
           <h2 className="mt-4 max-w-2xl font-display text-3xl font-medium leading-tight tracking-tight text-paper sm:text-4xl">
             Where the energy transition stands, end of 2025.
           </h2>
@@ -273,20 +273,19 @@ export default function StateOfBatteryPowerPage() {
         <Container width="wide">
           <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
             <div className="reveal">
-              <Eyebrow>05 — The road ahead</Eyebrow>
+              <Eyebrow>05. The road ahead</Eyebrow>
               <h2 className="mt-4 font-display text-3xl font-medium leading-tight tracking-tight text-ink sm:text-4xl">
                 The backbone is still being built.
               </h2>
               <p className="mt-5 text-lg leading-relaxed text-ink-600">
                 BloombergNEF projects cumulative grid storage will reach{' '}
                 <strong className="text-ink">{snap.forecast2035CumulativeGwh.toLocaleString()} GWh</strong>{' '}
-                by 2035 — roughly <strong className="text-ink">{forecastMultiple}×</strong>{' '}today&apos;s 885.
-                If that holds, the 2020s will be remembered as the decade batteries stopped being an
-                accessory to the grid and became part of its backbone.
+                by 2035, roughly <strong className="text-ink">{forecastMultiple}×</strong>{' '}today&apos;s 885.
+                If that holds, grid batteries move from an add-on to part of the grid itself during the 2020s.
               </p>
               <p className="mt-4 text-lg leading-relaxed text-ink-600">
-                And this is only the first act. The harder questions come next — how fast it should scale,
-                who it leaves behind, and what comes after lithium. That&apos;s where this story goes from
+                The harder questions are next. How fast should it scale,
+                who is left out, and what comes after lithium. That&apos;s where this story goes from
                 here.
               </p>
             </div>
@@ -345,7 +344,7 @@ export default function StateOfBatteryPowerPage() {
                 >
                   {s.label}
                 </a>
-                <span className="text-ink-500"> — {s.note}</span>
+                <span className="text-ink-500">. {s.note}</span>
               </li>
             ))}
           </ul>

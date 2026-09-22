@@ -23,11 +23,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
     if (!vehicle1 || !vehicle2) {
       return {
-        title: 'Vehicle Comparison — battery.mom',
+        title: 'Vehicle comparison, battery.mom',
       }
     }
 
-    const title = `${vehicle1.name}${vehicle1.modelTrim ? ` ${vehicle1.modelTrim}` : ''} vs ${vehicle2.name}${vehicle2.modelTrim ? ` ${vehicle2.modelTrim}` : ''} — battery.mom`
+    const title = `${vehicle1.name}${vehicle1.modelTrim ? ` ${vehicle1.modelTrim}` : ''} vs ${vehicle2.name}${vehicle2.modelTrim ? ` ${vehicle2.modelTrim}` : ''}, battery.mom`
     const description = `Compare ${vehicle1.name} vs ${vehicle2.name}: ${vehicle1.rangeKm || vehicle1.rangeWltpKm || 'N/A'}km vs ${vehicle2.rangeKm || vehicle2.rangeWltpKm || 'N/A'}km range, ${vehicle1.efficiencyKwhPer100km || 'N/A'} vs ${vehicle2.efficiencyKwhPer100km || 'N/A'} kWh/100km efficiency, ${vehicle1.basePriceLocalCurrency || 'N/A'} vs ${vehicle2.basePriceLocalCurrency || 'N/A'} pricing.`
 
     return {
@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     }
   } catch (error) {
     return {
-      title: 'Vehicle Comparison — battery.mom',
+      title: 'Vehicle comparison, battery.mom',
     }
   }
 }

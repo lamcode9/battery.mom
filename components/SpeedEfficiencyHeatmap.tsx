@@ -85,7 +85,7 @@ export default function SpeedEfficiencyHeatmap({ vehicles }: Props) {
       <div className="flex items-start justify-between mb-4">
         <div>
           <h3 className="text-sm font-bold text-ink flex items-center gap-2">
-            🌡️ Efficiency Heatmap by Speed
+            Efficiency heatmap by speed
           </h3>
           <p className="text-[10px] text-ink-500 mt-1">
             Estimated energy consumption at different cruising speeds. Lower is better. Green = efficient, Orange/Red = high consumption.

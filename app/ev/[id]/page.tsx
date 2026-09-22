@@ -23,11 +23,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
     if (!vehicle) {
       return {
-        title: 'Vehicle Not Found — battery.mom',
+        title: 'Vehicle not found, battery.mom',
       }
     }
 
-    const title = `${vehicle.name}${vehicle.modelTrim ? ` ${vehicle.modelTrim}` : ''} — battery.mom`
+    const title = `${vehicle.name}${vehicle.modelTrim ? ` ${vehicle.modelTrim}` : ''}, battery.mom`
     const description = `${vehicle.name} specs: ${vehicle.rangeKm || vehicle.rangeWltpKm || 'N/A'} km range, ${vehicle.efficiencyKwhPer100km || 'N/A'} kWh/100km efficiency, ${vehicle.batteryCapacityKwh || 'N/A'} kWh battery. Local pricing and charging details for ${vehicle.country}.`
 
     return {
@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     }
   } catch (error) {
     return {
-      title: 'Vehicle Details — battery.mom',
+      title: 'Vehicle details, battery.mom',
     }
   }
 }

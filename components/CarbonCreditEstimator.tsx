@@ -19,10 +19,10 @@ const GRID_EMISSION_FACTOR = CO2_GRID_FACTOR
 
 // Carbon credit prices (USD per tonne CO₂)
 const CREDIT_STANDARDS = [
-  { id: 'vcs', name: 'VCS (Verra)', price: 12, desc: 'Voluntary Carbon Standard — most widely used voluntary market' },
+  { id: 'vcs', name: 'VCS (Verra)', price: 12, desc: 'Voluntary Carbon Standard. The most widely used voluntary market' },
   { id: 'gs', name: 'Gold Standard', price: 28, desc: 'Premium standard with co-benefit requirements (SDGs)' },
-  { id: 'a6', name: 'Article 6.4', price: 45, desc: 'Paris Agreement compliance market — highest price, strictest rules' },
-  { id: 'acx', name: 'ACX (Asia)', price: 8, desc: 'Asia Climate Exchange — emerging regional market' },
+  { id: 'a6', name: 'Article 6.4', price: 45, desc: 'Paris Agreement compliance market. Highest price, strictest rules' },
+  { id: 'acx', name: 'ACX (Asia)', price: 8, desc: 'Asia Climate Exchange. A regional market still taking shape' },
 ] as const
 
 const CURRENCY: Record<Country, string> = {
@@ -154,7 +154,7 @@ export default function CarbonCreditEstimator({
                 : 'bg-paper-200 text-ink-700 hover:bg-paper-300'
             }`}
           >
-            {std.name} — ${std.price}/t
+            {std.name}, ${std.price}/t
           </button>
         ))}
       </div>
@@ -191,7 +191,7 @@ export default function CarbonCreditEstimator({
           <div className="text-xl font-bold text-amber-900">
             ${results.selected.price}/t
           </div>
-          <div className="text-[10px] text-amber-600">{results.selected.desc.split(' — ')[0]}</div>
+          <div className="text-[10px] text-amber-600">{results.selected.desc.split('. ')[0]}</div>
         </div>
       </div>
 
@@ -234,7 +234,7 @@ export default function CarbonCreditEstimator({
 
       {/* ── Chart: selected standard revenue over time ── */}
       <h3 className="text-sm font-semibold text-ink mb-2">
-        {results.selected.name} — credit revenue projection
+        {results.selected.name}, credit revenue projection
       </h3>
       <ResponsiveContainer width="100%" height={280}>
         <BarChart data={results.selected.yearlyData}>

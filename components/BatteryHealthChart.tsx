@@ -84,7 +84,7 @@ export default function BatteryHealthChart({ vehicles }: Props) {
       <div className="flex items-start justify-between mb-4">
         <div>
           <h3 className="text-sm font-bold text-ink flex items-center gap-2">
-            🔋 Battery Health Projection
+            Battery health projection
           </h3>
           <p className="text-[10px] text-ink-500 mt-1">
             Estimated usable capacity over 10 years based on battery chemistry degradation curves. Assumes typical driving patterns and climate conditions.

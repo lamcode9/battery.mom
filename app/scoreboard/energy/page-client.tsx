@@ -698,7 +698,7 @@ export default function EnergyDeploymentScoreboardPage() {
               2025 actuals where available · 2035 storage outlook
             </div>
             <h1 className="font-display text-4xl font-medium tracking-tight text-ink md:text-6xl">
-              Battery Deployment Scoreboard
+              Battery deployment scoreboard
             </h1>
             <p className="mt-4 text-lg leading-relaxed text-ink-600">
               Track how fast stationary batteries are entering the power system, and compare that buildout
@@ -746,8 +746,8 @@ export default function EnergyDeploymentScoreboardPage() {
               </h2>
               <p className="mt-1 text-sm text-ink-500">
                 {chartMode === 'change'
-                  ? 'Year-on-year change in generation by source, 2024 → 2025, in TWh — how much each source rose or fell.'
-                  : `Each year's ${chartMode === 'renewables' ? 'total renewable' : 'total electricity'} generation by source, in TWh — annual totals, not additions. Hover to inspect a year.`}
+                  ? 'Year-on-year change in generation by source, 2024 → 2025, in TWh. The bars show how much each source rose or fell.'
+                  : `Each year's ${chartMode === 'renewables' ? 'total renewable' : 'total electricity'} generation by source, in TWh. These are annual totals, not additions. Hover to inspect a year.`}
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -1133,13 +1133,13 @@ export default function EnergyDeploymentScoreboardPage() {
                 <div className="mt-2 text-3xl font-black">−{BATTERY_PRICE_CONTEXT.declineSince2010Pct}%</div>
                 <p className="mt-2 text-xs leading-relaxed text-ink-300">
                   From ${BATTERY_PRICE_CONTEXT.price2010PerKwh.toLocaleString()}/kWh in 2010 to ${BATTERY_PRICE_CONTEXT.latestPricePerKwh}/kWh
-                  in {BATTERY_PRICE_CONTEXT.latestYear}{' — '}the cost collapse that makes &ldquo;batteries are the new oil&rdquo; a buildout, not a slogan.
+                  in {BATTERY_PRICE_CONTEXT.latestYear}{'. '}That drop is what puts a battery on a grid or in a house.
                 </p>
               </div>
               <div className="rounded-lg bg-paper-200 p-4">
                 <div className="text-xs font-semibold text-ink-500">EV packs, 2024</div>
                 <div className="mt-1 text-2xl font-bold text-ink">${BATTERY_PRICE_CONTEXT.evPackPrice2024PerKwh}/kWh</div>
-                <div className="mt-1 text-xs text-ink-500">Crossed below $100/kWh for the first time — in China, packs reached ${BATTERY_PRICE_CONTEXT.chinaPackPrice2024PerKwh}/kWh.</div>
+                <div className="mt-1 text-xs text-ink-500">Crossed below $100/kWh for the first time. In China, packs reached ${BATTERY_PRICE_CONTEXT.chinaPackPrice2024PerKwh}/kWh.</div>
               </div>
             </div>
           </div>
@@ -1263,10 +1263,10 @@ export default function EnergyDeploymentScoreboardPage() {
           <div className="mb-5">
             <h2 className="text-lg font-bold text-ink">
               The bigger battery market: electric cars
-              <InfoTooltip content="Electric car sales are BEV + PHEV passenger cars, in million units, per the IEA Global EV Outlook. EVs are the largest single use of lithium-ion batteries — a far bigger demand pull than stationary storage." />
+              <InfoTooltip content="Electric car sales are BEV + PHEV passenger cars, in million units, per the IEA Global EV Outlook. EVs are the largest single use of lithium-ion batteries, a much larger demand than stationary storage." />
             </h2>
             <p className="mt-1 text-sm text-ink-500">
-              Stationary storage is the headline above, but cars are where most of the world&apos;s batteries actually go — and that market is run from one country.
+              Stationary storage is the headline above, but cars take most of the world&apos;s batteries, and that market is run from one country.
             </p>
           </div>
 
@@ -1283,8 +1283,8 @@ export default function EnergyDeploymentScoreboardPage() {
                 </BarChart>
               </ResponsiveContainer>
               <p className="mt-3 text-xs leading-relaxed text-ink-500">
-                Global electric car sales rose from about 3 million in 2020 to over 20 million in {EV_MARKET_CONTEXT.latestYear} —
-                roughly a quarter of all new cars sold. Figures are IEA Global EV Outlook headline totals.
+                Global electric car sales rose from about 3 million in 2020 to over 20 million in {EV_MARKET_CONTEXT.latestYear}.
+                About a quarter of all new cars sold were electric. Figures are IEA Global EV Outlook headline totals.
               </p>
             </div>
 
@@ -1293,14 +1293,14 @@ export default function EnergyDeploymentScoreboardPage() {
                 <div className="text-xs font-semibold text-brand-300">China&apos;s share of global EV sales, {EV_MARKET_CONTEXT.latestYear}</div>
                 <div className="mt-2 text-3xl font-black">~{EV_MARKET_CONTEXT.chinaShareOfGlobalPct}%</div>
                 <p className="mt-2 text-xs leading-relaxed text-ink-300">
-                  More than {EV_MARKET_CONTEXT.chinaSalesMillions} million electric cars were sold in China — its share eased from
+                  More than {EV_MARKET_CONTEXT.chinaSalesMillions} million electric cars were sold in China. Its share eased from
                   ~{EV_MARKET_CONTEXT.china2024ShareOfGlobalPct}% in 2024 only because other markets finally started catching up.
                 </p>
               </div>
               <div className="rounded-lg bg-paper-200 p-4">
                 <div className="text-xs font-semibold text-ink-500">Inside China, {EV_MARKET_CONTEXT.latestYear}</div>
                 <div className="mt-1 text-2xl font-bold text-ink">~{EV_MARKET_CONTEXT.chinaDomesticEvSharePct}%</div>
-                <div className="mt-1 text-xs text-ink-500">of all new cars sold were electric — the same cost curve, seen from the demand side.</div>
+                <div className="mt-1 text-xs text-ink-500">of all new cars sold were electric. Same price drop, counted in cars sold.</div>
               </div>
             </div>
           </div>
@@ -1341,7 +1341,7 @@ export default function EnergyDeploymentScoreboardPage() {
                 </div>
               </div>
               <p className="mt-4 text-xs leading-relaxed text-ink-500">
-                For batteries, the cleanest deployment story is not only installing storage. It is pairing storage
+                For batteries, the deployment that matters is pairing storage
                 with a grid that is adding solar, wind, hydro, nuclear, or other low-carbon supply.
               </p>
             </div>

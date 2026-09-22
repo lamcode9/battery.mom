@@ -6,7 +6,7 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: 'battery.mom — Embed Widget',
+  title: 'battery.mom, embed widget',
   robots: { index: false, follow: false },
 }
 

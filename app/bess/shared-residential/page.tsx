@@ -307,7 +307,7 @@ const BatteryScatter = memo(function BatteryScatter({
       <div className="flex items-start justify-between mb-1 gap-3">
         <div>
           <div className="text-sm font-semibold text-ink">
-            Which battery pays for itself fastest — and lasts longest?
+            Which battery pays for itself fastest, and lasts longest?
           </div>
           <div className="text-xs text-ink-500 mt-0.5">
             Bottom-right = best value (fast payback + long warranty). Bubble size = cost per kWh-cycle.
@@ -322,7 +322,7 @@ const BatteryScatter = memo(function BatteryScatter({
           <span className="text-brand-600 font-bold text-base leading-none">★</span>
           <span className="text-ink-800">
             <strong className="text-brand-700">{bestPick.name}</strong> has the lowest lifetime cost at{' '}
-            <strong>{formatWithSymbol(bestPick.costPerKwhCycle, country, 2)}/kWh-cycle</strong> —{' '}
+            <strong>{formatWithSymbol(bestPick.costPerKwhCycle, country, 2)}/kWh-cycle</strong>,{' '}
             payback in <strong>{bestPick.paybackYears.toFixed(1)} years</strong> with{' '}
             <strong>{bestPick.cycles.toLocaleString()}</strong> warranty cycles.
           </span>
@@ -414,7 +414,7 @@ const BatteryScatter = memo(function BatteryScatter({
         <div className="text-right pr-2 border-r border-b border-ink/5 pb-1">Expensive &amp; short-lived</div>
         <div className="pl-2 border-b border-ink/5 pb-1">Long warranty but slow payback</div>
         <div className="text-right pr-2 border-r border-ink/5 pt-1">Fast payback but fewer cycles</div>
-        <div className="pl-2 pt-1 font-semibold text-brand-600">★ Best value — fast payback + long warranty</div>
+        <div className="pl-2 pt-1 font-semibold text-brand-600">★ Best value, fast payback and a long warranty</div>
       </div>
     </div>
   )
@@ -1322,7 +1322,7 @@ function SharedResidentialCalculator({ country }: { country: Country }) {
           </button>
           <PDFExportButton
             containerRef={pdfRef}
-            options={{ filename: `battery-mom-shared-residential-${mode}.pdf`, title: 'battery.mom — Shared Residential BESS', subtitle: `${COUNTRY_NAMES[country]} · ${mode === 'retrofit' ? 'Retrofit' : 'New Development'} · ${mode === 'retrofit' ? retroUnits : newUnits} units` }}
+            options={{ filename: `battery-mom-shared-residential-${mode}.pdf`, title: 'battery.mom, shared residential BESS', subtitle: `${COUNTRY_NAMES[country]} · ${mode === 'retrofit' ? 'Retrofit' : 'New Development'} · ${mode === 'retrofit' ? retroUnits : newUnits} units` }}
             className="bg-paper-100 border border-ink/10 text-ink-800 hover:bg-paper-200"
           />
           <MarketingPDFButton

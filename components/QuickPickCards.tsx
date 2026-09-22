@@ -112,8 +112,8 @@ export default function QuickPickCards() {
   return (
     <div className="mb-6">
       <div className="flex items-center gap-2 mb-3">
-        <h3 className="text-sm font-semibold text-ink">Quick Picks</h3>
-        <span className="text-[10px] text-ink-400 bg-paper-200 px-1.5 py-0.5 rounded-full cursor-help" title="Each pick is the #1 vehicle in a single measurable dimension — no composite scores or editorial choices. Best Range: highest WLTP range (km). Best Value: lowest price per km of range. Most Efficient: lowest kWh/100 km. Fastest Charge: shortest DC 0→80% time (min). Most Affordable: lowest base price. BEVs only.">
+        <h3 className="text-sm font-semibold text-ink">Quick picks</h3>
+        <span className="text-[10px] text-ink-400 bg-paper-200 px-1.5 py-0.5 rounded-full cursor-help" title="Each pick is the #1 vehicle in a single measurable dimension. There is no composite score and no editorial pick. Best Range: highest WLTP range (km). Best Value: lowest price per km of range. Most Efficient: lowest kWh/100 km. Fastest Charge: shortest DC 0→80% time (min). Most Affordable: lowest base price. BEVs only.">
           single-metric leaders ℹ️
         </span>
       </div>

@@ -89,7 +89,7 @@ const BuildingComparison = memo(function BuildingComparison({ snapshots, country
     <div className="bg-paper-100 border border-ink/10 rounded-card p-5 mt-8 overflow-x-auto">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h3 className="text-base font-bold text-ink">Building Comparison</h3>
+          <h3 className="text-base font-bold text-ink">Building comparison</h3>
           <p className="text-xs text-ink-500">Side-by-side analysis of your saved configurations</p>
         </div>
         <span className="px-2 py-0.5 text-[11px] font-semibold text-brand-700 bg-brand-50 rounded-full">

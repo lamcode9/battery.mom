@@ -51,7 +51,7 @@ export default function SmartInsightsCards({ vehicles, country }: Props) {
       result.push({
         icon: '🏁',
         title: 'Range Champion',
-        body: `${getLabel(best)} leads with ${best.rangeKm} km range — ${diff} km more than ${getLabel(worst)} (${worst.rangeKm} km).`,
+        body: `${getLabel(best)} leads with ${best.rangeKm} km range, ${diff} km more than ${getLabel(worst)} (${worst.rangeKm} km).`,
         highlight: `+${diff} km`,
         color: 'emerald',
       })
@@ -68,7 +68,7 @@ export default function SmartInsightsCards({ vehicles, country }: Props) {
       result.push({
         icon: '⚡',
         title: 'Most Efficient',
-        body: `${getLabel(best)} uses only ${best.efficiencyKwhPer100km} kWh/100km — ${pctSaving}% less energy than the least efficient option.`,
+        body: `${getLabel(best)} uses only ${best.efficiencyKwhPer100km} kWh/100km, ${pctSaving}% less energy than the least efficient option.`,
         highlight: `${best.efficiencyKwhPer100km} kWh/100km`,
         color: 'blue',
       })
@@ -102,7 +102,7 @@ export default function SmartInsightsCards({ vehicles, country }: Props) {
       result.push({
         icon: '🔌',
         title: 'Fastest Charger',
-        body: `${getLabel(best)} charges 0–80% in just ${best.chargingTimeDc0To80Min} min — ${timeSaved} min faster than ${getLabel(slowest)}.`,
+        body: `${getLabel(best)} charges 0–80% in just ${best.chargingTimeDc0To80Min} min, ${timeSaved} min faster than ${getLabel(slowest)}.`,
         highlight: `${best.chargingTimeDc0To80Min} min`,
         color: 'amber',
       })
@@ -154,7 +154,7 @@ export default function SmartInsightsCards({ vehicles, country }: Props) {
   return (
     <div className="bg-paper-100 rounded-card border border-ink/10 p-5">
       <h3 className="text-sm font-bold text-ink flex items-center gap-2 mb-4">
-        💡 Smart Insights
+        Smart insights
       </h3>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">

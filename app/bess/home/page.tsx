@@ -849,7 +849,7 @@ function BatteriesAtHomePageContent() {
       {/* Hero Section */}
       <section ref={pdfRef} className="container mx-auto px-4 pt-12 pb-8 max-w-7xl">
         <h2 className="text-2xl font-semibold text-ink mb-8 text-left">
-          Batteries at Home
+          Batteries at home
         </h2>
 
         {/* Hero Intro Section */}
@@ -857,14 +857,14 @@ function BatteriesAtHomePageContent() {
           <div className="border-l-4 border-brand pl-6 md:pl-8 py-6 bg-paper-200/60">
             <div className="space-y-5">
               <p className="font-display text-3xl md:text-4xl font-medium text-ink leading-tight tracking-tight">
-                Design your zero-bill setup — solar + battery + EV.
+                Design a zero-bill setup with solar, a battery, and an EV.
               </p>
               <p className="text-lg md:text-xl text-ink-700 leading-relaxed max-w-3xl">
-                Real tariffs, real solar yield, real loads — find the right setup for your home
+                Local tariffs, local solar yield, and your household load. Find a setup for your home.
               </p>
               <div className="pt-2 border-t border-ink/10">
                 <p className="text-base text-ink-600 leading-relaxed whitespace-nowrap">
-                  Select your country to see setup costs to optimize your home to either go off-grid, zero-bill, max-savings or anything in between
+                  Select a country to price a setup for off-grid, a zero bill, maximum savings, or a point between those.
                 </p>
               </div>
             </div>
@@ -885,7 +885,7 @@ function BatteriesAtHomePageContent() {
           <div className="mb-8 bg-paper-200 rounded-lg p-3 border border-ink/10">
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
-                <h2 className="text-xl font-semibold text-ink">Daily Energy Flow</h2>
+                <h2 className="text-xl font-semibold text-ink">Daily energy flow</h2>
               <InfoTooltip position="bottom" title="Chart Explanation" content={
                 <div className="space-y-1.5">
                   <div>This chart shows hourly energy flows throughout a typical day. Bars show generation (Solar, Battery, Grid) and areas show consumption (Household, EV, Battery Charging). The dashed line shows battery level.</div>
@@ -926,14 +926,14 @@ function BatteriesAtHomePageContent() {
               {/* Power Usage at Home Section */}
               <div className="bg-gradient-to-br from-paper-200 to-paper-100 rounded-card p-6 shadow-card">
                 <div className="mb-6">
-                  <h2 className="text-xl font-semibold text-ink mb-1">Power Usage at Home</h2>
+                  <h2 className="text-xl font-semibold text-ink mb-1">Power usage at home</h2>
                   <p className="text-xs text-ink-500">Configure your household and EV-charging energy consumption at home</p>
                 </div>
 
                 {/* Household Load Subsection */}
                 <div className="mb-4 mt-5">
                   <div className="flex items-center gap-2 mb-1">
-                    <h3 className="text-base font-semibold text-ink">Household Load</h3>
+                    <h3 className="text-base font-semibold text-ink">Household load</h3>
                     <InfoTooltip position="bottom" title="Power Usage Assumptions" content={
                       <div className="space-y-1.5">
                         <div><span className="font-semibold">Daytime Load:</span> Energy used during sun hours (typically 6am-6pm). Average household uses 8 kWh/day.</div>
@@ -1176,7 +1176,7 @@ function BatteriesAtHomePageContent() {
               {/* System Setup Section */}
               <div className="bg-gradient-to-br from-paper-200 to-paper-100 rounded-card p-6 shadow-card">
                 <div className="mb-6">
-                  <h2 className="text-xl font-semibold text-ink mb-1">System Setup</h2>
+                  <h2 className="text-xl font-semibold text-ink mb-1">System setup</h2>
                   <p className="text-xs text-ink-500">Configure your solar and battery system</p>
                 </div>
               
@@ -1393,7 +1393,7 @@ function BatteriesAtHomePageContent() {
                           <div><span className="font-semibold">Average (90%):</span> Some shading or suboptimal orientation.</div>
                           <div><span className="font-semibold">Shaded (75%):</span> Significant shading or poor orientation.</div>
                           <div className="pt-2 border-t border-ink/10">
-                            <div className="text-xs font-semibold text-amber-700 mb-1">💡 Efficiency Loss Explained:</div>
+                            <div className="text-xs font-semibold text-amber-700 mb-1">Efficiency loss</div>
                             <div className="text-xs text-ink-600 space-y-1">
                               <div><strong>Average roofs lose 10%</strong> of potential solar energy due to partial shading or poor orientation.</div>
                               <div><strong>Shaded roofs lose 25%</strong> of potential solar energy - like having only 3/4 of your solar panels working.</div>
@@ -1546,17 +1546,17 @@ function BatteriesAtHomePageContent() {
           {/* OUTPUTS COLUMN */}
           <div className="bg-paper-100 p-6">
             <div className="mb-6">
-              <h2 className="text-xl font-semibold text-ink">Live Simulation</h2>
+              <h2 className="text-xl font-semibold text-ink">Live simulation</h2>
             </div>
 
             {/* Financial Overview */}
             <div className="mb-10">
-              <h3 className="text-lg font-semibold text-ink mb-6 pb-2 border-b-2 border-brand-600">Financial Overview</h3>
+              <h3 className="text-lg font-semibold text-ink mb-6 pb-2 border-b-2 border-brand-600">Financial overview</h3>
 
               {/* Monthly View */}
               <div className="mb-8">
                 <div className="mb-4">
-                  <h4 className="text-sm font-semibold text-ink-700 uppercase tracking-wider mb-1">Monthly View</h4>
+                  <h4 className="text-sm font-semibold text-ink-700 uppercase tracking-wider mb-1">Monthly view</h4>
                   <p className="text-xs text-ink-500">Monthly electricity bill comparison</p>
                 </div>
 
@@ -1718,7 +1718,7 @@ function BatteriesAtHomePageContent() {
                 <div className="pt-6 border-t border-ink/15">
                   <div className="mb-4">
                     <div className="flex items-center gap-2 mb-1">
-                      <h4 className="text-sm font-semibold text-ink-700 uppercase tracking-wider">Setup Cost</h4>
+                      <h4 className="text-sm font-semibold text-ink-700 uppercase tracking-wider">Setup cost</h4>
                       <InfoTooltip position="bottom" title="Setup Cost Details" content={
                         <div className="space-y-1.5">
                           <div>
@@ -1770,7 +1770,7 @@ function BatteriesAtHomePageContent() {
             <div className="mb-10">
               <div className="flex items-center justify-between mb-6 pb-2 border-b-2 border-brand-600">
                 <div className="flex items-center gap-2">
-                  <h3 className="text-base font-bold text-ink">Energy Flow</h3>
+                  <h3 className="text-base font-bold text-ink">Energy flow</h3>
                   {EXPORT_RATE_MULTIPLIER[country].net_billing > 0 && (
                     <InfoTooltip position="bottom" title="Net Billing Explanation" content={
                       <div className="space-y-1.5">
@@ -1968,7 +1968,7 @@ function BatteriesAtHomePageContent() {
           </button>
           <PDFExportButton
             containerRef={pdfRef}
-            options={{ filename: 'battery-mom-home-bess.pdf', title: 'battery.mom — Home BESS Calculator', subtitle: `${COUNTRY_NAMES[country]} · Solar ${solarSizeKw}kW · ${batteries.filter(b => b.model).length} batteries` }}
+            options={{ filename: 'battery-mom-home-bess.pdf', title: 'battery.mom, home BESS calculator', subtitle: `${COUNTRY_NAMES[country]} · Solar ${solarSizeKw}kW · ${batteries.filter(b => b.model).length} batteries` }}
             className="flex-1 bg-paper-200 text-ink-700 hover:bg-paper-300"
           />
         </div>

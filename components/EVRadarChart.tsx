@@ -58,7 +58,7 @@ export default function EVRadarChart({ vehicles }: EVRadarChartProps) {
 
   return (
     <div className="bg-paper-100 border border-ink/10 rounded-card p-4">
-      <h3 className="text-sm font-semibold text-ink mb-1">Radar Comparison</h3>
+      <h3 className="text-sm font-semibold text-ink mb-1">Radar comparison</h3>
       <p className="text-[10px] text-ink-500 mb-3">
         Each axis is scored 0–100 relative to this comparison set. Larger area = stronger overall.
       </p>

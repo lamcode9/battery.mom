@@ -168,10 +168,10 @@ export default function EvChargingCostPage() {
         {/* Header */}
         <div className="max-w-2xl mb-10">
           <h1 className="font-display text-4xl md:text-5xl font-medium text-ink tracking-tight">
-            EV Charging Cost Calculator <InfoTooltip content="Estimates your real-world EV charging costs by mixing home, public AC, and DC fast-charging rates, accounting for energy losses during charging. Results show monthly/annual cost and how much you save compared to a petrol car." />
+            EV charging cost calculator <InfoTooltip content="Estimates your real-world EV charging costs by mixing home, public AC, and DC fast-charging rates, accounting for energy losses during charging. Results show monthly/annual cost and how much you save compared to a petrol car." />
           </h1>
           <p className="mt-3 text-lg text-ink-600 leading-relaxed">
-            Estimate your real-world EV charging costs by mixing home, public AC, and DC fast-charging — then see how much you save versus petrol.
+            Estimate your real-world EV charging costs by mixing home, public AC, and DC fast charging, then see how much you save versus petrol.
           </p>
           <div className="mt-4">
             <ShareResult
@@ -427,10 +427,10 @@ export default function EvChargingCostPage() {
         <div className="bg-brand-50 border border-brand-200 rounded-card p-6">
           <h3 className="text-sm font-semibold text-brand-900 mb-2">Maximise your savings</h3>
           <ul className="text-sm text-brand-800 space-y-1.5">
-            <li>• <strong>Charge at home overnight</strong> — residential rates are 40-60% cheaper than DC fast chargers.</li>
-            <li>• <strong>Add rooftop solar</strong> — pay {fmt(0, country)} per kWh during the day. <a href="/calculators/solar-payback" className="underline font-medium">Check solar payback →</a></li>
-            <li>• <strong>Add a home battery</strong> — store solar for overnight EV charging. <a href="/bess/home" className="underline font-medium">Zero-bill calculator →</a></li>
-            <li>• <strong>Use DC fast only for trips</strong> — keep DC below 20% of your total charging for lowest costs.</li>
+            <li>• <strong>Charge at home overnight.</strong> Residential rates are 40-60% cheaper than DC fast chargers.</li>
+            <li>• <strong>Add rooftop solar.</strong> Pay {fmt(0, country)} per kWh during the day. <a href="/calculators/solar-payback" className="underline font-medium">Check solar payback →</a></li>
+            <li>• <strong>Add a home battery.</strong> Store solar for overnight EV charging. <a href="/bess/home" className="underline font-medium">Zero-bill calculator →</a></li>
+            <li>• <strong>Use DC fast only for trips.</strong> Keep DC below 20% of total charging for the lowest cost.</li>
           </ul>
         </div>
       </section>

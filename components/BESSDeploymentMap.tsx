@@ -17,12 +17,12 @@ interface DeploymentData {
 }
 
 const DEPLOYMENT: DeploymentData[] = [
-  { code: 'SG', name: 'Singapore', flag: '🇸🇬', installedMwh: 1200, plannedMwh: 2000, projects: 8, highlight: 'Tuas South 1 GWh — largest in SEA' },
+  { code: 'SG', name: 'Singapore', flag: '🇸🇬', installedMwh: 1200, plannedMwh: 2000, projects: 8, highlight: 'Tuas South 1 GWh, the largest in SEA' },
   { code: 'MY', name: 'Malaysia', flag: '🇲🇾', installedMwh: 280, plannedMwh: 1500, projects: 12, highlight: 'LSS4 + storage hybrid auctions' },
   { code: 'TH', name: 'Thailand', flag: '🇹🇭', installedMwh: 180, plannedMwh: 800, projects: 6, highlight: 'EGAT Smart Grid programme' },
   { code: 'VN', name: 'Vietnam', flag: '🇻🇳', installedMwh: 80, plannedMwh: 2500, projects: 15, highlight: 'PDP8 mandates 300 MW by 2030' },
   { code: 'ID', name: 'Indonesia', flag: '🇮🇩', installedMwh: 120, plannedMwh: 3000, projects: 10, highlight: 'PLN 31 GW renewable target by 2030' },
-  { code: 'PH', name: 'Philippines', flag: '🇵🇭', installedMwh: 60, plannedMwh: 1200, projects: 7, highlight: 'DOE Storage Roadmap — 2 GWh target' },
+  { code: 'PH', name: 'Philippines', flag: '🇵🇭', installedMwh: 60, plannedMwh: 1200, projects: 7, highlight: 'DOE Storage Roadmap, 2 GWh target' },
 ]
 
 const TOTAL_INSTALLED = DEPLOYMENT.reduce((s, d) => s + d.installedMwh, 0)
@@ -185,7 +185,7 @@ export default function BESSDeploymentMap({ country }: Props) {
               </div>
             </div>
             <div className="mt-3 text-xs text-brand-700 bg-brand-100 rounded-lg px-3 py-2">
-              💡 {activeData.highlight}
+              {activeData.highlight}
             </div>
           </div>
 

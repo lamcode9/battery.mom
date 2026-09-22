@@ -148,7 +148,7 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
                   <InfoTooltip
                     content={
                       vehicle.country === 'SG'
-                        ? 'Tesla Model 3/Y RWD and BYD Atto 3 Extended are sourced COE-inclusive drive-away quotes. COE is included and moves with the quota. Other Singapore rows may still show a manufacturer “from” price — we did not add an estimated COE on top. Confirm the OTR cheque on SGCarMart.'
+                        ? 'Tesla Model 3/Y RWD and BYD Atto 3 Extended are sourced COE-inclusive drive-away quotes. COE is included and moves with the quota. Other Singapore rows may still show a manufacturer "from" price. We did not add an estimated COE on top. Confirm the OTR cheque on SGCarMart.'
                         : 'Manufacturer starting price in local currency before optional extras. Malaysia OTR figures are Peninsular list prices where sourced and exclude insurance unless noted.'
                     }
                   />
@@ -173,7 +173,7 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
           </div>
 
           <div className="bg-paper-100 border border-ink/10 rounded-card p-5">
-            <div className="text-xs font-semibold text-ink-500 uppercase tracking-wide mb-1 flex items-center gap-1">Efficiency <InfoTooltip content="How much energy the car uses per 100 km — like litres/100 km for a petrol car. Lower is better. A typical EV uses 14–20 kWh/100 km." /></div>
+            <div className="text-xs font-semibold text-ink-500 uppercase tracking-wide mb-1 flex items-center gap-1">Efficiency <InfoTooltip content="How much energy the car uses per 100 km, the EV equivalent of litres per 100 km. Lower is better. A typical EV uses 14–20 kWh/100 km." /></div>
             <div className="text-xl font-bold text-ink">
               {vehicle.efficiencyKwhPer100km || 'N/A'}
               {vehicle.efficiencyKwhPer100km && <span className="text-sm font-normal text-ink-500 ml-1">kWh/100km</span>}
@@ -182,7 +182,7 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
           </div>
 
           <div className="bg-paper-100 border border-ink/10 rounded-card p-5">
-            <div className="text-xs font-semibold text-ink-500 uppercase tracking-wide mb-1 flex items-center gap-1">Battery <InfoTooltip content="Total energy the battery can store, in kilowatt-hours. Think of it as the 'tank size' — larger capacity generally means longer range but also more weight and cost." /></div>
+            <div className="text-xs font-semibold text-ink-500 uppercase tracking-wide mb-1 flex items-center gap-1">Battery <InfoTooltip content="Total energy the battery can store, in kilowatt-hours. Larger capacity generally means longer range, and also more weight and cost." /></div>
             <div className="text-xl font-bold text-ink">
               {vehicle.batteryCapacityKwh || 'N/A'}
               {vehicle.batteryCapacityKwh && <span className="text-sm font-normal text-ink-500 ml-1">kWh</span>}
@@ -204,7 +204,7 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           {/* Performance Specs */}
           <div className="bg-paper-100 border border-ink/10 rounded-card p-6">
-            <h3 className="text-lg font-semibold text-ink mb-4">Performance & Dimensions</h3>
+            <h3 className="text-lg font-semibold text-ink mb-4">Performance and dimensions</h3>
             <div className="space-y-3">
               <div className="flex justify-between py-2 border-b border-ink/5">
                 <span className="text-ink-600 flex items-center gap-1">Power <InfoTooltip content="Peak motor output in kilowatts. 1 kW ≈ 1.34 horsepower. Higher power means faster acceleration and higher top speeds." /></span>
@@ -227,7 +227,7 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
                 <span className="font-medium">{vehicle.batteryWeightKg || 'N/A'} kg</span>
               </div>
               <div className="flex justify-between py-2">
-                <span className="text-ink-600 flex items-center gap-1">Battery % of Weight <InfoTooltip content="What fraction of the car's total weight is the battery pack. Typically 25–40% for EVs — heavier batteries add range but reduce efficiency." /></span>
+                <span className="text-ink-600 flex items-center gap-1">Battery % of Weight <InfoTooltip content="What fraction of the car's total weight is the battery pack. Typically 25–40% for EVs. Heavier batteries add range but reduce efficiency." /></span>
                 <span className="font-medium">{vehicle.batteryWeightPercentage || 'N/A'}%</span>
               </div>
             </div>
@@ -235,7 +235,7 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
 
           {/* Battery & Warranty */}
           <div className="bg-paper-100 border border-ink/10 rounded-card p-6">
-            <h3 className="text-lg font-semibold text-ink mb-4">Battery & Warranty</h3>
+            <h3 className="text-lg font-semibold text-ink mb-4">Battery and warranty</h3>
             <div className="space-y-3">
               <div className="flex justify-between py-2 border-b border-ink/5">
                 <span className="text-ink-600">Battery Warranty</span>
@@ -248,7 +248,7 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
                 </span>
               </div>
               <div className="flex justify-between py-2 border-b border-ink/5">
-                <span className="text-ink-600 flex items-center gap-1">OTA Updates <InfoTooltip content="Over-the-Air software updates pushed to your car remotely — like smartphone updates. Can add features or fix bugs without visiting a dealer." /></span>
+                <span className="text-ink-600 flex items-center gap-1">OTA Updates <InfoTooltip content="Over-the-Air software updates pushed to your car remotely, the way a phone gets an update. Can add features or fix bugs without visiting a dealer." /></span>
                 <span className="font-medium">{vehicle.otaUpdates || 'N/A'}</span>
               </div>
               <div className="flex justify-between py-2">
@@ -263,7 +263,7 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           {/* Range at Different Speeds */}
           <div className="bg-paper-100 border border-ink/10 rounded-card p-6">
-            <h3 className="text-sm font-semibold text-ink mb-1 flex items-center gap-1">Range by Driving Style <InfoTooltip content="Estimates using multipliers on rated range: City ×1.2 (regen braking helps), Highway ×0.85 (air resistance), Mixed ×1.0. Real-world results depend on terrain, weather, and driving habits." /></h3>
+            <h3 className="text-sm font-semibold text-ink mb-1 flex items-center gap-1">Range by driving style <InfoTooltip content="Estimates using multipliers on rated range: City ×1.2 (regen braking helps), Highway ×0.85 (air resistance), Mixed ×1.0. Real-world results depend on terrain, weather, and driving habits." /></h3>
             <p className="text-xs text-ink-500 mb-4">Estimated range at different average speeds</p>
             <ResponsiveContainer width="100%" height={250}>
               <BarChart data={rangeData}>
@@ -276,9 +276,9 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
             </ResponsiveContainer>
           </div>
 
-          {/* Energy Consumption Breakdown */}
+          {/* Energy consumption breakdown */}
           <div className="bg-paper-100 border border-ink/10 rounded-card p-6">
-            <h3 className="text-sm font-semibold text-ink mb-1 flex items-center gap-1">Energy Consumption Breakdown <InfoTooltip content="Industry-average energy split: Motor ~60%, Climate ~15%, Electronics ~10%, Charging losses ~8%, Other ~7%. These are typical proportions, not vehicle-specific measurements." /></h3>
+            <h3 className="text-sm font-semibold text-ink mb-1 flex items-center gap-1">Energy consumption breakdown <InfoTooltip content="Industry-average energy split: Motor ~60%, Climate ~15%, Electronics ~10%, Charging losses ~8%, Other ~7%. These are typical proportions, not vehicle-specific measurements." /></h3>
             <p className="text-xs text-ink-500 mb-4">Where the {vehicle.efficiencyKwhPer100km} kWh/100km goes</p>
             <ResponsiveContainer width="100%" height={250}>
               <PieChart>
@@ -304,7 +304,7 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
 
         {/* Battery Degradation */}
         <div className="bg-paper-100 border border-ink/10 rounded-card p-6 mb-8">
-          <h3 className="text-sm font-semibold text-ink mb-1 flex items-center gap-1">Battery Degradation Over Time <InfoTooltip content="Assumes 2.5% capacity loss per year with a floor at 70%. Actual degradation depends on climate, charging habits, and chemistry. LFP batteries typically degrade slower than NMC." /></h3>
+          <h3 className="text-sm font-semibold text-ink mb-1 flex items-center gap-1">Battery degradation over time <InfoTooltip content="Assumes 2.5% capacity loss per year with a floor at 70%. Actual degradation depends on climate, charging habits, and chemistry. LFP batteries typically degrade slower than NMC." /></h3>
           <p className="text-xs text-ink-500 mb-4">Estimated capacity and range retention (2.5% degradation/year)</p>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={degradationData}>
@@ -324,7 +324,7 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
         {priceHistory.length > 0 && (
           <div className="bg-paper-100 border border-ink/10 rounded-card p-6 mb-8">
             <div className="flex items-center justify-between mb-1">
-              <h3 className="text-sm font-semibold text-ink">Price History</h3>
+              <h3 className="text-sm font-semibold text-ink">Price history</h3>
               {priceMetrics?.priceChange !== null && priceMetrics?.priceChange !== undefined && (
                 <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${
                   priceMetrics.priceChange > 0 ? 'bg-red-50 text-red-700' :
@@ -355,7 +355,7 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           {/* Charging Times */}
           <div className="bg-paper-100 border border-ink/10 rounded-card p-6">
-            <h3 className="text-lg font-semibold text-ink mb-4">Charging Times</h3>
+            <h3 className="text-lg font-semibold text-ink mb-4">Charging times</h3>
             <div className="space-y-3">
               {chargingData.map((charge) => (
                 <div key={charge.method} className="flex justify-between items-center py-2 border-b border-ink/5 last:border-b-0">
@@ -376,7 +376,7 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
 
           {/* Options & Pricing */}
           <div className="bg-paper-100 border border-ink/10 rounded-card p-6">
-            <h3 className="text-lg font-semibold text-ink mb-4">Options & Pricing</h3>
+            <h3 className="text-lg font-semibold text-ink mb-4">Options and pricing</h3>
             {vehicle.optionPrices && vehicle.optionPrices.length > 0 ? (
               <div className="space-y-3 mb-4">
                 {vehicle.optionPrices.map((option, index) => (
@@ -392,7 +392,7 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
 
             {vehicle.rebates && vehicle.rebates.length > 0 && (
               <div className="mt-4 pt-4 border-t border-ink/5">
-                <h4 className="text-sm font-semibold text-ink mb-2">Available Rebates</h4>
+                <h4 className="text-sm font-semibold text-ink mb-2">Available rebates</h4>
                 <div className="space-y-2">
                   {vehicle.rebates.map((rebate, index) => (
                     <div key={index} className="text-sm">
@@ -414,7 +414,7 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
         {/* Technology Features */}
         {vehicle.technologyFeatures && (
           <div className="bg-paper-100 border border-ink/10 rounded-card p-6 mb-8">
-            <h3 className="text-lg font-semibold text-ink mb-3">Technology Features</h3>
+            <h3 className="text-lg font-semibold text-ink mb-3">Technology features</h3>
             <p className="text-ink-600 leading-relaxed">{vehicle.technologyFeatures}</p>
           </div>
         )}
@@ -446,7 +446,7 @@ export default function VehicleDetailClient({ vehicle }: VehicleDetailClientProp
               href="/suggest-correction"
               className="inline-flex items-center px-5 py-2.5 bg-paper-100 text-ink-800 border border-ink/15 rounded-lg hover:bg-paper-200 transition-colors text-sm font-medium"
             >
-              Suggest Correction
+              Suggest a correction
             </Link>
           </div>
         </div>

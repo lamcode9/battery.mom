@@ -12,7 +12,7 @@ export default function EVMethodologyFooter() {
           <svg className="w-4 h-4 text-ink-400 group-open:rotate-90 transition-transform" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
           </svg>
-          How we rank and score EVs — Methodology &amp; Data Sources
+          How we rank and score EVs. Methodology and data sources
         </summary>
 
         <div className="mt-4 pl-6 space-y-6 text-sm text-ink-600 leading-relaxed">
@@ -27,9 +27,9 @@ export default function EVMethodologyFooter() {
             </ul>
           </div>
 
-          {/* Quick Picks */}
+          {/* Quick picks */}
           <div>
-            <h4 className="font-semibold text-ink-800 mb-1">Quick Picks (Hero Cards)</h4>
+            <h4 className="font-semibold text-ink-800 mb-1">Quick picks (hero cards)</h4>
             <p className="mb-2">Each card shows the single best vehicle in one measurable dimension:</p>
             <table className="text-xs w-full border-collapse">
               <thead>
@@ -51,7 +51,7 @@ export default function EVMethodologyFooter() {
 
           {/* Winner Badges */}
           <div>
-            <h4 className="font-semibold text-ink-800 mb-1">Winner Badges (Comparison Table)</h4>
+            <h4 className="font-semibold text-ink-800 mb-1">Winner badges (comparison table)</h4>
             <p className="mb-2">Badges are awarded to the leader in each category <em>among the vehicles currently being compared</em>. If two vehicles tie, both receive the badge.</p>
             <table className="text-xs w-full border-collapse">
               <thead>
@@ -100,7 +100,7 @@ export default function EVMethodologyFooter() {
 
           {/* Data sources */}
           <div>
-            <h4 className="font-semibold text-ink-800 mb-1">Data Sources</h4>
+            <h4 className="font-semibold text-ink-800 mb-1">Data sources</h4>
             <p>
               Specifications are sourced from official manufacturer sites, national transport authority registries, and
               verified dealer listings for each Southeast Asian market. Prices are base prices in local currency as

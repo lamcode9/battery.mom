@@ -23,22 +23,22 @@ const en = {
   },
   nav: {
     home: 'Home',
-    bigPicture: 'Big Picture',
+    bigPicture: 'Big picture',
     evs: 'EVs',
-    batterySolar: 'Battery & Solar',
+    batterySolar: 'Battery and solar',
     insights: 'Insights',
     about: 'About',
     compareEvs: 'Compare EVs',
   },
   footer: {
     independentLine:
-      'Independent energy-transition data for humans making real-world decisions.',
+      'Independent data on batteries, solar, and EVs.',
     rightsReserved: 'All rights reserved.',
   },
   ev: {
-    pageTitle: 'Compare Electric Vehicles',
-    searchAndCompare: 'Search and Compare Electric Vehicles',
-    quickPicks: 'Quick Picks',
+    pageTitle: 'Compare electric vehicles',
+    searchAndCompare: 'Search and compare electric vehicles',
+    quickPicks: 'Quick picks',
     addToCompare: 'Add to comparison',
     searchPlaceholder: 'Search EVs like Tesla Model 3, BYD Atto 3…',
     selectCountryFirst: 'Select a country first',

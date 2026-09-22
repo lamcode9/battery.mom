@@ -55,7 +55,7 @@ export default function EVAsBackupCalc({ vehicles }: Props) {
       <div className="flex items-start justify-between mb-4">
         <div>
           <h3 className="text-sm font-bold text-ink flex items-center gap-2">
-            🏠 Battery as Home Backup
+            Battery as home backup
           </h3>
           <p className="text-[10px] text-ink-500 mt-1">
             Estimate how long each EV can power your home during an outage. Accounts for inverter losses (90%) and EV battery reserve (15%).
@@ -142,7 +142,7 @@ export default function EVAsBackupCalc({ vehicles }: Props) {
       </div>
 
       <p className="text-[9px] text-ink-400 mt-4">
-        💡 <strong>V2H</strong> (Vehicle-to-Home) EVs can fully power a home via a bidirectional charger.
+        <strong>V2H</strong> (Vehicle-to-Home) EVs can fully power a home via a bidirectional charger.
         <strong> V2L</strong> (Vehicle-to-Load) EVs provide power via an outlet (typically 1.5–3.6 kW max).
         Actual backup time varies with battery state-of-charge and ambient temperature.
       </p>

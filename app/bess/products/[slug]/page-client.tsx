@@ -194,7 +194,7 @@ export default function BESSDetailClient({ product, slug }: BESSDetailClientProp
 
         {/* Pricing by Country */}
         <div className="bg-white border border-gray-200 rounded-xl p-6 mb-8">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Regional Pricing</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Regional pricing</h3>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {Object.entries(product.priceLocalCurrency)
               .filter(([, price]) => price > 0)
@@ -214,7 +214,7 @@ export default function BESSDetailClient({ product, slug }: BESSDetailClientProp
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           {/* Degradation Curve */}
           <div className="bg-white border border-gray-200 rounded-xl p-6">
-            <h3 className="text-sm font-semibold text-gray-900 mb-1">Battery Degradation Over Time <InfoTooltip content="All batteries slowly lose capacity over time. LFP batteries typically lose ~2% per 1,000 full charge-discharge cycles. A well-used home battery doing 1 cycle/day would lose ~7% after 10 years. The curve shows estimated capacity remaining each year." /></h3>
+            <h3 className="text-sm font-semibold text-gray-900 mb-1">Battery degradation over time <InfoTooltip content="All batteries slowly lose capacity over time. LFP batteries typically lose ~2% per 1,000 full charge-discharge cycles. A well-used home battery doing 1 cycle/day would lose ~7% after 10 years. The curve shows estimated capacity remaining each year." /></h3>
             <p className="text-xs text-gray-500 mb-4">Estimated capacity retention over warranty period</p>
             <ResponsiveContainer width="100%" height={280}>
               <LineChart data={degradationData}>
@@ -232,7 +232,7 @@ export default function BESSDetailClient({ product, slug }: BESSDetailClientProp
 
           {/* Performance Radar */}
           <div className="bg-white border border-gray-200 rounded-xl p-6">
-            <h3 className="text-sm font-semibold text-gray-900 mb-1">Performance Overview</h3>
+            <h3 className="text-sm font-semibold text-gray-900 mb-1">Performance overview</h3>
             <p className="text-xs text-gray-500 mb-4">Relative performance across key metrics</p>
             <ResponsiveContainer width="100%" height={280}>
               <RadarChart data={radarData}>
@@ -248,7 +248,7 @@ export default function BESSDetailClient({ product, slug }: BESSDetailClientProp
 
         {/* Backup Duration Table */}
         <div className="bg-white border border-gray-200 rounded-xl p-6 mb-8">
-          <h3 className="text-lg font-semibold text-gray-900 mb-1">Backup Duration Scenarios <InfoTooltip content="How long the battery can power your home during a blackout. 'Full backup' runs everything at your normal usage rate. 'Essential loads only (30%)' means running just fridge, lights, WiFi, and phone chargers — which extends backup time ~3x." /></h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-1">Backup duration scenarios <InfoTooltip content="How long the battery can power your home during a blackout. 'Full backup' runs everything at your normal usage rate. 'Essential loads only (30%)' means fridge, lights, WiFi, and phone chargers, which extends backup time about 3x." /></h3>
           <p className="text-xs text-gray-500 mb-4">
             How long the {product.name} ({product.usableCapacityKwh} kWh usable) can power your home
           </p>
@@ -275,7 +275,7 @@ export default function BESSDetailClient({ product, slug }: BESSDetailClientProp
         {/* Detailed Specs */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           <div className="bg-white border border-gray-200 rounded-xl p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Battery Specifications</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Battery specifications</h3>
             <div className="space-y-3">
               <div className="flex justify-between py-2 border-b border-gray-100">
                 <span className="text-gray-600">Total Capacity</span>
@@ -305,7 +305,7 @@ export default function BESSDetailClient({ product, slug }: BESSDetailClientProp
           </div>
 
           <div className="bg-white border border-gray-200 rounded-xl p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Warranty & Lifecycle</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Warranty and lifecycle</h3>
             <div className="space-y-3">
               <div className="flex justify-between py-2 border-b border-gray-100">
                 <span className="text-gray-600">Warranty Period</span>
@@ -339,7 +339,7 @@ export default function BESSDetailClient({ product, slug }: BESSDetailClientProp
 
         {/* Cost Analysis */}
         <div className="bg-white border border-gray-200 rounded-xl p-6 mb-8">
-          <h3 className="text-sm font-semibold text-gray-900 mb-1">Levelised Cost of Storage (LCOS) <InfoTooltip content="LCOS = purchase price ÷ (usable capacity × total warranty cycles). This gives you cost per kWh per cycle — the true unit cost of using the battery. Lower LCOS = better long-term value. Compare across countries and products." /></h3>
+          <h3 className="text-sm font-semibold text-gray-900 mb-1">Levelised Cost of Storage (LCOS) <InfoTooltip content="LCOS = purchase price ÷ (usable capacity × total warranty cycles). This is the cost per kWh per cycle, the unit cost of using the battery. Lower LCOS = better long-term value. Compare across countries and products." /></h3>
           <p className="text-xs text-gray-500 mb-4">Cost per kWh per cycle across Southeast Asian markets</p>
           <ResponsiveContainer width="100%" height={250}>
             <BarChart data={costPerCycleData}>
@@ -377,7 +377,7 @@ export default function BESSDetailClient({ product, slug }: BESSDetailClientProp
               href="/suggest-correction"
               className="inline-flex items-center px-5 py-2.5 bg-white text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium"
             >
-              Suggest Correction
+              Suggest a correction
             </Link>
           </div>
         </div>

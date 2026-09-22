@@ -173,14 +173,14 @@ export default function SolarPaybackPage() {
         {/* Header */}
         <div className="max-w-2xl mb-10">
           <h1 className="font-display text-4xl md:text-5xl font-medium text-ink tracking-tight">
-            Solar Payback Calculator <InfoTooltip content="Calculates how many years it takes for electricity bill savings to cover the upfront cost of a rooftop solar system. After payback, all further savings are pure profit for the remaining 15-20+ years of the system's life." />
+            Solar payback calculator <InfoTooltip content="Calculates how many years it takes for electricity bill savings to cover the upfront cost of a rooftop solar system. After payback, the bill savings continue for the remaining 15-20+ years of the system's life." />
           </h1>
           <p className="mt-3 text-lg text-ink-600 leading-relaxed">
-            Enter your roof size and monthly bill to see how fast solar pays for itself — with {SYSTEM_LIFE}-year projections using real local tariffs.
+            Enter your roof size and monthly bill to see how fast solar pays for itself, with {SYSTEM_LIFE}-year projections on local tariffs.
           </p>
           <div className="mt-4">
             <ShareResult
-              title={`Solar Payback — ${systemKw} kWp system (${COUNTRIES.find(c => c.value === country)?.label})`}
+              title={`Solar payback, ${systemKw} kWp system (${COUNTRIES.find(c => c.value === country)?.label})`}
               results={[
                 { label: 'System cost', value: fmtShort(results.systemCost, country) },
                 { label: 'Payback', value: results.paybackYear ? `${results.paybackYear} years` : 'N/A' },
@@ -216,7 +216,7 @@ export default function SolarPaybackPage() {
 
             {/* Roof area */}
             <div>
-              <label className="block text-sm font-medium text-ink-700 mb-1.5">Usable roof area <InfoTooltip content="The area of your roof that gets good sunlight and can physically hold panels. Not all roof space is usable — subtract areas covered by vents, water tanks, shadows from taller buildings, or tilted sections facing away from the sun. About 0.17 kW of solar fits per m²." /></label>
+              <label className="block text-sm font-medium text-ink-700 mb-1.5">Usable roof area <InfoTooltip content="The area of your roof that gets good sunlight and can physically hold panels. Not all roof space is usable. Subtract areas covered by vents, water tanks, shadows from taller buildings, or tilted sections facing away from the sun. About 0.17 kW of solar fits per m²." /></label>
               <div className="flex items-center gap-2">
                 <input
                   type="range"
@@ -364,7 +364,7 @@ export default function SolarPaybackPage() {
             <div>Panel density: {KW_PER_M2} kWp/m²</div>
           </div>
           <p className="text-xs text-ink-400 mt-4">
-            * {RESIDENTIAL_TARIFF_NOTE[country]} Actual yield varies with orientation, shading, and weather. Adding battery storage increases self-consumption to 85-95% — try the <a href="/bess/home" className="text-brand-600 underline">Zero‑Bill Calculator</a> for that. Rates last verified {RATE_VERIFIED_ON}.
+            * {RESIDENTIAL_TARIFF_NOTE[country]} Actual yield varies with orientation, shading, and weather. Adding battery storage increases self-consumption to 85-95%. Try the <a href="/bess/home" className="text-brand-600 underline">Zero‑Bill Calculator</a> for that. Rates last verified {RATE_VERIFIED_ON}.
           </p>
         </div>
       </section>

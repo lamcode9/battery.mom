@@ -2,7 +2,7 @@ export default function ZeroBillMalaysiaContent() {
   return (
     <article className="prose prose-gray max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-a:text-emerald-600">
       <p className="lead text-lg text-gray-600">
-        A 13.5 kWh home battery — the size of a Tesla Powerwall or BYD BatteryBox Premium — costs
+        A 13.5 kWh home battery, the size of a Tesla Powerwall or BYD BatteryBox Premium, costs
         around RM25,000–35,000 installed in Malaysia. Paired with rooftop solar, can it actually
         eliminate your electricity bill? We ran the numbers.
       </p>
@@ -77,14 +77,14 @@ export default function ZeroBillMalaysiaContent() {
         </table>
       </div>
       <p>
-        Self-consumption rate: <strong>~85%</strong>. You still pull about 4.5 kWh/day from the grid
-        — mainly in the early morning before solar kicks in and during heavy loads (multiple ACs +
+        Self-consumption rate: <strong>~85%</strong>. You still pull about 4.5 kWh/day from the grid,
+        mainly in the early morning before solar starts and during heavy loads (multiple ACs +
         cooking) that exceed the battery&apos;s discharge rate.
       </p>
 
       <h2>Can you actually hit zero?</h2>
       <p>
-        <strong>Almost, but not quite</strong> with 13.5 kWh alone. Here&apos;s why:
+        <strong>Not with 13.5 kWh alone.</strong> Here is why:
       </p>
       <ul>
         <li>
@@ -119,23 +119,23 @@ export default function ZeroBillMalaysiaContent() {
         </div>
       </div>
       <p>
-        That RM64/month covers the residual grid import (~135 kWh/month) plus the minimum connection
-        charge. It&apos;s not zero, but it&apos;s an <strong>85% bill reduction</strong>.
+        That RM64 a month is the residual grid import (about 135 kWh) plus the minimum connection
+        charge. The bill is 85% lower. It is not zero.
       </p>
 
-      <h2>What it takes to truly zero</h2>
+      <h2>What it takes to reach a zero bill</h2>
       <p>To eliminate that last RM64:</p>
       <ol>
         <li>
-          <strong>Upsize to 20–27 kWh</strong> — a second battery or a larger unit covers the morning
+          <strong>Upsize to 20–27 kWh.</strong> A second battery or a larger unit covers the morning
           gap and rainy-day buffer
         </li>
         <li>
-          <strong>Net metering (NEM)</strong> — Malaysia&apos;s NEM Rakyat programme credits exported
+          <strong>Net metering (NEM).</strong> Malaysia&apos;s NEM Rakyat programme credits exported
           solar at the displaced tariff rate, which can offset your residual import
         </li>
         <li>
-          <strong>Load shifting</strong> — run the dishwasher, washing machine, and water heater during
+          <strong>Load shifting.</strong> Run the dishwasher, washing machine, and water heater during
           peak solar hours (10 AM–3 PM)
         </li>
       </ol>
@@ -183,19 +183,18 @@ export default function ZeroBillMalaysiaContent() {
       <p>
         A 13.5 kWh battery can cut your Malaysian electricity bill by ~85%, bringing a RM427 bill
         down to ~RM64. A true zero bill requires either a larger battery (20+ kWh), active NEM
-        participation, or disciplined load shifting — ideally all three.
+        participation, or load shifting. Doing all three gets closer.
       </p>
       <p>
-        For most families, the question isn&apos;t &quot;can I zero my bill?&quot; but &quot;is the
-        investment worth it?&quot; At current prices, the answer is yes if you plan to stay in your
-        home for 10+ years and you&apos;re currently spending RM300+/month on electricity.
+        At these prices the battery pays back if you stay in the house for 10 or more years and the
+        electricity bill is RM300 or more a month. A true zero bill is a separate question.
       </p>
 
       <div className="not-prose mt-8 p-4 bg-emerald-50 border border-emerald-200 rounded-xl">
         <p className="text-sm text-emerald-800">
           <strong>Model it yourself:</strong> Plug your actual usage into the{' '}
           <a href="/bess/home" className="text-emerald-700 underline font-medium">Zero-Bill Calculator</a>{' '}
-          to see your specific payback period and savings — with real Malaysian tariffs and BESS products.
+          to see payback and savings on Malaysian tariffs and the BESS products in the dataset.
         </p>
       </div>
     </article>

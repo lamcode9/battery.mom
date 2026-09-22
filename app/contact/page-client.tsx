@@ -87,14 +87,14 @@ export default function ContactFormClient() {
             href="/suggest-correction"
             className="p-4 bg-white border border-gray-200 rounded-xl hover:border-emerald-300 hover:shadow-sm transition-all"
           >
-            <h3 className="font-semibold text-gray-900 text-sm">Suggest a Data Correction</h3>
+            <h3 className="font-semibold text-gray-900 text-sm">Suggest a data correction</h3>
             <p className="text-xs text-gray-500 mt-1">For specific EV or BESS data issues</p>
           </Link>
           <Link
             href="/embed-widgets"
             className="p-4 bg-white border border-gray-200 rounded-xl hover:border-emerald-300 hover:shadow-sm transition-all"
           >
-            <h3 className="font-semibold text-gray-900 text-sm">Use battery.mom Data</h3>
+            <h3 className="font-semibold text-gray-900 text-sm">Use battery.mom data</h3>
             <p className="text-xs text-gray-500 mt-1">Embed widgets or reference public tools</p>
           </Link>
         </div>

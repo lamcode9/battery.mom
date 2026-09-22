@@ -186,7 +186,7 @@ const GreenCertEstimator = memo(function GreenCertEstimator(props: GreenCertProp
       <div className="flex items-center justify-between mb-4">
         <div>
           <h3 className="text-base font-bold text-ink flex items-center gap-2">
-            🏅 Green Certification Estimator
+            Green certification estimator
             <InfoTooltip content="Estimates how many green building certification points your solar+battery system could earn. Point values are simplified from official scoring manuals (GBI for Malaysia, BCA Green Mark for Singapore, LEED internationally). Actual certification requires full assessment by an accredited body." />
           </h3>
           <p className="text-xs text-ink-500 mt-0.5">

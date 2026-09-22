@@ -4,8 +4,8 @@ import SunriseClient from './page-client'
 
 const ogImage =
   '/api/og?type=bess' +
-  `&title=${encodeURIComponent('The Long Sunrise')}` +
-  `&subtitle=${encodeURIComponent('Half a million years of energy — and the century that changes it.')}` +
+  `&title=${encodeURIComponent('The long sunrise')}` +
+  `&subtitle=${encodeURIComponent('Half a million years of energy, and the century that changes it.')}` +
   `&stat1Value=${encodeURIComponent('$76 → $0.09')}` +
   `&stat1Label=${encodeURIComponent('per watt of solar, 1977 → 2025')}` +
   `&stat2Value=${encodeURIComponent('K 0.73')}` +
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     description: PAGE_META.description,
     url: '/sunrise',
     type: 'article',
-    images: [{ url: ogImage, width: 1200, height: 630, alt: 'The Long Sunrise' }],
+    images: [{ url: ogImage, width: 1200, height: 630, alt: 'The long sunrise' }],
   },
   twitter: { card: 'summary_large_image', title: PAGE_META.title, description: PAGE_META.description, images: [ogImage] },
 }

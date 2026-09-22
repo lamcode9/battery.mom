@@ -595,13 +595,13 @@ export default function ScoreboardPage() {
     const byChargers = [...scored].sort((a, b) => b.chargersPerMillion - a.chargersPerMillion)
     const bySolar = [...scored].sort((a, b) => b.solarCapacityGw - a.solarCapacityGw)
 
-    lines.push(`${byAdoption[0].flag} ${byAdoption[0].name} leads SEA with a ${byAdoption[0].evAdoptionRate}% EV/xEV sales share — ${(byAdoption[0].evAdoptionRate / byAdoption[byAdoption.length - 1].evAdoptionRate).toFixed(0)}× the lowest reported share.`)
+    lines.push(`${byAdoption[0].flag} ${byAdoption[0].name} leads SEA with a ${byAdoption[0].evAdoptionRate}% EV/xEV sales share, ${(byAdoption[0].evAdoptionRate / byAdoption[byAdoption.length - 1].evAdoptionRate).toFixed(0)}× the lowest reported share.`)
     lines.push(`${byGrowth[0].flag} ${byGrowth[0].name} saw the fastest reported growth at +${byGrowth[0].evSalesGrowth}% YoY.`)
 
     if (byChargers[0].chargersPerMillion > byChargers[byChargers.length - 1].chargersPerMillion * 5) {
       lines.push(`${byChargers[0].flag} ${byChargers[0].name} has ${Math.round(byChargers[0].chargersPerMillion / byChargers[byChargers.length - 1].chargersPerMillion)}× more chargers per capita than ${byChargers[byChargers.length - 1].name}.`)
     }
-    lines.push(`${bySolar[0].flag} ${bySolar[0].name} dominates solar with ${bySolar[0].solarCapacityGw} GW installed — ${(bySolar[0].solarCapacityGw / (scored.reduce((s, c) => s + c.solarCapacityGw, 0) / scored.length)).toFixed(0)}× the SEA average.`)
+    lines.push(`${bySolar[0].flag} ${bySolar[0].name} has ${bySolar[0].solarCapacityGw} GW of solar installed, ${(bySolar[0].solarCapacityGw / (scored.reduce((s, c) => s + c.solarCapacityGw, 0) / scored.length)).toFixed(0)}× the SEA average.`)
 
     // Momentum insight
     const biggestJump = [...scored].sort((a, b) => {
@@ -611,7 +611,7 @@ export default function ScoreboardPage() {
     })[0]
     const jump = biggestJump.evAdoptionRate - biggestJump.prev.evAdoptionRate
     if (jump > 0) {
-      lines.push(`${biggestJump.flag} ${biggestJump.name} gained +${jump.toFixed(1)} percentage points in reported EV/xEV share — the biggest absolute jump in the region.`)
+      lines.push(`${biggestJump.flag} ${biggestJump.name} gained +${jump.toFixed(1)} percentage points in reported EV/xEV share, the biggest absolute jump in the region.`)
     }
 
     return lines
@@ -725,7 +725,7 @@ export default function ScoreboardPage() {
       // Try native share first, fall back to download
       if (navigator.share && navigator.canShare?.({ files: [new File([blob], 'scorecard.png', { type: 'image/png' })] })) {
         await navigator.share({
-          title: `${COUNTRIES.find(c => c.code === selectedCountry)?.name} — Energy Scorecard`,
+          title: `${COUNTRIES.find(c => c.code === selectedCountry)?.name}, energy scorecard`,
           files: [new File([blob], 'scorecard.png', { type: 'image/png' })],
         })
       } else {
@@ -750,7 +750,7 @@ export default function ScoreboardPage() {
         {/* Header */}
         <div className="max-w-2xl mb-10">
           <h1 className="font-display text-4xl md:text-5xl font-medium text-ink tracking-tight">
-            EV Adoption Scoreboard <InfoTooltip
+            EV adoption scoreboard <InfoTooltip
               content={
                 <>
                   <p>Ranks six Southeast Asian countries across 2025 EV/xEV sales share, charging infrastructure, sales growth, solar context, and policy support.</p>
@@ -772,7 +772,7 @@ export default function ScoreboardPage() {
         {/* ─── 1.2 Top-3 Podium ─────────────────────────────────── */}
         <div className="mb-10">
           <h2 className="text-sm font-semibold text-ink-500 uppercase tracking-wider mb-4">
-            EV Adoption Readiness Ranking
+            EV adoption readiness ranking
             <InfoTooltip content="Composite score (0–100) combining EV/xEV sales share (25%), charger density (20%), EV sales growth (20%), solar capacity (15%), BESS context (10%), and policy grade (10%). BESS context is a lower-confidence directional metric." />
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -836,7 +836,7 @@ export default function ScoreboardPage() {
 
         {/* ─── 1.4 Auto-Generated Headlines ─────────────────────── */}
         <div className="mb-10 bg-ink rounded-card p-6 text-white">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-brand-300 mb-3">📊 Key Headlines</h3>
+          <h3 className="text-xs font-bold uppercase tracking-wider text-brand-300 mb-3">Key headlines</h3>
           <ul className="space-y-2">
             {headlines.map((line, i) => (
               <li key={i} className="text-sm text-paper-300 leading-relaxed flex gap-2">
@@ -850,7 +850,7 @@ export default function ScoreboardPage() {
         {/* ─── 2.2 Regional Context Banner ──────────────────────── */}
         <div className="mb-10 bg-paper-200 rounded-card p-6">
           <h3 className="text-sm font-semibold text-ink mb-1">
-            🌏 How does Southeast Asia compare?
+            How does Southeast Asia compare?
             <InfoTooltip
               content={
                 <>
@@ -1123,7 +1123,7 @@ export default function ScoreboardPage() {
                 {/* ─── 2.5 Economic Snapshot ──────────────────────────── */}
                 <div className="mt-6 pt-5 border-t border-ink/5">
                   <h4 className="text-xs font-bold text-ink-500 uppercase tracking-wider mb-3">
-                    💰 Economic Context
+                    Economic context
                     <InfoTooltip content="Economic indicators that affect EV adoption feasibility. Affordability Index = average EV price ÷ average annual income (lower = more affordable)." />
                   </h4>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -1171,7 +1171,7 @@ export default function ScoreboardPage() {
 
                 {/* battery.mom branding for share image */}
                 <div className="mt-4 pt-3 border-t border-ink/5 flex items-center justify-between">
-                  <span className="text-[10px] text-paper-300">battery.mom · Southeast Asia EV Adoption Scoreboard</span>
+                  <span className="text-[10px] text-paper-300">battery.mom · Southeast Asia EV adoption scoreboard</span>
                   <span className="text-[10px] text-paper-300">Data: national registries, industry bodies, IEA, Ember, IRENA</span>
                 </div>
               </div>
@@ -1315,7 +1315,7 @@ export default function ScoreboardPage() {
 
         {/* ─── 1.6 Side-by-Side Country Comparison ──────────────── */}
         <div className="bg-paper-100 border border-ink/10 rounded-card p-6 mb-10">
-          <h3 className="text-sm font-semibold text-ink mb-4">Compare Two Countries</h3>
+          <h3 className="text-sm font-semibold text-ink mb-4">Compare two countries</h3>
           <div className="flex flex-wrap gap-4 mb-6">
             <div>
               <label className="block text-xs text-ink-500 mb-1">Country A</label>
@@ -1396,7 +1396,7 @@ export default function ScoreboardPage() {
 
                 {comparisonData.narratives.length > 0 && (
                   <div className="bg-brand-50 rounded-lg p-4">
-                    <h4 className="text-xs font-bold text-ink mb-2">💡 Comparison Insights</h4>
+                    <h4 className="text-xs font-bold text-ink mb-2">Comparison insights</h4>
                     <ul className="space-y-1.5 text-xs text-ink-600">
                       {comparisonData.narratives.map((n, i) => <li key={i}>• {n}</li>)}
                     </ul>
@@ -1421,7 +1421,7 @@ export default function ScoreboardPage() {
                   <a href={source.url} target="_blank" rel="noopener noreferrer" className="font-medium text-brand-700 hover:text-brand-800">
                     {source.label}
                   </a>
-                  <span className="text-ink-400"> — {source.note}</span>
+                  <span className="text-ink-400">. {source.note}</span>
                 </li>
               ))}
             </ul>
@@ -1530,7 +1530,7 @@ export default function ScoreboardPage() {
 
               {/* Auto-generated insight */}
               <div className="bg-brand-50 rounded-lg p-4">
-                <h4 className="text-xs font-bold text-ink mb-2">🔍 Key Insights</h4>
+                <h4 className="text-xs font-bold text-ink mb-2">Key insights</h4>
                 <ul className="space-y-1.5 text-xs text-ink-600">
                   {deepDiveInsight.lines.map((line, i) => <li key={i}>• {line}</li>)}
                 </ul>

@@ -125,7 +125,7 @@ export default function GridStabilityAnalysis({ country }: Props) {
         <InfoTooltip content="Model how adding X MWh of distributed + utility-scale storage affects grid peak demand, renewable curtailment, frequency stability, and reserve margins. Based on real grid parameters for each SEA country." />
       </h2>
       <p className="text-sm text-ink-500 mb-6">
-        See how battery storage strengthens the grid — from peak shaving to frequency regulation.
+        See how battery storage strengthens the grid, including peak shaving and frequency regulation.
       </p>
 
       {/* ── Inputs ── */}

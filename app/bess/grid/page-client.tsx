@@ -277,13 +277,13 @@ export default function GridBESSClient() {
             Grid-Scale BESS <InfoTooltip content="Utility-scale battery storage (typically 10 MWh to 1+ GWh) connected directly to the power grid. Used for frequency regulation, renewable energy firming (storing solar/wind for use at night), and grid stabilisation during demand spikes." />
           </h1>
           <p className="mt-4 text-lg text-ink-600 leading-relaxed">
-            Work out the levelized cost (LCOE/LCOS) and net present value of a utility-scale battery project, compare chemistries, and track Southeast Asian grid-storage policy — all on editable assumptions.
+            Work out levelized cost (LCOE and LCOS) and net present value for a utility-scale battery, compare chemistries, and read Southeast Asian grid-storage policy. The assumptions are editable.
           </p>
         </div>
 
-        {/* LCOE/LCOS Calculator */}
+        {/* LCOE and LCOS calculator */}
         <div className="bg-paper-100 border border-ink/10 rounded-card p-6 mb-8">
-          <h2 className="text-lg font-semibold text-ink mb-4">LCOE/LCOS Calculator <InfoTooltip content="LCOE (Levelized Cost of Energy) = total lifetime cost ÷ total energy input. LCOS (Levelized Cost of Storage) = total lifetime cost ÷ total energy delivered from battery. Both expressed in cost per MWh, letting you compare storage costs against other energy sources." /></h2>
+          <h2 className="text-lg font-semibold text-ink mb-4">LCOE and LCOS calculator <InfoTooltip content="LCOE (Levelized Cost of Energy) = total lifetime cost ÷ total energy input. LCOS (Levelized Cost of Storage) = total lifetime cost ÷ total energy delivered from battery. Both expressed in cost per MWh, letting you compare storage costs against other energy sources." /></h2>
           <p className="text-sm text-ink-500 mb-6">
             Calculate the levelized cost of energy (LCOE) and levelized cost of storage (LCOS) for grid-scale battery projects.
           </p>
@@ -407,7 +407,7 @@ export default function GridBESSClient() {
               <div className="text-xs text-brand-600 mt-0.5">Levelized cost of energy</div>
             </div>
             <div className="bg-blue-50 rounded-card p-5">
-              <div className="text-xs font-semibold text-blue-700 uppercase tracking-wide mb-1">LCOS <InfoTooltip content="Levelized Cost of Storage: total lifecycle cost divided by total energy delivered (output). Unlike LCOE, LCOS accounts for the round-trip efficiency losses — what you actually get out. Lower LCOS = cheaper storage." /></div>
+              <div className="text-xs font-semibold text-blue-700 uppercase tracking-wide mb-1">LCOS <InfoTooltip content="Levelized Cost of Storage: total lifecycle cost divided by total energy delivered (output). Unlike LCOE, LCOS accounts for round-trip efficiency losses, the energy you actually get out. Lower LCOS = cheaper storage." /></div>
               <div className="text-xl font-bold text-blue-900">{fmt(lcoeResults.lcos, country)}/MWh</div>
               <div className="text-xs text-blue-600 mt-0.5">Levelized cost of storage</div>
             </div>
@@ -617,7 +617,7 @@ export default function GridBESSClient() {
           </button>
           <PDFExportButton
             containerRef={pdfRef}
-            options={{ filename: `battery-mom-grid-bess-${systemSizeMwh}MWh.pdf`, title: 'battery.mom — Grid-Scale BESS Calculator', subtitle: `${COUNTRIES.find(c => c.value === country)?.label} · ${systemSizeMwh} MWh · ${projectLife}-year project` }}
+            options={{ filename: `battery-mom-grid-bess-${systemSizeMwh}MWh.pdf`, title: 'battery.mom, grid-scale BESS calculator', subtitle: `${COUNTRIES.find(c => c.value === country)?.label} · ${systemSizeMwh} MWh · ${projectLife}-year project` }}
             className="bg-paper-200 text-ink-700 hover:bg-paper-300"
           />
         </div>

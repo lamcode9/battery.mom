@@ -70,9 +70,9 @@ function fmtShort(n: number, country: Country): string {
 type ScenarioId = 'solar' | 'solar_bess' | 'solar_bess_ev'
 
 const SCENARIO_META: Record<ScenarioId, { label: string; icon: string; color: string; description: string }> = {
-  solar: { label: 'Solar Only', icon: '☀️', color: '#f59e0b', description: 'Rooftop solar panels — excess goes to grid/wasted' },
+  solar: { label: 'Solar Only', icon: '☀️', color: '#f59e0b', description: 'Rooftop solar panels. Surplus goes to the grid or is curtailed' },
   solar_bess: { label: 'Solar + BESS', icon: '🔋', color: '#10b981', description: 'Add battery to store daytime solar for night use' },
-  solar_bess_ev: { label: 'Solar + BESS + EV', icon: '⚡', color: '#6366f1', description: 'Full ecosystem — charge EV from stored solar' },
+  solar_bess_ev: { label: 'Solar + BESS + EV', icon: '⚡', color: '#6366f1', description: 'Solar, a battery, and an EV. Charge the EV from stored solar' },
 }
 
 /* ── Component ────────────────────────────────────────────────────── */

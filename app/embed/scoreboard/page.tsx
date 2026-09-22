@@ -43,7 +43,7 @@ export default function EmbedScoreboard() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-bold text-gray-900">
-          🌏 SEA EV & Energy Scoreboard
+          SEA EV and energy scoreboard
         </h2>
         <div className="flex gap-1 bg-gray-100 rounded-lg p-0.5">
           <button
@@ -128,7 +128,7 @@ export default function EmbedScoreboard() {
 
           {/* Radar Chart */}
           <div>
-            <h3 className="text-xs font-semibold text-gray-500 uppercase mb-2">Multi-Metric Comparison</h3>
+            <h3 className="text-xs font-semibold text-gray-500 uppercase mb-2">Multi-metric comparison</h3>
             <div className="h-56">
               <ResponsiveContainer width="100%" height="100%">
                 <RadarChart data={radarData} cx="50%" cy="50%" outerRadius="70%">

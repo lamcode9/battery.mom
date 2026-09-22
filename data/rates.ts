@@ -149,7 +149,7 @@ export const DATA_PROVENANCE: Record<string, ProvenanceEntry> = {
     ],
   },
   evIncentives: {
-    description: 'Separable one-time EV cash incentives. Listed vehicle prices already reflect each market’s tax/duty/rebate environment, so cash add-ons are zero to avoid double-counting.',
+    description: "Separable one-time EV cash incentives. Listed vehicle prices already reflect each market's tax/duty/rebate environment, so cash add-ons are zero to avoid double-counting.",
     lastVerified: '2026-09-21',
     updateFrequency: 'On policy change',
     sources: [
@@ -310,7 +310,7 @@ export const PETROL_PRICE_PER_LITRE: CountryMap<number> = {
 }
 
 export const PETROL_PRICE_NOTE: CountryMap<string> = {
-  MY: 'Default is BUDI95 RM1.99/L for eligible Malaysian citizens. 15,000 km/year at 7.5 L/100 km is about 94 L/month — inside the 300 L/month quota. Unsubsidised RON95 was RM4.37/L for 17–23 Sep 2026 (companies, non-citizens, and usage above the quota).',
+  MY: 'Default is BUDI95 RM1.99/L for eligible Malaysian citizens. 15,000 km/year at 7.5 L/100 km is about 94 L/month, inside the 300 L/month quota. Unsubsidised RON95 was RM4.37/L for 17–23 Sep 2026 (companies, non-citizens, and usage above the quota).',
   SG: 'Major-brand 95-octane S$3.49/L as of 21 Sep 2026 (Caltex/Esso/Shell/Sinopec).',
   ID: 'Pertalite Rp10,000/L, the typical ICE fuel, unchanged 21 Sep 2026. Pertamax Green 95 was Rp19,150/L the same day.',
   TH: 'PTT Gasohol 95 ฿39.94/L from 05:00 on 21 Sep 2026.',

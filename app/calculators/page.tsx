@@ -4,38 +4,38 @@ import PageTitleCard from '@/components/PageTitleCard'
 import SunriseThread from '@/components/SunriseThread'
 
 export const metadata: Metadata = {
-  title: 'Calculators — battery.mom',
+  title: 'Calculators, battery.mom',
   description:
-    'Free energy transition calculators — zero-bill battery sizing, shared residential BESS ROI, EV vs ICE total cost of ownership, solar payback, and more.',
+    'Calculators for a zero electricity bill, shared residential BESS payback, EV versus petrol cost, and solar payback.',
 }
 
 const CALCULATORS = [
   {
-    title: 'Zero-Bill Home Calculator',
+    title: 'Zero-bill home calculator',
     description:
       'Size a solar + battery system for your home. Find out if you can zero your electricity bill using real tariffs, real BESS products, and your actual household load.',
     href: '/bess/home',
     status: 'live' as const,
-    category: 'Battery Storage',
+    category: 'Battery storage',
   },
   {
-    title: 'Shared Residential BESS',
+    title: 'Shared residential BESS',
     description:
       'Model a community solar + battery system for condos and apartments. See per-unit savings, developer ROI, payback periods, and bulk discount impacts.',
     href: '/bess/shared-residential',
     status: 'live' as const,
-    category: 'Battery Storage',
+    category: 'Battery storage',
   },
   {
-    title: 'EV vs ICE — Total Cost of Ownership',
+    title: 'EV vs ICE, total cost of ownership',
     description:
-      'Compare the 5-year and 10-year cost of owning an electric vehicle versus a petrol equivalent — fuel, maintenance, depreciation, and incentives included.',
+      'Compare the 5-year and 10-year cost of an electric vehicle and a petrol equivalent. Fuel, maintenance, depreciation, and incentives are included.',
     href: '/calculators/ev-vs-ice',
     status: 'live' as const,
-    category: 'Electric Vehicles',
+    category: 'Electric vehicles',
   },
   {
-    title: 'Solar Payback Calculator',
+    title: 'Solar payback calculator',
     description:
       'Enter your roof size, local solar yield, and electricity tariff to get an accurate payback period and 25-year savings projection.',
     href: '/calculators/solar-payback',
@@ -43,12 +43,12 @@ const CALCULATORS = [
     category: 'Solar',
   },
   {
-    title: 'EV Charging Cost Calculator',
+    title: 'EV charging cost calculator',
     description:
       'Estimate your monthly and annual charging costs based on your EV\'s battery, local electricity rates, and daily driving distance.',
     href: '/calculators/ev-charging-cost',
     status: 'live' as const,
-    category: 'Electric Vehicles',
+    category: 'Electric vehicles',
   },
 ]
 
@@ -61,7 +61,7 @@ export default function CalculatorsPage() {
           <PageTitleCard
             eyebrow="Calculators · your number"
             title="Calculators"
-            sub="Free, no-login tools to help you make faster decisions on EVs, solar, and battery storage — using real data from your country."
+            sub="No-login tools for EVs, solar, and battery storage, using tariffs and prices from your country."
           />
           <SunriseThread className="mt-5" />
         </div>

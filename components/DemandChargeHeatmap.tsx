@@ -250,7 +250,7 @@ export default function DemandChargeHeatmap({ country, peakDemandKw: propPeak, t
         {touBands.map((b, i) => (
           <div key={i} className="flex items-center gap-1.5 text-xs text-ink-600">
             <span className="w-3 h-3 rounded-sm inline-block" style={{ backgroundColor: b.color }} />
-            {b.label} ({b.startHr}:00–{b.endHr === 24 ? '00' : b.endHr}:00) — {cur}{b.rate.toLocaleString()}/kWh
+            {b.label} ({b.startHr}:00–{b.endHr === 24 ? '00' : b.endHr}:00), {cur}{b.rate.toLocaleString()}/kWh
           </div>
         ))}
       </div>

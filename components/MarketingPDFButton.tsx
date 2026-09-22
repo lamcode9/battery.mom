@@ -150,22 +150,22 @@ export default function MarketingPDFButton({
       doc.setFontSize(12)
       doc.setFont('helvetica', 'bold')
       doc.setTextColor(17, 24, 39)
-      doc.text('Why Buyers Love This', margin, y)
+      doc.text('What the buyer gets', margin, y)
 
       const benefits = [
-        { icon: '💰', text: `Save ${fmt(data.monthlySavings, data.country)} every month — ${data.zeroBillDays} zero-bill days per year` },
-        { icon: '⚡', text: `${data.blackoutHours.toFixed(1)} hours backup power during grid outages — no generator needed` },
-        { icon: '🌱', text: `Reduce carbon footprint by ${(data.co2Avoided / 1000).toFixed(1)} tonnes CO₂ per year` },
-        { icon: '📈', text: `Investment pays back in ${data.paybackYears.toFixed(1)} years — then pure savings for 15+ more years` },
-        { icon: '🏢', text: `Shared system = ${Math.round(data.coverage * 100)}% lower cost vs individual installation` },
+        `Save ${fmt(data.monthlySavings, data.country)} every month, ${data.zeroBillDays} zero-bill days a year`,
+        `${data.blackoutHours.toFixed(1)} hours of backup during grid outages, with no generator`,
+        `Cut carbon by ${(data.co2Avoided / 1000).toFixed(1)} tonnes of CO₂ a year`,
+        `Pays back in ${data.paybackYears.toFixed(1)} years, then savings for 15 or more years after that`,
+        `A shared system costs ${Math.round(data.coverage * 100)}% less than one installation per unit`,
       ]
 
       doc.setFontSize(10)
-      benefits.forEach((b, i) => {
+      benefits.forEach((line, i) => {
         const by = y + 10 + i * 12
         doc.setFont('helvetica', 'normal')
         doc.setTextColor(55, 65, 81)
-        doc.text(`${b.icon}  ${b.text}`, margin + 4, by)
+        doc.text(line, margin + 4, by)
       })
 
       // ── CTA banner ──────────────────────────────────────────────
@@ -176,7 +176,7 @@ export default function MarketingPDFButton({
       doc.setFontSize(14)
       doc.setFont('helvetica', 'bold')
       doc.setTextColor(255, 255, 255)
-      doc.text('Ready to go green?', margin + 10, y + 12)
+      doc.text('Run your own building', margin + 10, y + 12)
 
       doc.setFontSize(10)
       doc.setFont('helvetica', 'normal')

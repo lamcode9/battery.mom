@@ -61,17 +61,17 @@ export default function LfpVsNmcContent() {
       <h2>Why tropical heat matters</h2>
       <p>
         Battery degradation accelerates with temperature. NMC cells begin to degrade faster above 30°C,
-        which is basically every day in most of Southeast Asia. LFP cells tolerate heat significantly
-        better — their cathode structure is more thermally stable, and they don&apos;t experience the same
+        which is most days in most of Southeast Asia. LFP cells tolerate heat
+        better. Their cathode structure is more thermally stable, and they don&apos;t experience the same
         rate of capacity fade at elevated temperatures.
       </p>
       <p>
         This is why you see many EV manufacturers switching their Southeast Asian models to LFP packs:
       </p>
       <ul>
-        <li><strong>Tesla Model 3 Standard Range</strong> — LFP (CATL) in all markets including SEA</li>
-        <li><strong>BYD Atto 3, Dolphin, Seal</strong> — BYD&apos;s proprietary Blade Battery (LFP)</li>
-        <li><strong>Wuling Air ev</strong> — LFP pack for Indonesia market</li>
+        <li><strong>Tesla Model 3 Standard Range.</strong> LFP (CATL) in all markets including SEA</li>
+        <li><strong>BYD Atto 3, Dolphin, Seal.</strong> BYD&apos;s Blade Battery (LFP)</li>
+        <li><strong>Wuling Air ev.</strong> LFP pack for the Indonesia market</li>
       </ul>
       <p>
         For home batteries, both the <strong>BYD BatteryBox</strong> and most <strong>Huawei LUNA</strong>{' '}
@@ -80,17 +80,17 @@ export default function LfpVsNmcContent() {
 
       <h2>When NMC still makes sense</h2>
       <p>
-        NMC isn&apos;t going away. Its higher energy density means more range per kilogram — which matters
+        NMC isn&apos;t going away. Its higher energy density means more range per kilogram, which matters
         for premium EVs where weight and space are tightly optimised:
       </p>
       <ul>
-        <li><strong>Hyundai Ioniq 5 / Kia EV6</strong> — NMC packs (SK On) for the 72.6 kWh option</li>
-        <li><strong>Mercedes EQS</strong> — NMC for maximum range</li>
+        <li><strong>Hyundai Ioniq 5 / Kia EV6.</strong> NMC packs (SK On) for the 72.6 kWh option</li>
+        <li><strong>Mercedes EQS.</strong> NMC, for maximum range</li>
         <li>Long-range/performance variants where buyers accept the premium</li>
       </ul>
       <p>
         These vehicles compensate with sophisticated liquid cooling systems, but the thermal management
-        system adds cost and complexity — and it works harder in tropical ambient temperatures.
+        system adds cost and complexity, and it works harder in tropical temperatures.
       </p>
 
       <h2>What this means for home battery shoppers</h2>
@@ -98,10 +98,10 @@ export default function LfpVsNmcContent() {
         For a stationary home battery in Southeast Asia, LFP is almost always the better choice:
       </p>
       <ol>
-        <li><strong>Longer life</strong> — 6,000+ cycles means 15–20 years at one cycle per day</li>
-        <li><strong>Heat tolerance</strong> — no air conditioning needed for your battery room/garage</li>
-        <li><strong>Safety</strong> — virtually zero thermal runaway risk, critical for a device inside your home</li>
-        <li><strong>Cost</strong> — lower $/kWh means faster payback on your solar investment</li>
+        <li><strong>Longer life.</strong> 6,000+ cycles means 15–20 years at one cycle per day</li>
+        <li><strong>Heat tolerance.</strong> No air conditioning needed for the battery room or garage</li>
+        <li><strong>Safety.</strong> Thermal runaway risk is near zero, which matters for a device inside a home</li>
+        <li><strong>Cost.</strong> A lower price per kWh shortens solar payback</li>
       </ol>
 
       <h2>The bottom line</h2>

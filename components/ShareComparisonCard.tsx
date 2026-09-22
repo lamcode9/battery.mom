@@ -215,7 +215,7 @@ export default function ShareComparisonCard({ vehicles }: ShareComparisonCardPro
             {/* Footer */}
             <div className="bg-paper-200 px-5 py-2 border-t border-ink/10">
               <div className="flex items-center justify-between text-[9px] text-ink-400">
-                <span>battery.mom — Clear data for the energy transition</span>
+                <span>battery.mom. Clear data for the energy transition</span>
                 <span>Score methodology: Range 25% · Efficiency 25% · Value 20% · Charging 15% · Battery 15%</span>
               </div>
             </div>

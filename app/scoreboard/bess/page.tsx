@@ -9,13 +9,13 @@ import PageTitleCard from '@/components/PageTitleCard'
 import SunriseThread from '@/components/SunriseThread'
 
 export const metadata: Metadata = {
-  title: 'Storage Adoption Map — battery.mom',
+  title: 'Storage adoption map, battery.mom',
   description:
-    'An honest sector-maturity map for stationary storage: where home, shared residential, commercial, grid-scale, and EV-charging batteries are scaling first — and where country-level data is still too thin to rank.',
+    'Where home, shared residential, commercial, grid-scale, and EV-charging batteries are scaling first, and where country-level data is still too thin to rank.',
   openGraph: {
-    title: 'Storage Adoption Map — battery.mom',
+    title: 'Storage adoption map, battery.mom',
     description:
-      'Where battery energy storage is scaling first across home, commercial, shared residential, grid-scale, and EV-charging sectors — and where the data is still too thin to rank countries.',
+      'Where battery storage is scaling first across home, commercial, shared residential, grid-scale, and EV-charging, and where the data is still too thin to rank countries.',
     url: 'https://battery.mom/scoreboard/bess',
     siteName: 'battery.mom',
     type: 'website',
@@ -105,7 +105,7 @@ export default function BessAdoptionScoreboardPage() {
             <p className="mt-4 text-lg leading-relaxed text-ink-600">
               Stationary storage is scaling at wildly different speeds across homes, shared residential
               buildings, commercial sites, utility-scale projects, and EV charging hubs. This is a map of
-              where each sector stands today — <span className="font-semibold text-ink">not a country ranking</span>.
+              where each sector stands today. <span className="font-semibold text-ink">not a country ranking</span>.
               Where the public data is still too thin to rank fairly, we say so rather than fake a number.
             </p>
             <SunriseThread className="mt-5" />

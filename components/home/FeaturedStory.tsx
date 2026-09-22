@@ -23,8 +23,8 @@ export default function FeaturedStory() {
               Where battery power stands.
             </h2>
             <p className="mt-5 max-w-xl text-lg leading-relaxed text-ink-600">
-              Solar and wind became the cheapest electricity ever built. The new race is storage — and it
-              just went vertical. A data-driven look at where we were, and where we are now.
+              Solar and wind became the cheapest electricity on record. Storage is now the constraint, and
+              annual additions have jumped. The figures below are the public record.
             </p>
             <div className="mt-8">
               <Button href="/state-of-battery-power" variant="ink">

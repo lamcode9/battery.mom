@@ -11,6 +11,15 @@ export type FossilGrainKey = (typeof FOSSIL_GRAIN_KEYS)[number]
 
 const SPECK_TILE = 8
 
+function darkerSameHue(hex: string): string {
+  const raw = hex.replace('#', '')
+  const channel = (start: number) =>
+    Math.round(parseInt(raw.slice(start, start + 2), 16) * 0.55)
+      .toString(16)
+      .padStart(2, '0')
+  return `#${channel(0)}${channel(2)}${channel(4)}`
+}
+
 export function isFossilGrainKey(key: string): key is FossilGrainKey {
   return (FOSSIL_GRAIN_KEYS as readonly string[]).includes(key)
 }
@@ -31,14 +40,14 @@ export function GenerationFossilGrainDefs({
           key={key}
           id={`generation-grain-${key}`}
           patternUnits="userSpaceOnUse"
-          patternContentUnits="userSpaceOnUse"
           width={SPECK_TILE}
           height={SPECK_TILE}
+          viewBox={`0 0 ${SPECK_TILE} ${SPECK_TILE}`}
         >
           <rect width={SPECK_TILE} height={SPECK_TILE} fill={colors[key]} fillOpacity={0.8} />
-          <circle cx="1.25" cy="1.7" r="0.7" fill="#ffffff" fillOpacity="0.36" />
-          <circle cx="5.15" cy="5.35" r="0.55" fill={colors[key]} />
-          <circle cx="6.35" cy="2.15" r="0.38" fill="#ffffff" fillOpacity="0.2" />
+          <circle cx="1.35" cy="1.7" r="1.05" fill="#ffffff" fillOpacity="0.58" />
+          <circle cx="5.15" cy="5.25" r="0.78" fill={darkerSameHue(colors[key])} fillOpacity="0.5" />
+          <circle cx="6.5" cy="2.2" r="0.5" fill="#ffffff" fillOpacity="0.36" />
         </pattern>
       ))}
     </>

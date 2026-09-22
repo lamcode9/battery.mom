@@ -18,7 +18,7 @@ import {
   YAxis,
 } from 'recharts'
 import { GenerationYearDetail } from './generation-groups'
-import { GenerationFossilGrainDefs, generationStackFill } from './generation-grain'
+import { GenerationFossilGrainDefs, generationStackFill, isFossilGrainKey } from './generation-grain'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
 import InfoTooltip from '@/components/InfoTooltip'
 import {
@@ -814,7 +814,7 @@ export default function EnergyDeploymentScoreboardPage() {
                   }}
                 >
                   <defs>
-                    {generationStackKeys.map(key => (
+                    {generationStackKeys.filter(key => !isFossilGrainKey(key)).map(key => (
                       <linearGradient key={key} id={`generation-${key}`} x1="0" x2="0" y1="0" y2="1">
                         <stop offset="5%" stopColor={GENERATION_STACK_SOURCE_META[key].color} stopOpacity={0.92} />
                         <stop offset="95%" stopColor={GENERATION_STACK_SOURCE_META[key].color} stopOpacity={0.68} />

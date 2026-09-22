@@ -17,6 +17,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
+import { GenerationYearDetail } from './generation-groups'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
 import InfoTooltip from '@/components/InfoTooltip'
 import {
@@ -747,7 +748,9 @@ export default function EnergyDeploymentScoreboardPage() {
               <p className="mt-1 text-sm text-ink-500">
                 {chartMode === 'change'
                   ? 'Year-on-year change in generation by source, 2024 → 2025, in TWh. The bars show how much each source rose or fell.'
-                  : `Each year's ${chartMode === 'renewables' ? 'total renewable' : 'total electricity'} generation by source, in TWh. These are annual totals, not additions. Hover to inspect a year.`}
+                  : chartMode === 'renewables'
+                    ? "Each year's total renewable generation by source, in TWh. These are annual totals, not additions. Hover to inspect a year."
+                    : "Each year's total electricity generation by source, in TWh. These are annual totals, not additions. Hover to inspect a year."}
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -757,6 +760,115 @@ export default function EnergyDeploymentScoreboardPage() {
             </div>
           </div>
 
+          {chartMode === 'electricity' && (
+            <div className="scroll-mt-16" data-generation-surface>
+            <div className="mb-5 rounded-xl bg-ink p-4 text-white">
+              <div className="flex items-baseline justify-between gap-3">
+                <div className="text-[11px] font-bold uppercase tracking-[0.16em] text-brand-300">Selected year</div>
+                <div className="text-3xl font-black tabular-nums leading-none">{selectedYear}</div>
+              </div>
+              <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
+                <InsightStat label="Visible stack" value={formatTwh(visibleGenerationTotal)} detail="selected sources" />
+                <InsightStat
+                  label="Largest source"
+                  value={selectedVisibleGenerationLeader?.label ?? 'No source'}
+                  detail={`${(selectedVisibleGenerationLeader?.share ?? 0).toFixed(1)}% of total`}
+                  color={selectedVisibleGenerationLeader?.color}
+                />
+                <InsightStat
+                  label="Fastest growing"
+                  value={fastestElectricityGrowth?.label ?? 'Baseline year'}
+                  detail={fastestElectricityGrowth ? `${formatSignedPercent(fastestElectricityGrowth.changePct ?? 0)} YoY` : 'No prior year'}
+                  color={fastestElectricityGrowth?.color}
+                />
+                <InsightStat
+                  label="Biggest mover"
+                  value={biggestElectricityMover?.label ?? 'Baseline year'}
+                  detail={biggestElectricityMover?.change !== null && biggestElectricityMover?.change !== undefined ? formatSignedTwh(biggestElectricityMover.change) : 'No prior year'}
+                  color={biggestElectricityMover?.color}
+                />
+                <InsightStat
+                  label="Renewables"
+                  value={`${renewableGenerationShare.toFixed(1)}%`}
+                  detail={formatTwh(selectedGeneration.renewables)}
+                  color={ELECTRICITY_SOURCE_META.renewables.color}
+                />
+                <InsightStat
+                  label="Fossil share"
+                  value={`${fossilGenerationShare.toFixed(1)}%`}
+                  detail="coal + gas + oil"
+                  color={ELECTRICITY_SOURCE_META.coal.color}
+                />
+              </div>
+            </div>
+
+            <div data-generation-chart>
+              <ResponsiveContainer width="100%" height={380}>
+                <AreaChart
+                  data={GLOBAL_GENERATION_STACK}
+                  margin={{ top: 12, right: 18, left: 0, bottom: 4 }}
+                  onMouseMove={(state) => {
+                    const year = Number(state?.activePayload?.[0]?.payload?.year)
+                    if (Number.isFinite(year)) setSelectedYear(year)
+                  }}
+                >
+                  <defs>
+                    {generationStackKeys.map(key => (
+                      <linearGradient key={key} id={`generation-${key}`} x1="0" x2="0" y1="0" y2="1">
+                        <stop offset="5%" stopColor={GENERATION_STACK_SOURCE_META[key].color} stopOpacity={0.92} />
+                        <stop offset="95%" stopColor={GENERATION_STACK_SOURCE_META[key].color} stopOpacity={0.68} />
+                      </linearGradient>
+                    ))}
+                  </defs>
+                  <CartesianGrid stroke="#e5e7eb" strokeDasharray="3 6" vertical={false} />
+                  <XAxis
+                    dataKey="year"
+                    ticks={yearTicks}
+                    tick={{ fontSize: 12, fill: '#64748b', fontWeight: 600 }}
+                    tickLine={false}
+                    axisLine={{ stroke: '#cbd5e1' }}
+                    dy={8}
+                  />
+                  <YAxis
+                    tick={{ fontSize: 12, fill: '#64748b', fontWeight: 600 }}
+                    tickFormatter={(value: number) => `${formatCompact(value)} TWh`}
+                    tickLine={false}
+                    axisLine={false}
+                    width={76}
+                  />
+                  <Tooltip
+                    cursor={{ stroke: '#111827', strokeWidth: 1, strokeDasharray: '4 4' }}
+                    content={(props) => <ChartTooltip {...props} meta={GENERATION_STACK_SOURCE_META} />}
+                  />
+                  <ReferenceLine x={selectedYear} stroke="#111827" strokeOpacity={0.28} strokeDasharray="4 4" />
+                  {visibleElectricityKeys.map(key => (
+                    <Area
+                      key={key}
+                      type="monotone"
+                      dataKey={key}
+                      name={GENERATION_STACK_SOURCE_META[key].label}
+                      stackId="generation"
+                      stroke={GENERATION_STACK_SOURCE_META[key].color}
+                      strokeWidth={1.6}
+                      fill={`url(#generation-${key})`}
+                      fillOpacity={1}
+                      isAnimationActive={false}
+                      activeDot={{ r: 4, strokeWidth: 2, stroke: '#fff' }}
+                    />
+                  ))}
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+            <GenerationYearDetail
+              entries={electricityLegendEntries}
+              formatTwh={formatTwh}
+              onToggle={key => toggleElectricityKey(key as GenerationStackKey)}
+              onShowAll={() => setVisibleElectricityKeys(generationStackKeys)}
+            />
+            </div>
+          )}
+
+          {chartMode !== 'electricity' && (
           <div className="mb-5 grid gap-3 lg:grid-cols-[340px_1fr]">
             <div className="rounded-xl bg-ink p-4 text-white">
               <div className="text-[11px] font-bold uppercase tracking-[0.16em] text-brand-300">
@@ -766,41 +878,6 @@ export default function EnergyDeploymentScoreboardPage() {
                 {chartMode === 'change' ? selectedChange.source : selectedYear}
               </div>
               <div className="mt-4 grid grid-cols-2 gap-2">
-                {chartMode === 'electricity' && (
-                  <>
-                    <InsightStat label="Visible stack" value={formatTwh(visibleGenerationTotal)} detail="selected sources" />
-                    <InsightStat
-                      label="Largest source"
-                      value={selectedVisibleGenerationLeader?.label ?? 'No source'}
-                      detail={`${(selectedVisibleGenerationLeader?.share ?? 0).toFixed(1)}% of total`}
-                      color={selectedVisibleGenerationLeader?.color}
-                    />
-                    <InsightStat
-                      label="Fastest growing"
-                      value={fastestElectricityGrowth?.label ?? 'Baseline year'}
-                      detail={fastestElectricityGrowth ? `${formatSignedPercent(fastestElectricityGrowth.changePct ?? 0)} YoY` : 'No prior year'}
-                      color={fastestElectricityGrowth?.color}
-                    />
-                    <InsightStat
-                      label="Biggest mover"
-                      value={biggestElectricityMover?.label ?? 'Baseline year'}
-                      detail={biggestElectricityMover?.change !== null && biggestElectricityMover?.change !== undefined ? formatSignedTwh(biggestElectricityMover.change) : 'No prior year'}
-                      color={biggestElectricityMover?.color}
-                    />
-                    <InsightStat
-                      label="Renewables"
-                      value={`${renewableGenerationShare.toFixed(1)}%`}
-                      detail={formatTwh(selectedGeneration.renewables)}
-                      color={ELECTRICITY_SOURCE_META.renewables.color}
-                    />
-                    <InsightStat
-                      label="Fossil share"
-                      value={`${fossilGenerationShare.toFixed(1)}%`}
-                      detail="coal + gas + oil"
-                      color={ELECTRICITY_SOURCE_META.coal.color}
-                    />
-                  </>
-                )}
                 {chartMode === 'renewables' && (
                   <>
                     <InsightStat label="Visible stack" value={formatTwh(visibleRenewableTotal)} detail="selected sources" />
@@ -874,15 +951,6 @@ export default function EnergyDeploymentScoreboardPage() {
               </div>
             </div>
 
-            {chartMode === 'electricity' && (
-              <SourceLegend
-                title="Generation sources · renewables expanded"
-                entries={electricityLegendEntries}
-                onToggle={(key) => toggleElectricityKey(key as GenerationStackKey)}
-                onShowAll={() => setVisibleElectricityKeys(generationStackKeys)}
-              />
-            )}
-
             {chartMode === 'renewables' && (
               <SourceLegend
                 title="Renewable sources"
@@ -901,62 +969,6 @@ export default function EnergyDeploymentScoreboardPage() {
               </div>
             )}
           </div>
-
-          {chartMode === 'electricity' && (
-            <ResponsiveContainer width="100%" height={380}>
-              <AreaChart
-                data={GLOBAL_GENERATION_STACK}
-                margin={{ top: 12, right: 18, left: 0, bottom: 4 }}
-                onMouseMove={(state) => {
-                  const year = Number(state?.activePayload?.[0]?.payload?.year)
-                  if (Number.isFinite(year)) setSelectedYear(year)
-                }}
-              >
-                <defs>
-                  {generationStackKeys.map(key => (
-                    <linearGradient key={key} id={`generation-${key}`} x1="0" x2="0" y1="0" y2="1">
-                      <stop offset="5%" stopColor={GENERATION_STACK_SOURCE_META[key].color} stopOpacity={0.92} />
-                      <stop offset="95%" stopColor={GENERATION_STACK_SOURCE_META[key].color} stopOpacity={0.68} />
-                    </linearGradient>
-                  ))}
-                </defs>
-                <CartesianGrid stroke="#e5e7eb" strokeDasharray="3 6" vertical={false} />
-                <XAxis
-                  dataKey="year"
-                  ticks={yearTicks}
-                  tick={{ fontSize: 12, fill: '#64748b', fontWeight: 600 }}
-                  tickLine={false}
-                  axisLine={{ stroke: '#cbd5e1' }}
-                  dy={8}
-                />
-                <YAxis
-                  tick={{ fontSize: 12, fill: '#64748b', fontWeight: 600 }}
-                  tickFormatter={(value: number) => `${formatCompact(value)} TWh`}
-                  tickLine={false}
-                  axisLine={false}
-                  width={76}
-                />
-                <Tooltip
-                  cursor={{ stroke: '#111827', strokeWidth: 1, strokeDasharray: '4 4' }}
-                  content={(props) => <ChartTooltip {...props} meta={GENERATION_STACK_SOURCE_META} />}
-                />
-                <ReferenceLine x={selectedYear} stroke="#111827" strokeOpacity={0.28} strokeDasharray="4 4" />
-                {visibleElectricityKeys.map(key => (
-                  <Area
-                    key={key}
-                    type="monotone"
-                    dataKey={key}
-                    name={GENERATION_STACK_SOURCE_META[key].label}
-                    stackId="generation"
-                    stroke={GENERATION_STACK_SOURCE_META[key].color}
-                    strokeWidth={1.6}
-                    fill={`url(#generation-${key})`}
-                    fillOpacity={1}
-                    activeDot={{ r: 4, strokeWidth: 2, stroke: '#fff' }}
-                  />
-                ))}
-              </AreaChart>
-            </ResponsiveContainer>
           )}
 
           {chartMode === 'renewables' && (

@@ -6,7 +6,6 @@ import InfoTooltip from '@/components/InfoTooltip'
 import { NextSteps } from '@/components/ui/NextSteps'
 import { COUNTRY_OPTIONS as COUNTRIES, formatCurrency as fmt, formatCompact as fmtShort } from '@/lib/constants'
 import ShareResult from '@/components/ShareResult'
-import { CHART, CHART_TOOLTIP_STYLE } from '@/lib/chart-theme'
 import type { Country } from '@/types/bess'
 import {
   PETROL_PRICE_PER_LITRE,
@@ -59,8 +58,6 @@ const ICE_FUEL_CONSUMPTION_L100KM = 7.5
 // Average EV efficiency (kWh/100km, blended home + public charging)
 const DEFAULT_EV_EFFICIENCY = 15
 
-const VALUE_LOST_LABEL = 'Value lost (purchase − resale)'
-
 type BreakdownRow = {
   name: string
   EV: number
@@ -69,29 +66,6 @@ type BreakdownRow = {
   iceSticker?: number
   evResale?: number
   iceResale?: number
-}
-
-type CategoryTickProps = {
-  x?: number
-  y?: number
-  payload?: { value?: string }
-}
-
-function BreakdownCategoryTick({ x = 0, y = 0, payload }: CategoryTickProps) {
-  const value = payload?.value ?? ''
-  if (value === VALUE_LOST_LABEL) {
-    return (
-      <text x={x} y={y} textAnchor="end" fill={CHART.axis} fontSize={CHART.axisFontSize}>
-        <tspan x={x} dy="-0.35em">Value lost</tspan>
-        <tspan x={x} dy="1.15em">(purchase − resale)</tspan>
-      </text>
-    )
-  }
-  return (
-    <text x={x} y={y} textAnchor="end" fill={CHART.axis} fontSize={CHART.axisFontSize}>
-      <tspan x={x} dy="0.35em">{value}</tspan>
-    </text>
-  )
 }
 
 // ── Component ─────────────────────────────────────────────────────────
@@ -197,7 +171,7 @@ export default function EVvsICEPage() {
     const iceResale = Math.round(iceResidual)
     const breakdownData: BreakdownRow[] = [
       {
-        name: VALUE_LOST_LABEL,
+        name: 'Value lost',
         EV: evSticker - evResale,
         ICE: iceSticker - iceResale,
         evSticker,
@@ -209,7 +183,6 @@ export default function EVvsICEPage() {
       { name: 'Maintenance', EV: Math.round(EV_ANNUAL_MAINTENANCE[country] * yearsToCompare), ICE: Math.round(ICE_ANNUAL_MAINTENANCE[country] * yearsToCompare) },
       { name: 'Insurance', EV: Math.round(EV_INSURANCE[country] * yearsToCompare), ICE: Math.round(ICE_INSURANCE[country] * yearsToCompare) },
     ]
-    breakdownData.sort((a, b) => Math.max(b.EV, b.ICE) - Math.max(a.EV, a.ICE))
 
     return {
       evTCO, iceTCO, savings, breakEvenYear,
@@ -411,20 +384,13 @@ export default function EVvsICEPage() {
 
           {/* Cost breakdown */}
           <div className="bg-paper-100 border border-ink/10 rounded-card p-6">
-            <h3 className="text-sm font-semibold text-ink mb-4">Cost breakdown <InfoTooltip content="Ranked costs, longest first. Value lost is purchase minus resale, labelled on the axis. Hover that bar for the sticker, the resale, and the difference. Energy, maintenance, and insurance are unchanged. Resale is not its own bar." /></h3>
-            <ResponsiveContainer width="100%" height={results.breakdownData.length * 40 + 80}>
-              <BarChart data={results.breakdownData} layout="vertical" barGap={4} margin={{ top: 4, right: 12, left: 0, bottom: 0 }}>
-                <CartesianGrid vertical horizontal={false} stroke={CHART.grid} />
-                <XAxis
-                  type="number"
-                  domain={[0, 'auto']}
-                  tick={{ fontSize: CHART.axisFontSize, fill: CHART.axis }}
-                  stroke={CHART.axis}
-                  tickFormatter={(v) => fmtShort(v, country)}
-                />
-                <YAxis type="category" dataKey="name" tick={BreakdownCategoryTick} width={156} axisLine={false} tickLine={false} />
+            <h3 className="text-sm font-semibold text-ink mb-4">Cost breakdown <InfoTooltip content="Breaks down total ownership costs into 4 categories: (1) Value lost (purchase price net of incentives minus resale), (2) Energy/fuel over the full period, (3) Maintenance (oil changes, brake pads, etc.), (4) Insurance premiums. Hover value lost for the sticker and resale." /></h3>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={results.breakdownData} layout="vertical">
+                <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
+                <XAxis type="number" tick={{ fontSize: 11 }} tickFormatter={(v) => fmtShort(v, country)} />
+                <YAxis type="category" dataKey="name" tick={{ fontSize: 11 }} width={90} />
                 <Tooltip
-                  contentStyle={CHART_TOOLTIP_STYLE}
                   formatter={(value: number, name: string, item: { payload?: BreakdownRow }) => {
                     const row = item?.payload
                     if (row?.evSticker != null && row.evResale != null && row.iceSticker != null && row.iceResale != null) {
@@ -432,17 +398,14 @@ export default function EVvsICEPage() {
                       const resale = name === 'ICE' ? row.iceResale : row.evResale
                       return [`${fmt(sticker, country)} sticker, ${fmt(resale, country)} resale, ${fmt(value, country)} lost`, name]
                     }
-                    return [fmt(value, country), name]
+                    return fmt(value, country)
                   }}
                 />
-                <Legend wrapperStyle={{ fontSize: CHART.axisFontSize, color: CHART.ink }} />
-                <Bar dataKey="EV" fill={CHART.primary} barSize={14} />
-                <Bar dataKey="ICE" fill={CHART.comparison} barSize={14} />
+                <Legend />
+                <Bar dataKey="EV" fill="#0E9F6E" radius={[0, 4, 4, 0]} />
+                <Bar dataKey="ICE" fill="#A7AFA4" radius={[0, 4, 4, 0]} />
               </BarChart>
             </ResponsiveContainer>
-            <p className="mt-3 text-xs text-ink-500 leading-relaxed">
-              The total is these four amounts. Value lost already subtracts resale.
-            </p>
           </div>
         </div>
 

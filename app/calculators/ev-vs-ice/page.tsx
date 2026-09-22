@@ -21,10 +21,10 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
   Legend,
 } from 'recharts'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
+import { ChartHoverTooltip } from '@/components/ChartTooltip'
 
 
 const PETROL_PRICE = PETROL_PRICE_PER_LITRE
@@ -374,7 +374,7 @@ export default function EVvsICEPage() {
                 <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
                 <XAxis dataKey="year" tick={{ fontSize: 11 }} />
                 <YAxis tick={{ fontSize: 11 }} tickFormatter={(v) => fmtShort(v, country)} />
-                <Tooltip formatter={(v: number) => fmt(v, country)} />
+                <ChartHoverTooltip formatter={(v: number) => fmt(v, country)} />
                 <Legend />
                 <Bar dataKey="EV" fill="#0E9F6E" radius={[4, 4, 0, 0]} />
                 <Bar dataKey="ICE" fill="#A7AFA4" radius={[4, 4, 0, 0]} />
@@ -390,9 +390,9 @@ export default function EVvsICEPage() {
                 <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
                 <XAxis type="number" tick={{ fontSize: 11 }} tickFormatter={(v) => fmtShort(v, country)} />
                 <YAxis type="category" dataKey="name" tick={{ fontSize: 11 }} width={110} />
-                <Tooltip
-                  formatter={(value: number, name: string, item: { payload?: BreakdownRow }) => {
-                    const row = item?.payload
+                <ChartHoverTooltip
+                  formatter={(value: number, name: string, item) => {
+                    const row = item?.payload as BreakdownRow | undefined
                     if (row?.evSticker != null && row.evResale != null && row.iceSticker != null && row.iceResale != null) {
                       const sticker = name === 'ICE' ? row.iceSticker : row.evSticker
                       const resale = name === 'ICE' ? row.iceResale : row.evResale

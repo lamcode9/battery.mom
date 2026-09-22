@@ -8,10 +8,10 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
   Legend,
 } from 'recharts'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
+import { ChartHoverTooltip } from '@/components/ChartTooltip'
 
 /* ── Degradation curves by chemistry ───────────────────────── */
 
@@ -110,8 +110,7 @@ export default function BatteryHealthChart({ vehicles }: Props) {
               tick={{ fontSize: 10 }}
               label={{ value: 'kWh', angle: -90, position: 'insideLeft', style: { fontSize: 10, fill: '#9ca3af' } }}
             />
-            <Tooltip
-              contentStyle={{ fontSize: 11, borderRadius: 8, border: '1px solid #e5e7eb' }}
+            <ChartHoverTooltip
               formatter={(val: number, name: string) => {
                 const v = vehicles.find(x => x.id === name)
                 return [`${val} kWh`, v ? getVehicleLabel(v) : name]

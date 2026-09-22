@@ -9,11 +9,11 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
   Legend,
 } from 'recharts'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
-import { CHART, CHART_TOOLTIP_STYLE } from '@/lib/chart-theme'
+import { ChartHoverTooltip } from '@/components/ChartTooltip'
+import { CHART } from '@/lib/chart-theme'
 import { RESIDENTIAL_TARIFF, RESIDENTIAL_TARIFF_NOTE, CO2_GRID_FACTOR, RATE_VERIFIED_ON } from '@/data/rates'
 
 /* ── Constants ────────────────────────────────────────────────────── */
@@ -260,7 +260,7 @@ export default function ScenarioComparisonTool({ country }: Props) {
               <CartesianGrid strokeDasharray="3 3" stroke={CHART.grid} />
               <XAxis dataKey="name" tick={{ fill: CHART.axis, fontSize: CHART.axisFontSize }} />
               <YAxis tick={{ fill: CHART.axis, fontSize: CHART.axisFontSize }} tickFormatter={(v) => fmtShort(v, country)} />
-              <Tooltip contentStyle={CHART_TOOLTIP_STYLE} formatter={(v: number) => fmtShort(v, country)} />
+              <ChartHoverTooltip formatter={(v: number) => fmtShort(v, country)} />
               <Legend wrapperStyle={{ fontSize: 11 }} />
               <Bar dataKey="Upfront cost" fill={CHART.negative} radius={[3, 3, 0, 0]} />
               <Bar dataKey={`${years}yr savings`} fill={CHART.primary} radius={[3, 3, 0, 0]} />
@@ -278,7 +278,7 @@ export default function ScenarioComparisonTool({ country }: Props) {
               <CartesianGrid strokeDasharray="3 3" stroke={CHART.grid} />
               <XAxis dataKey="name" tick={{ fill: CHART.axis, fontSize: CHART.axisFontSize }} />
               <YAxis tick={{ fill: CHART.axis, fontSize: CHART.axisFontSize }} />
-              <Tooltip contentStyle={CHART_TOOLTIP_STYLE} />
+              <ChartHoverTooltip />
               <Legend wrapperStyle={{ fontSize: 11 }} />
               <Bar dataKey="CO₂ avoided (t)" fill={CHART.primary} radius={[3, 3, 0, 0]} />
               <Bar dataKey="Self-sufficiency %" fill={CHART.highlight} radius={[3, 3, 0, 0]} />

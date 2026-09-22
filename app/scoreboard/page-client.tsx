@@ -10,7 +10,6 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
   Legend,
   RadarChart,
   PolarGrid,
@@ -21,6 +20,7 @@ import {
   Area,
 } from 'recharts'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
+import { ChartHoverTooltip } from '@/components/ChartTooltip'
 import { RESIDENTIAL_TARIFF_NOTE, RATE_VERIFIED_ON } from '@/data/rates'
 
 // ── Types ──────────────────────────────────────────────────────
@@ -980,7 +980,7 @@ export default function ScoreboardPage() {
                 <CartesianGrid strokeDasharray="3 3" stroke={CHART_GRID} horizontal={false} />
                 <XAxis type="number" tick={{ fontSize: 10 }} />
                 <YAxis dataKey="name" type="category" tick={{ fontSize: 12 }} width={60} />
-                <Tooltip formatter={(v: number) => `${typeof v === 'number' && v >= 1000 ? formatNum(v) : v} ${metricInfo.unit}`} />
+                <ChartHoverTooltip formatter={(v: number) => `${typeof v === 'number' && v >= 1000 ? formatNum(v) : v} ${metricInfo.unit}`} />
                 <Bar dataKey="value" fill={CHART_BRAND} radius={[0, 6, 6, 0]} />
               </BarChart>
             </ResponsiveContainer>
@@ -1114,6 +1114,7 @@ export default function ScoreboardPage() {
                           <PolarAngleAxis dataKey="metric" tick={{ fontSize: 10 }} />
                           <PolarRadiusAxis domain={[0, 100]} tick={false} axisLine={false} />
                           <Radar name={c.name} dataKey="value" stroke={CHART_BRAND} fill={CHART_BRAND} fillOpacity={0.2} strokeWidth={2} />
+                          <ChartHoverTooltip formatter={(value: number) => [`${value}`, 'Index']} />
                         </RadarChart>
                       </ResponsiveContainer>
                     </div>
@@ -1354,7 +1355,7 @@ export default function ScoreboardPage() {
                     <Radar name={comparisonData.a.name} dataKey={comparisonData.a.name} stroke={CHART_BRAND} fill={CHART_BRAND} fillOpacity={0.15} strokeWidth={2} />
                     <Radar name={comparisonData.b.name} dataKey={comparisonData.b.name} stroke={CHART_AMBER} fill={CHART_AMBER} fillOpacity={0.15} strokeWidth={2} />
                     <Legend />
-                    <Tooltip />
+                    <ChartHoverTooltip />
                   </RadarChart>
                 </ResponsiveContainer>
               </div>
@@ -1490,7 +1491,7 @@ export default function ScoreboardPage() {
                     <CartesianGrid strokeDasharray="3 3" stroke={CHART_GRID} horizontal={false} />
                     <XAxis type="number" tick={{ fontSize: 10 }} />
                     <YAxis dataKey="name" type="category" tick={{ fontSize: 12 }} width={60} />
-                    <Tooltip formatter={(v: number) => `${v >= 1000 ? formatNum(v) : v} ${deepDiveInsight.metricInfo.unit}`} />
+                    <ChartHoverTooltip formatter={(v: number) => `${v >= 1000 ? formatNum(v) : v} ${deepDiveInsight.metricInfo.unit}`} />
                     <Bar dataKey="value" fill={CHART_AMBER} radius={[0, 6, 6, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
@@ -1508,7 +1509,7 @@ export default function ScoreboardPage() {
                     <CartesianGrid strokeDasharray="3 3" stroke={CHART_GRID} />
                     <XAxis dataKey="year" tick={{ fontSize: 10 }} />
                     <YAxis tick={{ fontSize: 10 }} />
-                    <Tooltip />
+                    <ChartHoverTooltip />
                     <Legend wrapperStyle={{ fontSize: 10 }} />
                     {COUNTRIES.map((c, i) => {
                       const colors = CHART_SERIES

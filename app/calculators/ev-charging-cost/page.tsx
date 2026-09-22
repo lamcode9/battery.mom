@@ -24,10 +24,9 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
-  Legend,
 } from 'recharts'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
+import { ChartHoverTooltip } from '@/components/ChartTooltip'
 
 
 const HOME_TARIFF = RESIDENTIAL_TARIFF
@@ -351,7 +350,7 @@ export default function EvChargingCostPage() {
                     <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip formatter={(v: number) => fmt(v, country)} />
+                <ChartHoverTooltip formatter={(v: number) => fmt(v, country)} />
               </PieChart>
             </ResponsiveContainer>
           </div>
@@ -369,7 +368,7 @@ export default function EvChargingCostPage() {
                 <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
                 <XAxis dataKey="name" tick={{ fontSize: 12 }} />
                 <YAxis tick={{ fontSize: 10 }} tickFormatter={(v) => fmtShort(v, country)} />
-                <Tooltip formatter={(v: number) => fmt(v, country)} />
+                <ChartHoverTooltip formatter={(v: number) => fmt(v, country)} />
                 <Bar dataKey="cost" name="Monthly cost" radius={[6, 6, 0, 0]}>
                   <Cell fill="#10b981" />
                   <Cell fill="#ef4444" />

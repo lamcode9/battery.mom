@@ -17,10 +17,10 @@ import {
   Cell,
   LabelList,
   Legend,
-  Tooltip,
   Scatter,
 } from 'recharts'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
+import { ChartHoverTooltip } from '@/components/ChartTooltip'
 import { 
   calculateCostPerKm, 
   getElectricityRate, 
@@ -2091,7 +2091,7 @@ function PublicFastVsHomeSolarChart({ data, country }: PublicFastVsHomeSolarChar
               tickFormatter={(value: number) => value.toFixed(1)}
               label={{ value: 'Days', angle: 90, position: 'insideRight', style: { textAnchor: 'middle', fontSize: 10, fill: '#9ca3af' } }}
             />
-            <Tooltip 
+            <ChartHoverTooltip 
               formatter={(value: number, name: string) => {
                 if (name === 'publicFast') {
                   return [formatMinutesSingle(value), 'Public Fast (20→80 %)']
@@ -2099,8 +2099,6 @@ function PublicFastVsHomeSolarChart({ data, country }: PublicFastVsHomeSolarChar
                   return [`${value.toFixed(1)} days`, 'Home Solar']
                 }
               }}
-              labelStyle={{ fontSize: 11, fontWeight: 600 }}
-              contentStyle={{ fontSize: 11 }}
             />
             <Bar 
               yAxisId="left"

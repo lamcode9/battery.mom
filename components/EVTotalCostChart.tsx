@@ -8,10 +8,10 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
   Legend,
 } from 'recharts'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
+import { ChartHoverTooltip } from '@/components/ChartTooltip'
 import { CURRENCY_SYMBOLS, formatCompact } from '@/lib/constants'
 import { RESIDENTIAL_TARIFF, getCitationFooter } from '@/data/rates'
 
@@ -141,8 +141,7 @@ export default function EVTotalCostChart({ vehicles, country }: Props) {
               tick={{ fontSize: 10 }}
               width={90}
             />
-            <Tooltip
-              contentStyle={{ fontSize: 11, borderRadius: 8, border: '1px solid #e5e7eb' }}
+            <ChartHoverTooltip
               formatter={(val: number, name: string) => [formatCompact(val, country), name.charAt(0).toUpperCase() + name.slice(1)]}
               labelFormatter={(label) => {
                 const item = tcoData.find(d => d.label === label)

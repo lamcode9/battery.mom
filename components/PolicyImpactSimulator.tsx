@@ -11,10 +11,10 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
   Legend,
 } from 'recharts'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
+import { ChartHoverTooltip } from '@/components/ChartTooltip'
 import { CO2_GRID_FACTOR } from '@/data/rates'
 
 const GRID_EMISSION_FACTOR = CO2_GRID_FACTOR
@@ -273,7 +273,7 @@ export default function PolicyImpactSimulator({ country }: Props) {
               <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
               <XAxis dataKey="year" tick={{ fontSize: 10 }} />
               <YAxis tick={{ fontSize: 10 }} tickFormatter={(v) => `${(v / 1000).toFixed(1)} GWh`} />
-              <Tooltip
+              <ChartHoverTooltip
                 formatter={(v: number) => [`${(v / 1000).toFixed(2)} GWh`, 'Cumulative BESS']}
               />
               <Bar dataKey="cumulativeCapacity" fill="#10b981" radius={[3, 3, 0, 0]} />
@@ -288,7 +288,7 @@ export default function PolicyImpactSimulator({ country }: Props) {
               <XAxis dataKey="year" tick={{ fontSize: 10 }} />
               <YAxis yAxisId="co2" tick={{ fontSize: 10 }} tickFormatter={(v) => `${(v / 1000).toFixed(0)} kt`} />
               <YAxis yAxisId="gw" orientation="right" tick={{ fontSize: 10 }} tickFormatter={(v) => `${v} GW`} />
-              <Tooltip
+              <ChartHoverTooltip
                 formatter={(v: number, name: string) =>
                   name === 'co2Avoided'
                     ? [`${(v / 1000).toFixed(1)} kt`, 'CO₂ avoided']

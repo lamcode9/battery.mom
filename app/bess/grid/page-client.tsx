@@ -19,13 +19,13 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
   Legend,
   Cell,
   PieChart,
   Pie,
 } from 'recharts'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
+import { ChartHoverTooltip } from '@/components/ChartTooltip'
 
 // ── Country data ──────────────────────────────────────────────────────
 
@@ -433,7 +433,7 @@ export default function GridBESSClient() {
                 <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
                 <XAxis dataKey="year" tick={{ fontSize: 10 }} interval={3} />
                 <YAxis tick={{ fontSize: 10 }} tickFormatter={(v) => fmtShort(v, country)} />
-                <Tooltip formatter={(v: number) => fmt(v, country)} />
+                <ChartHoverTooltip formatter={(v: number) => fmt(v, country)} />
                 <Legend wrapperStyle={{ fontSize: 11 }} />
                 <Line type="monotone" dataKey="revenue" stroke="#10b981" strokeWidth={2} name="Revenue" />
                 <Line type="monotone" dataKey="om" stroke="#ef4444" strokeWidth={2} name="O&M" />
@@ -495,7 +495,7 @@ export default function GridBESSClient() {
                 <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
                 <XAxis dataKey="name" tick={{ fontSize: 11 }} />
                 <YAxis tick={{ fontSize: 10 }} tickFormatter={(v) => `$${v}`} />
-                <Tooltip formatter={(v: number) => [`$${v}/kWh`, 'Cost']} />
+                <ChartHoverTooltip formatter={(v: number) => [`$${v}/kWh`, 'Cost']} />
                 <Bar dataKey="cost" fill="#10b981" radius={[3, 3, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
@@ -508,7 +508,7 @@ export default function GridBESSClient() {
                 <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
                 <XAxis dataKey="name" tick={{ fontSize: 11 }} />
                 <YAxis tick={{ fontSize: 10 }} tickFormatter={(v) => `${v}k`} />
-                <Tooltip formatter={(v: number) => [`${v.toLocaleString()} cycles`, 'Cycle life']} />
+                <ChartHoverTooltip formatter={(v: number) => [`${v.toLocaleString()} cycles`, 'Cycle life']} />
                 <Bar dataKey="cycles" fill="#6366f1" radius={[3, 3, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>

@@ -15,11 +15,11 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
   Cell,
 } from 'recharts'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
-import { CHART, CHART_TOOLTIP_STYLE } from '@/lib/chart-theme'
+import { ChartHoverTooltip } from '@/components/ChartTooltip'
+import { CHART } from '@/lib/chart-theme'
 
 interface VehicleComparisonClientProps {
   vehicle1: Vehicle
@@ -261,7 +261,7 @@ export default function VehicleComparisonClient({ vehicle1, vehicle2 }: VehicleC
                 <CartesianGrid strokeDasharray="3 3" stroke={CHART.grid} />
                 <XAxis dataKey="metric" tick={{ fontSize: CHART.axisFontSize, fill: CHART.axis }} />
                 <YAxis tick={{ fontSize: CHART.axisFontSize, fill: CHART.axis }} unit=" km" />
-                <Tooltip contentStyle={CHART_TOOLTIP_STYLE} formatter={(value: number) => [`${value} km`, '']} />
+                <ChartHoverTooltip formatter={(value: number) => [`${value} km`, '']} />
                 <Bar dataKey={vehicle1.name} fill={CHART.primary} radius={[3, 3, 0, 0]} />
                 <Bar dataKey={vehicle2.name} fill={CHART.highlight} radius={[3, 3, 0, 0]} />
               </BarChart>
@@ -276,7 +276,7 @@ export default function VehicleComparisonClient({ vehicle1, vehicle2 }: VehicleC
                 <CartesianGrid strokeDasharray="3 3" stroke={CHART.grid} />
                 <XAxis dataKey="metric" tick={{ fontSize: CHART.axisFontSize, fill: CHART.axis }} />
                 <YAxis tick={{ fontSize: CHART.axisFontSize, fill: CHART.axis }} unit=" kWh/100km" />
-                <Tooltip contentStyle={CHART_TOOLTIP_STYLE} formatter={(value: number) => [`${value} kWh/100km`, '']} />
+                <ChartHoverTooltip formatter={(value: number) => [`${value} kWh/100km`, '']} />
                 <Bar dataKey={vehicle1.name} fill={CHART.primary} radius={[3, 3, 0, 0]} />
                 <Bar dataKey={vehicle2.name} fill={CHART.highlight} radius={[3, 3, 0, 0]} />
               </BarChart>
@@ -291,7 +291,7 @@ export default function VehicleComparisonClient({ vehicle1, vehicle2 }: VehicleC
                 <CartesianGrid strokeDasharray="3 3" stroke={CHART.grid} />
                 <XAxis dataKey="metric" tick={{ fontSize: CHART.axisFontSize, fill: CHART.axis }} />
                 <YAxis tick={{ fontSize: CHART.axisFontSize, fill: CHART.axis }} tickFormatter={(value) => formatCurrency(value, vehicle1.country)} />
-                <Tooltip contentStyle={CHART_TOOLTIP_STYLE} formatter={(value: number) => [formatCurrency(value, vehicle1.country), '']} />
+                <ChartHoverTooltip formatter={(value: number) => [formatCurrency(value, vehicle1.country), '']} />
                 <Bar dataKey={vehicle1.name} fill={CHART.primary} radius={[3, 3, 0, 0]} />
                 <Bar dataKey={vehicle2.name} fill={CHART.highlight} radius={[3, 3, 0, 0]} />
               </BarChart>
@@ -310,7 +310,7 @@ export default function VehicleComparisonClient({ vehicle1, vehicle2 }: VehicleC
               <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fontSize: CHART.axisFontSize, fill: CHART.axis }} />
               <Radar name={vehicle1.name} dataKey={vehicle1.name} stroke={CHART.primary} fill={CHART.primary} fillOpacity={0.1} strokeWidth={2} />
               <Radar name={vehicle2.name} dataKey={vehicle2.name} stroke={CHART.highlight} fill={CHART.highlight} fillOpacity={0.1} strokeWidth={2} />
-              <Tooltip contentStyle={CHART_TOOLTIP_STYLE} />
+              <ChartHoverTooltip />
             </RadarChart>
           </ResponsiveContainer>
         </div>

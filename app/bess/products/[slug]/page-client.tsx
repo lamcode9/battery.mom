@@ -16,11 +16,11 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
   Legend,
   Cell,
 } from 'recharts'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
+import { ChartHoverTooltip } from '@/components/ChartTooltip'
 
 interface BESSProduct {
   name: string
@@ -222,7 +222,7 @@ export default function BESSDetailClient({ product, slug }: BESSDetailClientProp
                 <XAxis dataKey="year" tick={{ fontSize: 10 }} label={{ value: 'Years', position: 'insideBottom', offset: -5, fontSize: 10 }} />
                 <YAxis yAxisId="left" tick={{ fontSize: 10 }} unit="%" domain={[60, 100]} />
                 <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 10 }} unit=" kWh" />
-                <Tooltip />
+                <ChartHoverTooltip />
                 <Legend wrapperStyle={{ fontSize: 11 }} />
                 <Line yAxisId="left" type="monotone" dataKey="capacityPercent" stroke="#ef4444" strokeWidth={2} name="Capacity %" dot={false} />
                 <Line yAxisId="right" type="monotone" dataKey="usableKwh" stroke="#10b981" strokeWidth={2} name="Usable kWh" dot={false} />
@@ -240,7 +240,16 @@ export default function BESSDetailClient({ product, slug }: BESSDetailClientProp
                 <PolarAngleAxis dataKey="metric" tick={{ fontSize: 10 }} />
                 <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
                 <Radar name={product.name} dataKey="value" stroke="#10b981" fill="#10b981" fillOpacity={0.3} strokeWidth={2} />
-                <Tooltip formatter={(value: number, name: string, props: any) => [props.payload.raw, props.payload.metric]} />
+                <ChartHoverTooltip
+                  formatter={(_value, _name, item) => {
+                    const raw = item.payload?.raw
+                    const metric = item.payload?.metric
+                    return [
+                      typeof raw === 'string' || typeof raw === 'number' ? raw : _value,
+                      typeof metric === 'string' ? metric : 'Value',
+                    ]
+                  }}
+                />
               </RadarChart>
             </ResponsiveContainer>
           </div>
@@ -346,7 +355,7 @@ export default function BESSDetailClient({ product, slug }: BESSDetailClientProp
               <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
               <XAxis dataKey="country" tick={{ fontSize: 10 }} />
               <YAxis tick={{ fontSize: 10 }} />
-              <Tooltip
+              <ChartHoverTooltip
                 formatter={(value: number) => [`$${value.toFixed(3)}/kWh-cycle`, 'Cost']}
               />
               <Bar dataKey="costPerKwhCycle" radius={[4, 4, 0, 0]}>

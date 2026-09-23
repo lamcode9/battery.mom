@@ -7,11 +7,11 @@ import {
   BarChart,
   CartesianGrid,
   Cell,
-  Tooltip,
   XAxis,
   YAxis,
 } from 'recharts'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
+import { ChartHoverTooltip } from '@/components/ChartTooltip'
 import {
   BATTERY_STORAGE_REGIONS,
   GLOBAL_BATTERY_POWER_ADDITIONS,
@@ -28,45 +28,6 @@ const BRAND_SOFT = '#5DD9A6'
 const FOSSIL = '#A7AFA4'
 
 const axisTick = { fill: MUTED, fontSize: 12 }
-
-interface TooltipEntry {
-  dataKey?: string | number
-  name?: string | number
-  value?: number | string
-  color?: string
-  fill?: string
-}
-
-interface ChartTooltipProps {
-  active?: boolean
-  payload?: TooltipEntry[]
-  label?: string | number
-  unit?: string
-}
-
-function ChartTooltip({ active, payload, label, unit }: ChartTooltipProps) {
-  if (!active || !payload?.length) return null
-  return (
-    <div className="rounded-lg border border-ink/10 bg-paper-100 px-3 py-2 shadow-raised">
-      <p className="mb-1.5 text-xs font-semibold text-ink">{label}</p>
-      <div className="space-y-1">
-        {payload.map((item, i) => (
-          <p key={i} className="flex items-center gap-2 text-xs text-ink-600">
-            <span
-              className="inline-block h-2 w-2 shrink-0 rounded-full"
-              style={{ background: item.color || item.fill || MUTED }}
-            />
-            <span>{item.name}</span>
-            <span className="ml-auto font-semibold text-ink">
-              {Number(item.value).toLocaleString(undefined, { maximumFractionDigits: 1 })}
-              {unit ? ` ${unit}` : ''}
-            </span>
-          </p>
-        ))}
-      </div>
-    </div>
-  )
-}
 
 // ---------------------------------------------------------------------------
 // 1. The grid tipped — fossil vs low-carbon generation, 2015 → 2025 (TWh)
@@ -99,7 +60,7 @@ export function GenerationMixChart() {
           width={44}
           tickFormatter={(v: number) => `${(v / 1000).toFixed(0)}k`}
         />
-        <Tooltip content={<ChartTooltip unit="TWh" />} cursor={{ stroke: GRID }} />
+        <ChartHoverTooltip unit="TWh" cursor={{ stroke: GRID }} />
         <Area
           type="monotone"
           dataKey="fossil"
@@ -134,7 +95,7 @@ export function BatteryBoomChart() {
         <CartesianGrid stroke={GRID} vertical={false} />
         <XAxis dataKey="year" tick={axisTick} axisLine={false} tickLine={false} />
         <YAxis tick={axisTick} axisLine={false} tickLine={false} width={36} />
-        <Tooltip content={<ChartTooltip unit="GW" />} cursor={{ fill: 'rgba(17,21,15,0.04)' }} />
+        <ChartHoverTooltip unit="GW" cursor={{ fill: 'rgba(17,21,15,0.04)' }} />
         <Bar dataKey="utilityScaleGw" name="Utility-scale" stackId="b" fill={BRAND} radius={[0, 0, 0, 0]} />
         <Bar dataKey="behindMeterGw" name="Behind-the-meter" stackId="b" fill={BRAND_SOFT} radius={[4, 4, 0, 0]} />
       </BarChart>
@@ -169,7 +130,7 @@ export function BatteryRegionChart() {
           tickLine={false}
           width={108}
         />
-        <Tooltip content={<ChartTooltip unit="GW" />} cursor={{ fill: 'rgba(17,21,15,0.04)' }} />
+        <ChartHoverTooltip unit="GW" cursor={{ fill: 'rgba(17,21,15,0.04)' }} />
         <Bar dataKey="gw" name="Utility-scale added" radius={[0, 6, 6, 0]} barSize={26}>
           {regionData.map((d) => (
             <Cell key={d.key} fill={d.key === 'china' ? BRAND : FOSSIL} />

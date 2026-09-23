@@ -9,10 +9,10 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
   Legend,
 } from 'recharts'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
+import { ChartHoverTooltip } from '@/components/ChartTooltip'
 import { CO2_GRID_FACTOR } from '@/data/rates'
 
 const GRID_EMISSION_FACTOR = CO2_GRID_FACTOR
@@ -242,7 +242,7 @@ export default function CarbonCreditEstimator({
           <XAxis dataKey="year" tick={{ fontSize: 10 }} />
           <YAxis yAxisId="rev" tick={{ fontSize: 10 }} tickFormatter={(v) => fmtShortUSD(v)} />
           <YAxis yAxisId="co2" orientation="right" tick={{ fontSize: 10 }} tickFormatter={(v) => `${v} t`} />
-          <Tooltip
+          <ChartHoverTooltip
             formatter={(v: number, name: string) =>
               name === 'revenue' ? [fmtShortUSD(v), 'Credit revenue'] : [`${v} t`, 'CO₂ avoided']
             }

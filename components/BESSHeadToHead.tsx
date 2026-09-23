@@ -9,12 +9,12 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
   Legend,
   Cell,
 } from 'recharts'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
-import { CHART, CHART_TOOLTIP_STYLE } from '@/lib/chart-theme'
+import { CHART } from '@/lib/chart-theme'
+import { ChartHoverTooltip } from '@/components/ChartTooltip'
 
 /* ── Product data ─────────────────────────────────────────────────── */
 
@@ -231,7 +231,7 @@ export default function BESSHeadToHead({ country }: Props) {
           <CartesianGrid strokeDasharray="3 3" stroke={CHART.grid} />
           <XAxis type="number" tick={{ fill: CHART.axis, fontSize: CHART.axisFontSize }} />
           <YAxis type="category" dataKey="metric" tick={{ fill: CHART.axis, fontSize: CHART.axisFontSize }} width={80} />
-          <Tooltip contentStyle={CHART_TOOLTIP_STYLE} />
+          <ChartHoverTooltip />
           <Legend wrapperStyle={{ fontSize: 11 }} />
           <Bar dataKey={leftShort} fill={CHART.highlight} radius={[0, 3, 3, 0]} />
           <Bar dataKey={rightShort} fill={CHART.primary} radius={[0, 3, 3, 0]} />

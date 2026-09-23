@@ -11,12 +11,12 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
   Legend,
   ReferenceLine,
 } from 'recharts'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
-import { CHART, CHART_TOOLTIP_STYLE } from '@/lib/chart-theme'
+import { ChartHoverTooltip } from '@/components/ChartTooltip'
+import { CHART } from '@/lib/chart-theme'
 
 /* ── Country grid data ───────────────────────────────────────────── */
 
@@ -229,7 +229,7 @@ export default function GridStabilityAnalysis({ country }: Props) {
           <CartesianGrid strokeDasharray="3 3" stroke={CHART.grid} />
           <XAxis dataKey="hour" tick={{ fill: CHART.axis, fontSize: CHART.axisFontSize }} interval={2} />
           <YAxis tick={{ fill: CHART.axis, fontSize: CHART.axisFontSize }} tickFormatter={(v) => `${v} GW`} />
-          <Tooltip contentStyle={CHART_TOOLTIP_STYLE} formatter={(v: number, name: string) => [`${v.toFixed(2)} GW`, name]} />
+          <ChartHoverTooltip formatter={(v: number, name: string) => [`${v.toFixed(2)} GW`, name]} />
           <Legend wrapperStyle={{ fontSize: 11 }} />
           <ReferenceLine y={0} stroke={CHART.grid} />
           <Area type="monotone" dataKey="demand" fill={CHART.negative} stroke={CHART.negative} strokeWidth={2} name="Demand" fillOpacity={0.3} />

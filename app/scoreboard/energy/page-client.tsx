@@ -18,7 +18,7 @@ import {
   YAxis,
 } from 'recharts'
 import { GenerationYearDetail } from './generation-groups'
-import { GenerationFossilGrainDefs, generationStackFill, generationStackFilter, isFossilGrainKey } from './generation-grain'
+import { GenerationFossilGrainDefs, GenerationSourceSwatch, generationStackFill, generationStackFilter, isFossilGrainKey } from './generation-grain'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
 import InfoTooltip from '@/components/InfoTooltip'
 import {
@@ -412,7 +412,10 @@ function ChartTooltip({
           return (
             <div key={item.key} className="flex items-center justify-between gap-4 text-xs">
               <span className="flex items-center gap-2 font-semibold text-ink-600">
-                <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: source?.color ?? item.color }} />
+                <GenerationSourceSwatch
+                  color={source?.color ?? String(item.color ?? '#64748b')}
+                  textured={isFossilGrainKey(item.key)}
+                />
                 {source?.label ?? item.key}
               </span>
               <span className="font-bold text-ink">{signed ? formatSignedTwh(item.value) : formatTwh(item.value)}</span>

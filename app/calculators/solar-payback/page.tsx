@@ -16,10 +16,10 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
   Legend,
 } from 'recharts'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
+import { ChartHoverTooltip } from '@/components/ChartTooltip'
 
 
 // Solar yield per kW installed (kWh/kW/day)
@@ -320,7 +320,7 @@ export default function SolarPaybackPage() {
                 <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
                 <XAxis dataKey="year" tick={{ fontSize: 10 }} interval={4} />
                 <YAxis tick={{ fontSize: 10 }} tickFormatter={(v) => fmtShort(v, country)} />
-                <Tooltip formatter={(v: number) => fmt(v, country)} />
+                <ChartHoverTooltip formatter={(v: number) => fmt(v, country)} />
                 <Line
                   type="monotone"
                   dataKey="cumulative"
@@ -341,7 +341,7 @@ export default function SolarPaybackPage() {
                 <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
                 <XAxis dataKey="year" tick={{ fontSize: 10 }} interval={4} />
                 <YAxis tick={{ fontSize: 10 }} tickFormatter={(v) => fmtShort(v, country)} />
-                <Tooltip formatter={(v: number) => fmt(v, country)} />
+                <ChartHoverTooltip formatter={(v: number) => fmt(v, country)} />
                 <Legend />
                 <Bar dataKey="savings" name="Annual savings" fill="#10b981" radius={[3, 3, 0, 0]} />
               </BarChart>

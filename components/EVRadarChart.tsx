@@ -10,9 +10,9 @@ import {
   PolarRadiusAxis,
   Radar,
   Legend,
-  Tooltip,
 } from 'recharts'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
+import { ChartHoverTooltip } from '@/components/ChartTooltip'
 
 const VEHICLE_COLORS = ['#0ea5e9', '#10b981', '#f97316', '#a855f7']
 
@@ -87,13 +87,7 @@ export default function EVRadarChart({ vehicles }: EVRadarChartProps) {
               dot={{ r: 3, fill: VEHICLE_COLORS[i % VEHICLE_COLORS.length] }}
             />
           ))}
-          <Tooltip
-            contentStyle={{
-              fontSize: 11,
-              borderRadius: 8,
-              border: '1px solid #e5e7eb',
-              boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.05)',
-            }}
+          <ChartHoverTooltip
             formatter={(value: number) => `${value}/100`}
           />
           <Legend

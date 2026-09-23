@@ -39,7 +39,10 @@ export default function ResponsiveContainer(
         </div>
       }
     >
-      <RechartsResponsiveContainer {...props} />
+      <RechartsResponsiveContainer
+        {...props}
+        style={{ overflow: 'visible', ...(typeof props.style === 'object' && props.style ? props.style : {}) }}
+      />
     </ErrorBoundary>
   )
 }

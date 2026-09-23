@@ -21,12 +21,12 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
   Legend,
   Cell,
   ReferenceLine,
 } from 'recharts'
 import ResponsiveContainer from '@/components/ResponsiveContainer'
+import { ChartHoverTooltip } from '@/components/ChartTooltip'
 
 // ── Country data ──────────────────────────────────────────────────────
 
@@ -633,7 +633,7 @@ export default function CommercialBESSClient() {
                 <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
                 <XAxis dataKey="hour" tick={{ fontSize: 9 }} interval={3} />
                 <YAxis tick={{ fontSize: 10 }} unit=" kW" />
-                <Tooltip />
+                <ChartHoverTooltip />
                 <Legend wrapperStyle={{ fontSize: 11 }} />
                 <Bar dataKey="With BESS" stackId="a" fill="#10b981" radius={[0, 0, 0, 0]} />
                 <Bar dataKey="Battery discharge" stackId="a" fill="#6366f1" radius={[3, 3, 0, 0]} />
@@ -650,7 +650,7 @@ export default function CommercialBESSClient() {
                 <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
                 <XAxis dataKey="year" tick={{ fontSize: 10 }} interval={2} />
                 <YAxis tick={{ fontSize: 10 }} tickFormatter={(v) => fmtShort(v, country)} />
-                <Tooltip formatter={(v: number) => fmt(v, country)} />
+                <ChartHoverTooltip formatter={(v: number) => fmt(v, country)} />
                 <Line type="monotone" dataKey="cumulative" stroke="#10b981" strokeWidth={2} dot={false} name="Net cashflow" />
               </LineChart>
             </ResponsiveContainer>
@@ -904,7 +904,7 @@ export default function CommercialBESSClient() {
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                 <XAxis dataKey="year" tick={{ fontSize: 11 }} />
                 <YAxis tickFormatter={(v: number) => fmtShort(v, country)} tick={{ fontSize: 11 }} />
-                <Tooltip formatter={(v: number) => fmt(v, country)} />
+                <ChartHoverTooltip formatter={(v: number) => fmt(v, country)} />
                 <Legend wrapperStyle={{ fontSize: '12px' }} />
                 <Line type="monotone" dataKey="diesel" name="Diesel TCO" stroke="#ef4444" strokeWidth={2} dot={false} />
                 <Line type="monotone" dataKey="bess" name="BESS TCO" stroke="#10b981" strokeWidth={2} dot={false} />
@@ -944,9 +944,9 @@ export default function CommercialBESSClient() {
                 <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
                 <XAxis dataKey="hour" tick={{ fontSize: 10 }} interval={2} />
                 <YAxis tickFormatter={(v: number) => fmt(v, country, country === 'ID' || country === 'VN' ? 0 : 2)} tick={{ fontSize: 10 }} />
-                <Tooltip
+                <ChartHoverTooltip
                   formatter={(v: number) => fmt(v, country, country === 'ID' || country === 'VN' ? 0 : 3)}
-                  labelFormatter={(l: string) => `Time: ${l}`}
+                  labelFormatter={(l) => `Time: ${l}`}
                 />
                 <ReferenceLine y={touCalc.offPeakRate} stroke="#10b981" strokeDasharray="3 3" label={{ value: 'Charge', fill: '#10b981', fontSize: 10, position: 'insideTopRight' }} />
                 <ReferenceLine y={touCalc.peakRate} stroke="#ef4444" strokeDasharray="3 3" label={{ value: 'Discharge', fill: '#ef4444', fontSize: 10, position: 'insideTopRight' }} />

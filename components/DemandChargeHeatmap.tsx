@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useCallback } from 'react'
 import InfoTooltip from '@/components/InfoTooltip'
+import { AnchoredChartTooltip } from '@/components/ChartTooltip'
 import type { Country } from '@/types/bess'
 
 /* ── Types ───────────────────────────────────────────────────────── */
@@ -99,7 +100,7 @@ export default function DemandChargeHeatmap({ country, peakDemandKw: propPeak, t
   const [peakDemandKw, setPeakDemandKw] = useState(propPeak ?? 150)
   const [targetReductionPct, setTargetReductionPct] = useState(propReduction ?? 30)
   const [showShaving, setShowShaving] = useState(true)
-  const [hoverCell, setHoverCell] = useState<{ day: number; hour: number } | null>(null)
+  const [hoverCell, setHoverCell] = useState<{ day: number; hour: number; rect: DOMRect } | null>(null)
 
   const touBands = TOU_RATES[country]
   const demandCharge = DEMAND_CHARGE[country]
@@ -279,24 +280,19 @@ export default function DemandChargeHeatmap({ country, peakDemandKw: propPeak, t
                   const isHover = hoverCell?.day === d && hoverCell?.hour === h
                   return (
                     <td key={h}
+                      tabIndex={0}
+                      aria-label={`${day} ${h.toString().padStart(2, '0')}:00, ${orig} kW${wasShaved ? `, shaved to ${kw} kW` : ''}`}
                       className={`relative py-0.5 px-0 text-center transition-all cursor-default
                         ${wasShaved ? 'ring-2 ring-blue-400 ring-inset' : ''}
                         ${isHover ? 'ring-2 ring-ink ring-inset z-10' : ''}`}
-                      onMouseEnter={() => setHoverCell({ day: d, hour: h })}
-                      onMouseLeave={() => setHoverCell(null)}>
+                      onMouseEnter={(e) => setHoverCell({ day: d, hour: h, rect: e.currentTarget.getBoundingClientRect() })}
+                      onMouseLeave={() => setHoverCell(null)}
+                      onFocus={(e) => setHoverCell({ day: d, hour: h, rect: e.currentTarget.getBoundingClientRect() })}
+                      onBlur={() => setHoverCell(null)}>
                       <div className={`mx-[1px] rounded-sm py-1 text-[9px] font-medium leading-none
                         ${getColor(kw, wasShaved)}`}>
                         {kw}
                       </div>
-                      {/* Tooltip */}
-                      {isHover && (
-                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 z-50 bg-ink text-white rounded-lg px-3 py-2 text-[11px] whitespace-nowrap shadow-xl pointer-events-none">
-                          <div className="font-semibold">{day} {h.toString().padStart(2, '0')}:00</div>
-                          <div>Demand: {orig} kW {wasShaved ? `→ ${kw} kW (shaved)` : ''}</div>
-                          <div>TOU band: {getTouBand(h)?.label} @ {cur}{getTouBand(h)?.rate.toLocaleString()}/kWh</div>
-                          {wasShaved && <div className="text-blue-300 font-medium">⚡ Battery active: −{orig - kw} kW</div>}
-                        </div>
-                      )}
                     </td>
                   )
                 })}
@@ -305,6 +301,34 @@ export default function DemandChargeHeatmap({ country, peakDemandKw: propPeak, t
           </tbody>
         </table>
       </div>
+
+      {hoverCell && (
+        <AnchoredChartTooltip
+          anchor={hoverCell.rect}
+          label={`${DAYS[hoverCell.day]} ${hoverCell.hour.toString().padStart(2, '0')}:00`}
+          items={[
+            {
+              name: 'Demand',
+              value: (() => {
+                const orig = matrix[hoverCell.day][hoverCell.hour]
+                const kw = data[hoverCell.day][hoverCell.hour]
+                const wasShaved = showShaving && orig > peakDemandKw * (1 - targetReductionPct / 100)
+                return wasShaved ? `${orig} kW → ${kw} kW` : `${orig} kW`
+              })(),
+            },
+            {
+              name: 'TOU band',
+              value: `${getTouBand(hoverCell.hour)?.label} @ ${cur}${getTouBand(hoverCell.hour)?.rate.toLocaleString()}/kWh`,
+            },
+            ...(showShaving && matrix[hoverCell.day][hoverCell.hour] > peakDemandKw * (1 - targetReductionPct / 100)
+              ? [{
+                  name: 'Battery',
+                  value: `−${matrix[hoverCell.day][hoverCell.hour] - data[hoverCell.day][hoverCell.hour]} kW`,
+                }]
+              : []),
+          ]}
+        />
+      )}
 
       {/* ── Legend ── */}
       <div className="flex flex-wrap items-center gap-4 mt-3 text-[10px] text-ink-500">

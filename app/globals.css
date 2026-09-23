@@ -22,6 +22,17 @@
   }
 }
 
+/* Chart hover cards sit inside Recharts' wrapper; keep them from clipping at the plot edge. */
+.recharts-wrapper,
+.recharts-surface {
+  overflow: visible;
+}
+.recharts-tooltip-wrapper {
+  z-index: 40;
+  outline: none;
+  pointer-events: none;
+}
+
 .home-page {
   --home-ink: #101512;
   --home-paper: #fffaf1;

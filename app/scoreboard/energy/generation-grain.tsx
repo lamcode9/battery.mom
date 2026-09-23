@@ -2,9 +2,9 @@ import { useId } from 'react'
 
 /**
  * Same-hue grain for coal, gas, and oil on the world generation stack.
- * The noise is written into the fill color and clipped to that shape.
- * A user-space filter rectangle, or a blend that keeps the noise alpha,
- * paints static across the plot and a halo around the tooltip dots.
+ * Fractal noise is collapsed to one luminance, mixed lightly into the fill,
+ * then clipped to that shape. Separate red, green, and blue noise reads as
+ * confetti. A filter rectangle larger than the shape paints the plot.
  * Hydro, bioenergy, solar, wind, other renewables, and nuclear stay flat.
  */
 
@@ -14,7 +14,7 @@ export type FossilGrainKey = (typeof FOSSIL_GRAIN_KEYS)[number]
 
 const FOSSIL_GRAIN_FILTER = 'url(#generation-fossil-grain)'
 
-function FossilGrainFilter({ id }: { id: string }) {
+function FossilGrainFilter({ id, frequency }: { id: string; frequency: number }) {
   return (
     <filter
       id={id}
@@ -28,7 +28,7 @@ function FossilGrainFilter({ id }: { id: string }) {
     >
       <feTurbulence
         type="fractalNoise"
-        baseFrequency="0.065"
+        baseFrequency={frequency}
         numOctaves="1"
         seed="4"
         stitchTiles="stitch"
@@ -37,43 +37,11 @@ function FossilGrainFilter({ id }: { id: string }) {
       <feColorMatrix
         in="noise"
         type="matrix"
-        values="0.8 0 0 0 0.1  0 0.8 0 0 0.1  0 0 0.8 0 0.1  0 0 0 0 1"
-        result="gray"
+        values="0.33 0.33 0.33 0 -0.5  0.33 0.33 0.33 0 -0.5  0.33 0.33 0.33 0 -0.5  0 0 0 1 0"
+        result="centered"
       />
-      <feBlend in="SourceGraphic" in2="gray" mode="overlay" result="blended" />
-      <feComposite in="blended" in2="SourceGraphic" operator="in" />
-    </filter>
-  )
-}
-
-function FossilDotGrainFilter({ id }: { id: string }) {
-  return (
-    <filter
-      id={id}
-      filterUnits="objectBoundingBox"
-      primitiveUnits="userSpaceOnUse"
-      x="0"
-      y="0"
-      width="1"
-      height="1"
-      colorInterpolationFilters="sRGB"
-    >
-      <feTurbulence
-        type="fractalNoise"
-        baseFrequency="0.45"
-        numOctaves="1"
-        seed="4"
-        stitchTiles="stitch"
-        result="noise"
-      />
-      <feColorMatrix
-        in="noise"
-        type="matrix"
-        values="0.7 0 0 0 0.15  0 0.7 0 0 0.15  0 0 0.7 0 0.15  0 0 0 0 1"
-        result="gray"
-      />
-      <feBlend in="SourceGraphic" in2="gray" mode="overlay" result="blended" />
-      <feComposite in="blended" in2="SourceGraphic" operator="in" />
+      <feComposite in="SourceGraphic" in2="centered" operator="arithmetic" k1="0" k2="1" k3="0.42" k4="0" result="modulated" />
+      <feComposite in="modulated" in2="SourceGraphic" operator="in" />
     </filter>
   )
 }
@@ -91,7 +59,7 @@ export function generationStackFilter(key: string): string | undefined {
 }
 
 export function GenerationFossilGrainDefs() {
-  return <FossilGrainFilter id="generation-fossil-grain" />
+  return <FossilGrainFilter id="generation-fossil-grain" frequency={0.4} />
 }
 
 export function GenerationSourceSwatch({
@@ -110,7 +78,7 @@ export function GenerationSourceSwatch({
   return (
     <span className="inline-flex h-2.5 w-2.5 shrink-0 overflow-hidden rounded-full" aria-hidden="true">
       <svg width="10" height="10" viewBox="0 0 10 10" className="block h-2.5 w-2.5">
-        <FossilDotGrainFilter id={filterId} />
+        <FossilGrainFilter id={filterId} frequency={0.4} />
         <rect width="10" height="10" fill={color} filter={`url(#${filterId})`} />
       </svg>
     </span>

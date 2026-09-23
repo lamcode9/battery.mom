@@ -1,14 +1,10 @@
 import { useId } from 'react'
 
 /**
- * Quiet same-hue grain for the fossil bands of the world generation stack.
- * Coal, gas, and oil keep their current hues. Fractal noise, blended as an
- * overlay in chart pixels, sits in the fill so the fossil group reads without
- * a divider, plot label, wash, or a repeating speck grid. Hover dots for those
- * three sources use that noise inside the dot. The dot filter writes the noise
- * into the color, then clips the result to the circle. The band filter's
- * constant gray only varies alpha, so on a solid dot it paints a halo around
- * the swatch instead of grain in the fill.
+ * Same-hue grain for coal, gas, and oil on the world generation stack.
+ * The noise is written into the fill color and clipped to that shape.
+ * A user-space filter rectangle, or a blend that keeps the noise alpha,
+ * paints static across the plot and a halo around the tooltip dots.
  * Hydro, bioenergy, solar, wind, other renewables, and nuclear stay flat.
  */
 
@@ -18,31 +14,21 @@ export type FossilGrainKey = (typeof FOSSIL_GRAIN_KEYS)[number]
 
 const FOSSIL_GRAIN_FILTER = 'url(#generation-fossil-grain)'
 
-function FossilGrainFilter({
-  id,
-  width,
-  height,
-  frequency,
-}: {
-  id: string
-  width: number
-  height: number
-  frequency: number
-}) {
+function FossilGrainFilter({ id }: { id: string }) {
   return (
     <filter
       id={id}
-      filterUnits="userSpaceOnUse"
+      filterUnits="objectBoundingBox"
       primitiveUnits="userSpaceOnUse"
       x="0"
       y="0"
-      width={width}
-      height={height}
+      width="1"
+      height="1"
       colorInterpolationFilters="sRGB"
     >
       <feTurbulence
         type="fractalNoise"
-        baseFrequency={frequency}
+        baseFrequency="0.065"
         numOctaves="1"
         seed="4"
         stitchTiles="stitch"
@@ -51,10 +37,11 @@ function FossilGrainFilter({
       <feColorMatrix
         in="noise"
         type="matrix"
-        values="0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 0 0.5  1.6 0 0 0 -0.62"
-        result="grain"
+        values="0.8 0 0 0 0.1  0 0.8 0 0 0.1  0 0 0.8 0 0.1  0 0 0 0 1"
+        result="gray"
       />
-      <feBlend in="SourceGraphic" in2="grain" mode="overlay" />
+      <feBlend in="SourceGraphic" in2="gray" mode="overlay" result="blended" />
+      <feComposite in="blended" in2="SourceGraphic" operator="in" />
     </filter>
   )
 }
@@ -63,17 +50,17 @@ function FossilDotGrainFilter({ id }: { id: string }) {
   return (
     <filter
       id={id}
-      filterUnits="userSpaceOnUse"
+      filterUnits="objectBoundingBox"
       primitiveUnits="userSpaceOnUse"
       x="0"
       y="0"
-      width="10"
-      height="10"
+      width="1"
+      height="1"
       colorInterpolationFilters="sRGB"
     >
       <feTurbulence
         type="fractalNoise"
-        baseFrequency="0.22"
+        baseFrequency="0.45"
         numOctaves="1"
         seed="4"
         stitchTiles="stitch"
@@ -82,7 +69,7 @@ function FossilDotGrainFilter({ id }: { id: string }) {
       <feColorMatrix
         in="noise"
         type="matrix"
-        values="1.4 0 0 0 -0.2  0 1.4 0 0 -0.2  0 0 1.4 0 -0.2  0 0 0 0 1"
+        values="0.7 0 0 0 0.15  0 0.7 0 0 0.15  0 0 0.7 0 0.15  0 0 0 0 1"
         result="gray"
       />
       <feBlend in="SourceGraphic" in2="gray" mode="overlay" result="blended" />
@@ -104,7 +91,7 @@ export function generationStackFilter(key: string): string | undefined {
 }
 
 export function GenerationFossilGrainDefs() {
-  return <FossilGrainFilter id="generation-fossil-grain" width={1600} height={480} frequency={0.22} />
+  return <FossilGrainFilter id="generation-fossil-grain" />
 }
 
 export function GenerationSourceSwatch({
@@ -121,15 +108,11 @@ export function GenerationSourceSwatch({
   }
 
   return (
-    <svg
-      width="10"
-      height="10"
-      viewBox="0 0 10 10"
-      className="h-2.5 w-2.5 shrink-0 overflow-hidden rounded-full"
-      aria-hidden="true"
-    >
-      <FossilDotGrainFilter id={filterId} />
-      <circle cx="5" cy="5" r="5" fill={color} filter={`url(#${filterId})`} />
-    </svg>
+    <span className="inline-flex h-2.5 w-2.5 shrink-0 overflow-hidden rounded-full" aria-hidden="true">
+      <svg width="10" height="10" viewBox="0 0 10 10" className="block h-2.5 w-2.5">
+        <FossilDotGrainFilter id={filterId} />
+        <rect width="10" height="10" fill={color} filter={`url(#${filterId})`} />
+      </svg>
+    </span>
   )
 }

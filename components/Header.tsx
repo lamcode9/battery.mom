@@ -53,7 +53,7 @@ const navLinks: NavLink[] = [
       { href: '/bess/commercial', label: 'Commercial' },
       { href: '/bess/grid', label: 'Grid and industrial' },
       { href: '/calculators/solar-payback', label: 'Solar payback' },
-      { href: '/bess/case-studies', label: 'Case studies' },
+      { href: '/bess/case-studies', label: 'Scenarios' },
     ],
   },
   { href: '/insights', label: 'Insights' },

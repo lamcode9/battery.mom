@@ -23,11 +23,6 @@ interface CaseStudy {
   installedDate: string
   summary: string
   highlights: string[]
-  quote?: {
-    text: string
-    author: string
-    role: string
-  }
 }
 
 const CASE_STUDIES: CaseStudy[] = [
@@ -51,11 +46,6 @@ const CASE_STUDIES: CaseStudy[] = [
       'Battery covers overnight AC usage (2 split units)',
       'Exported only 3 kWh/day to grid under NEM 3.0',
     ],
-    quote: {
-      text: 'We were sceptical about the battery adding value on top of solar. The night-time electricity cost is basically gone.',
-      author: 'Ahmad R.',
-      role: 'Homeowner, Shah Alam',
-    },
   },
   {
     id: 'singapore-landed-byd',
@@ -77,11 +67,6 @@ const CASE_STUDIES: CaseStudy[] = [
       'LFP chemistry well-suited for Singapore heat',
       'Estimated 10-year warranty with 80% capacity retention',
     ],
-    quote: {
-      text: 'After the 2023 outage that lasted 4 hours, we decided backup power was essential. The battery pays for itself in savings while giving us peace of mind.',
-      author: 'Tan W.L.',
-      role: 'Homeowner, Bukit Timah',
-    },
   },
   {
     id: 'bkk-office-peak-shaving',
@@ -124,11 +109,6 @@ const CASE_STUDIES: CaseStudy[] = [
       'Silent operation improved guest experience',
       'Stack expandable to 38.4 kWh',
     ],
-    quote: {
-      text: 'Our guests come for the quiet and the nature. Switching from a noisy diesel generator to silent battery power was the best decision we made.',
-      author: 'Maria C.',
-      role: 'Resort Owner, Cebu',
-    },
   },
   {
     id: 'jkt-factory-demand-management',
@@ -190,7 +170,7 @@ export default function CaseStudiesPage() {
         </div>
 
         {/* Summary Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+        <div className="grid grid-cols-3 gap-4 mb-10">
           <div className="bg-paper-100 border border-ink/10 rounded-card p-4 text-center">
             <div className="text-2xl font-bold text-brand-600">{CASE_STUDIES.length}</div>
             <div className="text-xs text-ink-500 mt-1">Case Studies</div>
@@ -206,12 +186,6 @@ export default function CaseStudiesPage() {
               {Math.round(CASE_STUDIES.reduce((sum, c) => sum + c.paybackYears, 0) / CASE_STUDIES.length)}y
             </div>
             <div className="text-xs text-ink-500 mt-1">Avg. Payback</div>
-          </div>
-          <div className="bg-paper-100 border border-ink/10 rounded-card p-4 text-center">
-            <div className="text-2xl font-bold text-ink">
-              {CASE_STUDIES.filter((c) => c.quote).length}
-            </div>
-            <div className="text-xs text-ink-500 mt-1">Testimonials</div>
           </div>
         </div>
 
@@ -267,7 +241,7 @@ export default function CaseStudiesPage() {
                   </div>
 
                   {/* Highlights */}
-                  <div className="mb-5">
+                  <div>
                     <h3 className="text-sm font-semibold text-ink-700 mb-2">Key results</h3>
                     <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-1.5">
                       {study.highlights.map((h, i) => (
@@ -280,19 +254,6 @@ export default function CaseStudiesPage() {
                       ))}
                     </ul>
                   </div>
-
-                  {/* Quote */}
-                  {study.quote && (
-                    <div className="border-l-4 border-brand-400 pl-5 py-3 bg-brand-50/50 rounded-r-lg">
-                      <p className="text-ink-700 italic leading-relaxed">
-                        &ldquo;{study.quote.text}&rdquo;
-                      </p>
-                      <div className="mt-2 text-sm">
-                        <span className="font-semibold text-ink">{study.quote.author}</span>
-                        <span className="text-ink-500"> · {study.quote.role}</span>
-                      </div>
-                    </div>
-                  )}
                 </div>
               </div>
             )

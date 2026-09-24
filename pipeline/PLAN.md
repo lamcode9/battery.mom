@@ -123,7 +123,7 @@
 ### 3.2 BESS Section Enhancements
 - [x] BESS product detail pages (`/bess/products/[slug]`) with specs, degradation curve, radar chart, pricing, backup scenarios
 - [x] Installer directory or links per country
-- [x] Real customer testimonials / case studies
+- [ ] Real customer testimonials. The /bess/case-studies quotes (Ahmad R., Tan W.L., Maria C.) had no interview, submission, or published source, and were removed. Do not put named speech back until there is a source to cite.
 - [x] Degradation curve visualisation (capacity over cycles/years) — included in BESS detail pages
 
 ### 3.3 Data Pipeline

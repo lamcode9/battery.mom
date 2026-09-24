@@ -154,6 +154,7 @@ export default function ScenarioComparisonTool({ country }: Props) {
         selfSufficiency: Math.round(selfSufficiency),
         annualBill,
         baselineBill,
+        gridBills: annualBill * years,
         yearlyData,
       }
     }
@@ -161,11 +162,21 @@ export default function ScenarioComparisonTool({ country }: Props) {
     return (['solar', 'solar_bess', 'solar_bess_ev'] as ScenarioId[]).map(calc)
   }, [country, solarKwp, batteryKwh, dailyLoadKwh, evKmPerDay, years])
 
+  const gridOnlyBill = dailyLoadKwh * 365 * TARIFF[country] * years
+  const twentyYearCost = [
+    { name: 'Grid only', Equipment: 0, 'Grid bills': Math.round(gridOnlyBill) },
+    ...scenarios.map((s) => ({
+      name: SCENARIO_META[s.id].label.replaceAll(' + ', '+'),
+      Equipment: Math.round(s.totalCost),
+      'Grid bills': Math.round(s.gridBills),
+    })),
+  ]
+
   return (
     <div className="bg-paper-100 border border-ink/10 rounded-card p-6 mb-8">
       <h2 className="text-lg font-semibold text-ink mb-1">
         Scenario Comparison{' '}
-        <InfoTooltip content="Compare three investment paths side by side: Solar Only, Solar + Battery, Solar + Battery + EV Charging. See how each affects your bill, payback, CO₂ footprint, and power resilience." />
+        <InfoTooltip content="Compare staying on the grid with Solar Only, Solar + Battery, and Solar + Battery + EV. The 20-year cost bar is equipment plus electricity still bought from the grid. Grid only is this house's bill, with no solar, battery, or EV." />
       </h2>
       <p className="text-sm text-ink-500 mb-6">
         How much more value does a battery (and EV) add on top of solar?
@@ -253,7 +264,7 @@ export default function ScenarioComparisonTool({ country }: Props) {
           <h3 className="text-sm font-semibold text-ink mb-2">Cost vs savings</h3>
           <ResponsiveContainer width="100%" height={240}>
             <BarChart data={scenarios.map((s) => ({
-              name: SCENARIO_META[s.id].label.replace(' + ', '+'),
+              name: SCENARIO_META[s.id].label.replaceAll(' + ', '+'),
               'Upfront cost': s.totalCost,
               [`${years}yr savings`]: s.annualSavings * years,
             }))}>
@@ -271,7 +282,7 @@ export default function ScenarioComparisonTool({ country }: Props) {
           <h3 className="text-sm font-semibold text-ink mb-2">CO₂ &amp; self-sufficiency</h3>
           <ResponsiveContainer width="100%" height={240}>
             <BarChart data={scenarios.map((s) => ({
-              name: SCENARIO_META[s.id].label.replace(' + ', '+'),
+              name: SCENARIO_META[s.id].label.replaceAll(' + ', '+'),
               'CO₂ avoided (t)': Math.round(s.totalCO2 * 10) / 10,
               'Self-sufficiency %': s.selfSufficiency,
             }))}>
@@ -285,6 +296,25 @@ export default function ScenarioComparisonTool({ country }: Props) {
             </BarChart>
           </ResponsiveContainer>
         </div>
+      </div>
+
+      <div className="mt-6">
+        <h3 className="text-sm font-semibold text-ink mb-1">20-year cost</h3>
+        <p className="text-xs text-ink-500 mb-2">
+          Equipment plus the electricity still bought from the grid. Grid only is this house&apos;s bill with no solar, battery, or EV.
+          The EV bar adds the car&apos;s home charging and a charger. Petrol is not included. Today&apos;s tariff, held flat for {years} years.
+        </p>
+        <ResponsiveContainer width="100%" height={260}>
+          <BarChart data={twentyYearCost}>
+            <CartesianGrid strokeDasharray="3 3" stroke={CHART.grid} />
+            <XAxis dataKey="name" tick={{ fill: CHART.axis, fontSize: CHART.axisFontSize }} />
+            <YAxis tick={{ fill: CHART.axis, fontSize: CHART.axisFontSize }} tickFormatter={(v) => fmtShort(v, country)} />
+            <ChartHoverTooltip formatter={(v: number) => fmtShort(v, country)} />
+            <Legend wrapperStyle={{ fontSize: 11 }} />
+            <Bar dataKey="Equipment" stackId="cost" fill={CHART.negative} />
+            <Bar dataKey="Grid bills" stackId="cost" fill={CHART.comparison} radius={[3, 3, 0, 0]} />
+          </BarChart>
+        </ResponsiveContainer>
       </div>
       <p className="text-xs text-ink-400 mt-4">
         * Electricity tariff: {RESIDENTIAL_TARIFF_NOTE[country]} Last verified {RATE_VERIFIED_ON}.

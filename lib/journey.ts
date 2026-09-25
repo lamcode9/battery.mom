@@ -100,8 +100,8 @@ export const DESTINATIONS = {
   },
   caseStudies: {
     href: '/bess/case-studies',
-    label: 'Case studies',
-    blurb: 'Real homes and businesses: what they paid, what they saved, what they learned.',
+    label: 'Scenarios',
+    blurb: 'Sketches of home, office, and factory batteries. Not measured installs.',
     kind: 'read',
   },
   insights: {

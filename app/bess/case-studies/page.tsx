@@ -3,9 +3,9 @@ import Link from 'next/link'
 import { NextSteps } from '@/components/ui/NextSteps'
 
 export const metadata: Metadata = {
-  title: 'BESS case studies, battery.mom',
+  title: 'Battery scenarios, battery.mom',
   description:
-    'Battery installations from homes and businesses across Southeast Asia, with costs, savings, and what the owners learned.',
+    'Illustrative home, office, and factory battery setups for Southeast Asia. Not measured customer installs.',
   alternates: { canonical: '/bess/case-studies' },
 }
 
@@ -20,20 +20,14 @@ interface CaseStudy {
   solarSize: string
   monthlySavings: string
   paybackYears: number
-  installedDate: string
   summary: string
   highlights: string[]
-  quote?: {
-    text: string
-    author: string
-    role: string
-  }
 }
 
 const CASE_STUDIES: CaseStudy[] = [
   {
     id: 'klang-valley-powerwall',
-    title: 'Zeroing the bill in Klang Valley',
+    title: 'A Klang Valley bill, sketched',
     location: 'Klang Valley',
     country: 'MY',
     type: 'residential',
@@ -42,24 +36,18 @@ const CASE_STUDIES: CaseStudy[] = [
     solarSize: '8 kWp',
     monthlySavings: 'RM 420/month',
     paybackYears: 7,
-    installedDate: '2024-06',
     summary:
-      'A family of four in Shah Alam paired an 8 kWp rooftop solar system with a Tesla Powerwall 3 to virtually eliminate their electricity bill. Before installation, their average monthly bill was RM 480. After 6 months, their average bill dropped to RM 60.',
+      'A sketch for a Shah Alam household: an 8 kWp roof and a 13.5 kWh Powerwall 3. It assumes a bill of RM 480 before, and RM 60 after six months. This is not a metered install.',
     highlights: [
       'Monthly bill reduced from RM 480 to RM 60',
       'Self-consumption rate increased from 40% to 85%',
       'Battery covers overnight AC usage (2 split units)',
       'Exported only 3 kWh/day to grid under NEM 3.0',
     ],
-    quote: {
-      text: 'We were sceptical about the battery adding value on top of solar. The night-time electricity cost is basically gone.',
-      author: 'Ahmad R.',
-      role: 'Homeowner, Shah Alam',
-    },
   },
   {
     id: 'singapore-landed-byd',
-    title: 'Landed property backup + savings in Singapore',
+    title: 'Landed backup in Singapore, sketched',
     location: 'Bukit Timah',
     country: 'SG',
     type: 'residential',
@@ -68,24 +56,18 @@ const CASE_STUDIES: CaseStudy[] = [
     solarSize: '6 kWp',
     monthlySavings: 'S$180/month',
     paybackYears: 8,
-    installedDate: '2024-03',
     summary:
-      'A landed property in Bukit Timah installed a BYD BatteryBox Premium alongside a 6 kWp solar system. The primary motivation was backup power during grid outages, with cost savings as a secondary benefit.',
+      'A sketch for a landed home in Bukit Timah: 6 kWp of solar and a 10.2 kWh BYD BatteryBox. It assumes backup is the reason to add a battery, and a bill moving from S$320 to S$140. This is not a metered install.',
     highlights: [
       'Monthly bill reduced from S$320 to S$140',
       'Provides 6-8 hours of backup during outages',
       'LFP chemistry well-suited for Singapore heat',
       'Estimated 10-year warranty with 80% capacity retention',
     ],
-    quote: {
-      text: 'After the 2023 outage that lasted 4 hours, we decided backup power was essential. The battery pays for itself in savings while giving us peace of mind.',
-      author: 'Tan W.L.',
-      role: 'Homeowner, Bukit Timah',
-    },
   },
   {
     id: 'bkk-office-peak-shaving',
-    title: 'Peak shaving for a Bangkok co-working space',
+    title: 'Bangkok peak shaving, sketched',
     location: 'Sukhumvit',
     country: 'TH',
     type: 'commercial',
@@ -94,9 +76,8 @@ const CASE_STUDIES: CaseStudy[] = [
     solarSize: '20 kWp',
     monthlySavings: '฿15,000/month',
     paybackYears: 5,
-    installedDate: '2024-09',
     summary:
-      'A co-working space in Sukhumvit installed three Huawei LUNA 2000 units to shave afternoon demand peaks. Combined with rooftop solar, demand charges dropped by 40%. The system also provides seamless backup for critical IT equipment.',
+      'A sketch for a Sukhumvit co-working space: three Huawei LUNA 2000 units (30 kWh) with 20 kWp of solar. It assumes afternoon peak shaving and demand charges 40% lower. This is not a metered install.',
     highlights: [
       'Demand charges reduced by 40%',
       'System ROI in under 5 years',
@@ -106,7 +87,7 @@ const CASE_STUDIES: CaseStudy[] = [
   },
   {
     id: 'cebu-resort-off-grid',
-    title: 'Off-grid solar + storage for a Cebu beach resort',
+    title: 'A Cebu resort, sketched',
     location: 'Cebu',
     country: 'PH',
     type: 'commercial',
@@ -115,24 +96,18 @@ const CASE_STUDIES: CaseStudy[] = [
     solarSize: '15 kWp',
     monthlySavings: '₱25,000/month',
     paybackYears: 4,
-    installedDate: '2023-11',
     summary:
-      'A small beach resort on Cebu Island moved to a hybrid solar + battery system to reduce reliance on expensive diesel generators. The Pylontech stack provides reliable evening power for guest rooms and common areas.',
+      'A sketch for a small Cebu beach resort: four Pylontech US5000 modules (19.2 kWh) with 15 kWp of solar. It assumes diesel running much less of the evening. This is not a named resort.',
     highlights: [
       'Diesel generator runtime reduced by 70%',
       'Fuel cost savings of ₱25,000/month',
       'Silent operation improved guest experience',
       'Stack expandable to 38.4 kWh',
     ],
-    quote: {
-      text: 'Our guests come for the quiet and the nature. Switching from a noisy diesel generator to silent battery power was the best decision we made.',
-      author: 'Maria C.',
-      role: 'Resort Owner, Cebu',
-    },
   },
   {
     id: 'jkt-factory-demand-management',
-    title: 'Industrial demand management in Jakarta',
+    title: 'A Jakarta factory, sketched',
     location: 'Cikarang Industrial Estate',
     country: 'ID',
     type: 'industrial',
@@ -141,9 +116,8 @@ const CASE_STUDIES: CaseStudy[] = [
     solarSize: '60 kWp',
     monthlySavings: 'Rp 18,000,000/month',
     paybackYears: 6,
-    installedDate: '2024-01',
     summary:
-      'A garment factory in Cikarang deployed a 100 kWh BYD commercial BESS to flatten demand peaks and reduce their peak demand tariff. Combined with rooftop solar, the factory reduced their overall electricity cost by 25%.',
+      'A sketch for a Cikarang garment factory: a 100 kWh BYD commercial battery and 60 kWp of solar. It assumes peak demand 35% lower and electricity cost 25% lower. This is not a metered install.',
     highlights: [
       'Peak demand reduced by 35%',
       'Overall electricity cost down 25%',
@@ -179,21 +153,21 @@ export default function CaseStudiesPage() {
               Battery Storage
             </Link>
             <span className="text-ink-400">/</span>
-            <span className="text-sm text-ink-500">Case Studies</span>
+            <span className="text-sm text-ink-500">Scenarios</span>
           </div>
           <h1 className="font-display text-4xl md:text-5xl font-medium text-ink tracking-tight">
-            Real-world case studies
+            Battery scenarios
           </h1>
           <p className="mt-4 text-lg text-ink-600 leading-relaxed">
-            How homes, offices, and factories across Southeast Asia are using battery storage to cut costs and gain energy independence.
+            Sketches of how a home, office, or factory battery might be sized in Southeast Asia. These are not customer installs. No owner, installer, or meter reading is attached. Bills and payback are assumptions.
           </p>
         </div>
 
         {/* Summary Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+        <div className="grid grid-cols-3 gap-4 mb-10">
           <div className="bg-paper-100 border border-ink/10 rounded-card p-4 text-center">
             <div className="text-2xl font-bold text-brand-600">{CASE_STUDIES.length}</div>
-            <div className="text-xs text-ink-500 mt-1">Case Studies</div>
+            <div className="text-xs text-ink-500 mt-1">Scenarios</div>
           </div>
           <div className="bg-paper-100 border border-ink/10 rounded-card p-4 text-center">
             <div className="text-2xl font-bold text-ink">
@@ -205,13 +179,7 @@ export default function CaseStudiesPage() {
             <div className="text-2xl font-bold text-ink">
               {Math.round(CASE_STUDIES.reduce((sum, c) => sum + c.paybackYears, 0) / CASE_STUDIES.length)}y
             </div>
-            <div className="text-xs text-ink-500 mt-1">Avg. Payback</div>
-          </div>
-          <div className="bg-paper-100 border border-ink/10 rounded-card p-4 text-center">
-            <div className="text-2xl font-bold text-ink">
-              {CASE_STUDIES.filter((c) => c.quote).length}
-            </div>
-            <div className="text-xs text-ink-500 mt-1">Testimonials</div>
+            <div className="text-xs text-ink-500 mt-1">Sketched payback</div>
           </div>
         </div>
 
@@ -233,9 +201,7 @@ export default function CaseStudiesPage() {
                     <span className="text-sm">
                       {COUNTRY_FLAGS[study.country]} {study.location}
                     </span>
-                    <span className="text-xs text-ink-400 ml-auto">
-                      Installed {new Date(study.installedDate).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })}
-                    </span>
+                    <span className="text-xs text-ink-400 ml-auto">Illustration</span>
                   </div>
 
                   {/* Title & Summary */}
@@ -257,7 +223,7 @@ export default function CaseStudiesPage() {
                       <div className="text-sm font-semibold text-ink mt-0.5">{study.solarSize}</div>
                     </div>
                     <div className="bg-paper-200 rounded-lg p-3">
-                      <div className="text-xs text-ink-500">Monthly Savings</div>
+                      <div className="text-xs text-ink-500">Sketched saving</div>
                       <div className="text-sm font-semibold text-brand-600 mt-0.5">{study.monthlySavings}</div>
                     </div>
                     <div className="bg-paper-200 rounded-lg p-3">
@@ -267,8 +233,8 @@ export default function CaseStudiesPage() {
                   </div>
 
                   {/* Highlights */}
-                  <div className="mb-5">
-                    <h3 className="text-sm font-semibold text-ink-700 mb-2">Key results</h3>
+                  <div>
+                    <h3 className="text-sm font-semibold text-ink-700 mb-2">Sketch assumptions</h3>
                     <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-1.5">
                       {study.highlights.map((h, i) => (
                         <li key={i} className="flex items-start gap-2 text-sm text-ink-600">
@@ -280,19 +246,6 @@ export default function CaseStudiesPage() {
                       ))}
                     </ul>
                   </div>
-
-                  {/* Quote */}
-                  {study.quote && (
-                    <div className="border-l-4 border-brand-400 pl-5 py-3 bg-brand-50/50 rounded-r-lg">
-                      <p className="text-ink-700 italic leading-relaxed">
-                        &ldquo;{study.quote.text}&rdquo;
-                      </p>
-                      <div className="mt-2 text-sm">
-                        <span className="font-semibold text-ink">{study.quote.author}</span>
-                        <span className="text-ink-500"> · {study.quote.role}</span>
-                      </div>
-                    </div>
-                  )}
                 </div>
               </div>
             )
@@ -301,9 +254,9 @@ export default function CaseStudiesPage() {
 
         {/* Submit Your Story */}
         <div className="mt-12 bg-paper-200 border border-ink/10 rounded-card p-8 text-center">
-          <h2 className="text-xl font-bold text-ink mb-2">Have a BESS installation story?</h2>
+          <h2 className="text-xl font-bold text-ink mb-2">Have a metered install we can cite?</h2>
           <p className="text-ink-600 mb-4">
-            These installations are from across Southeast Asia. Share the cost, the savings, and what you would change.
+            Send the system, the bills before and after, and permission to quote you. A named quote goes on this page only with a source.
           </p>
           <Link
             href="/contact"

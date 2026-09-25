@@ -190,7 +190,7 @@ const BESS_PRODUCTS: CommercialBESS[] = [
   { name: 'Huawei LUNA Commercial', chemistry: 'LFP', capacityKwh: 200, powerKw: 100, cycles: 6000, warrantyYears: 10, footprintM2: 1.8 },
 ]
 
-// Case studies
+// Illustrative sketches, not measured installs
 interface CaseStudy {
   title: string
   location: string
@@ -745,9 +745,10 @@ export default function CommercialBESSClient() {
           </div>
         </div>
 
-        {/* Case studies */}
+        {/* Illustrations, not measured installs */}
         <div className="mb-8">
-          <h3 className="text-lg font-semibold text-ink mb-4">Case studies</h3>
+          <h3 className="text-lg font-semibold text-ink mb-1">Illustrations</h3>
+          <p className="text-sm text-ink-500 mb-4">Not measured installs. Sizes and savings here have no project source.</p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {CASE_STUDIES.map((cs) => (
               <div key={cs.title} className="bg-paper-100 border border-ink/10 rounded-card p-5">

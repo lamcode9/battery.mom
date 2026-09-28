@@ -57,6 +57,10 @@ Use this file for durable lessons that should shape future agent work in this re
 - E2E groundwork (Playwright): the search→compare→export flow lives entirely on `/ev` and is DB-backed — the page fetches `/api/vehicles?country=…` only AFTER a country is picked, so a Playwright test must (1) open the Radix Select via `getByLabel('Select country')` then click the option (it's NOT a native `<select>`), (2) `waitForResponse` on `/api/vehicles`, (3) drive the search box (`getByLabel('Search for electric vehicles')`) → `getByRole('option')`, (4) assert the CSV `download` event. CI needs a Postgres service + `prisma db push` + `npm run db:seed` (the seed has SG Tesla + BYD available, which the spec relies on). The existing `quality` CI job deliberately has no DB; E2E is a separate job.
 - Story/brand anchoring (KM correction on the Long Sunrise brief v2): never literalize the domain name into creative decisions — battery.mom does not mean a literal "mom" protagonist. Civilizational/future-of-energy storytelling anchors GLOBAL-first; Southeast Asia is the recurring "closer to home" sub-anchor (insets, one ladder stop, SEA rows on data boards), never the narrative spine. The human-scale device is "the hearth": one vignette per act, each on a different continent.
 
+## 2026-09-21 — Shared tool discoverability
+
+- A workspace-level rule can technically apply through inheritance while remaining invisible in a project's explicit playbook list. When adding a shared tool that agents should actively consider, add a concise pointer to each project's local `AGENTS.md` routing section; keep the full policy centralized in the workspace playbook so details do not drift.
+
 ## 2026-07-09 — /sunrise build gotchas
 - **Fixed background canvas + negative z-index**: a `fixed inset-0 -z-10` canvas paints
   BENEATH the opaque `bg-*` of `<main>`/`<body>` (CSS painting order: an element's own

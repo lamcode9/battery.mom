@@ -39,6 +39,7 @@ Use relevant sections of `/Users/km/Developer/playbooks/` when making these deci
 - `engineering.md` — architecture, implementation, performance, security.
 - `design.md` — layout, interaction, visual quality, accessibility.
 - `product.md` — pricing, positioning, growth, roadmap.
+- `jev.md` — selective use of Jev for repeated semantic classification, retrieval shortlisting, ranking, and rubric checks. Use the shared client and evidence gates documented there; do not use Jev for generation, deep reasoning, consequential approvals, or unproven cost-saving claims.
 
 Do not preload all playbooks or require a full read for routine changes.
 
